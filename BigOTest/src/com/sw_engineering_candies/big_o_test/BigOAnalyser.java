@@ -211,29 +211,25 @@ public class BigOAnalyser {
 		// header of the table
 		final Set<String> cols = input.columnKeySet();
 		for (int i = 1; i < cols.size(); i++) {
-			result.append("N" + i + "; ");
+			result.append("N" + i + "\t");
 		}
 		result.append("TIME\n");
 		// values of the table
 		final Set<Integer> rows = input.rowKeySet();
 		for (int row = 1; row <= rows.size(); row++) {
 			for (int col = 1; col < cols.size(); col++) {
-				result.append(input.get(row, "N" + col) + "; ");
+				result.append(String.format("%.0f", input.get(row, "N" + col)) + "\t");
 			}
-			result.append(input.get(row, "TIME")).append('\n');
+			result.append(String.format("%.0f", input.get(row, "TIME"))).append('\n');
 		}
 		return result.toString();
 	}
 
-	public static String createBestFitReport(final Table<Integer, String, Double> input) {
+	public static String createBestFitReport(final Table<Integer, String, Double> input,
+			boolean sumary) {
 
 		final StringBuilder result = new StringBuilder();
 		final double degree = BigOAssert.estimatePolynomialDegree(input);
-
-		result.append("\tNumber of data points       = ");
-		result.append(input.column("N1").size()).append("\n");
-		result.append("\tEstimated degree of polynomial = ");
-		result.append(String.format("%.1f", degree)).append("\n");
 
 		final Map<Double, String> resultMap = new TreeMap<Double, String>();
 
@@ -241,11 +237,10 @@ public class BigOAnalyser {
 		String message;
 
 		final FitterPolynomial fitterPolynomialLin = new FitterPolynomial();
-		fitterPolynomialLin.init(input.column("N1"), input.column("TIME"),
-				(int) Math.round(degree));
+		fitterPolynomialLin.init(input.column("N1"), input.column("TIME"), (int) Math.round(degree));
 		coefficientOfDetermination = fitterPolynomialLin.getCoefficientOfDetermination();
-		message = String.format("\tPolynomial  ; R^2=%.4f", coefficientOfDetermination)
-				+ "; TIME(x) = " + fitterPolynomialLin.toString() + "\n";
+		message = String.format("Polynomial\t%.4f  \ty=", coefficientOfDetermination)
+				+ fitterPolynomialLin.toString() + "\n";
 		resultMap.put(coefficientOfDetermination, message);
 
 		if (degree > 0.5) {
@@ -253,48 +248,48 @@ public class BigOAnalyser {
 				final FitterLogLinear fitterLinearLog = new FitterLogLinear();
 				fitterLinearLog.init(input.column("N1"), input.column("TIME"));
 				coefficientOfDetermination = fitterLinearLog.getCoefficientOfDetermination();
-				message = String.format("\tLogLinear   ; R^2=%.4f", coefficientOfDetermination)
-						+ "; TIME(x) = " + fitterLinearLog.toString() + "\n";
+				message = String.format("LogLinear\t%.4f  \ty=", coefficientOfDetermination)
+						+ fitterLinearLog.toString() + "\n";
 				resultMap.put(coefficientOfDetermination, message);
 			}
 
 			final FitterExponential fitterExponential = new FitterExponential();
 			fitterExponential.init(input.column("N1"), input.column("TIME"));
 			coefficientOfDetermination = fitterExponential.getCoefficientOfDetermination();
-			message = String.format("\tExponential ; R^2=%.4f", coefficientOfDetermination)
-					+ "; TIME(x) = " + fitterExponential.toString() + "\n";
+			message = String.format("Exponential\t%.4f  \ty=", coefficientOfDetermination)
+					+ fitterExponential.toString() + "\n";
 			resultMap.put(coefficientOfDetermination, message);
 
 			final FitterLogarithmic fitterLogarithmic = new FitterLogarithmic();
 			fitterLogarithmic.init(input.column("N1"), input.column("TIME"));
 			coefficientOfDetermination = fitterLogarithmic.getCoefficientOfDetermination();
-			message = String.format("\tLogarithmic ; R^2=%.4f", coefficientOfDetermination)
-					+ "; TIME(x) = " + fitterLogarithmic.toString() + "\n";
+			message = String.format("Logarithmic\t%.4f  \ty=", coefficientOfDetermination)
+					+ fitterLogarithmic.toString() + "\n";
 			resultMap.put(coefficientOfDetermination, message);
 
-			if (degree > 1.8) {
+			if (degree > 1.1) {
 				final FitterPowerLaw fitterPowerLaw = new FitterPowerLaw();
 				fitterPowerLaw.init(input.column("N1"), input.column("TIME"));
 				coefficientOfDetermination = fitterPowerLaw.getCoefficientOfDetermination();
-				message = String.format("\tPowerLaw   ; R^2=%.4f", coefficientOfDetermination)
-						+ "; TIME(x) = " + fitterPowerLaw.toString() + "\n";
+				message = String.format("PowerLaw\t%.4f  \ty=", coefficientOfDetermination)
+						+ fitterPowerLaw.toString() + "\n";
 				resultMap.put(coefficientOfDetermination, message);
 			}
 		}
 
 		// just print the three best fitting functions
+		result.append("TYPE      \tR^2     \tFUNCTION\n");
 		final SortedSet<Double> keys = new TreeSet<Double>(Collections.reverseOrder());
 		keys.addAll(resultMap.keySet());
-		int count = 1;
 		for (final Double key : keys) {
-			if (count <= 3) {
-				result.append(resultMap.get(key));
-			}
-			count++;
+			result.append(resultMap.get(key));
 		}
 		result.append("\n");
 
-		return resultMap.get(keys.first()) + "\n" + result.toString();
+		if (sumary)
+			return resultMap.get(keys.first());
+		else
+			return result.toString();
 	}
 
 }

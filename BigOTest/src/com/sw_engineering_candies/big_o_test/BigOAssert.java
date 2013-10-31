@@ -60,7 +60,7 @@ public class BigOAssert {
 		// A Constant function should have a polynomial degree of 0.0
 		assertPolynomialDegree(bom, method, 0.0, 0.1);
 
-		final String details = BigOAnalyser.createBestFitReport(resultTable).trim();
+		final String details = BigOAnalyser.createBestFitReport(resultTable, true).trim();
 		if (!details.startsWith("Polynomial"))
 			throw new BigOAssertException("BigOAssertException assertConstant failed:\n" + details);
 	}
@@ -72,7 +72,7 @@ public class BigOAssert {
 		// A Linear function should have a polynomial degree of 1.0
 		assertPolynomialDegree(bom, method, 1.0, 0.2);
 
-		final String details = BigOAnalyser.createBestFitReport(resultTable).trim();
+		final String details = BigOAnalyser.createBestFitReport(resultTable, true).trim();
 		if (!details.startsWith("Polynomial"))
 			throw new BigOAssertException("BigOAssertException assertLinear failed:\n" + details);
 	}
@@ -83,9 +83,9 @@ public class BigOAssert {
 		final Table<Integer, String, Double> resultTable = getDataTable(bom, method);
 
 		// A LogLinear function should have a polynomial degree of 1.1
-		assertPolynomialDegree(bom, method, 1.1, 0.1);
+		assertPolynomialDegree(bom, method, 1.1, 0.2);
 
-		final String details = BigOAnalyser.createBestFitReport(resultTable).trim();
+		final String details = BigOAnalyser.createBestFitReport(resultTable, true).trim();
 		if (!details.startsWith("LogLinear"))
 			throw new BigOAssertException("BigOAssertException assertLogLinear failed:\n" + details);
 	}
@@ -97,7 +97,7 @@ public class BigOAssert {
 		// A LogLinear function should have a polynomial degree of 2.0
 		assertPolynomialDegree(bom, method, 2.0, 0.1);
 
-		final String details = BigOAnalyser.createBestFitReport(resultTable).trim();
+		final String details = BigOAnalyser.createBestFitReport(resultTable, true).trim();
 		if (!details.startsWith("Polynomial"))
 			throw new BigOAssertException("BigOAssertException assertQuadratic failed:\n" + details);
 
@@ -110,10 +110,10 @@ public class BigOAssert {
 		for (int index = 1; index <= report.column("N1").size(); index++) {
 			xValues.put(index, Math.log10(report.column("N1").get(index)));
 			yValues.put(index, Math.log10(report.column("TIME").get(index)));
-		}		
+		}
 		// Fit polynomial of first degree (a0 + a1 * x)
 		final FitterPolynomial polynom = new FitterPolynomial();
-		polynom.init(xValues, yValues, 1);		
+		polynom.init(xValues, yValues, 1);
 		// The coefficient a1 is the estimation of the polynomial degree
 		return polynom.getCoefficient(1);
 	}

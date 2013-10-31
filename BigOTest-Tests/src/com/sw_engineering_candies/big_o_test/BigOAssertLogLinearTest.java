@@ -4,9 +4,6 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.sw_engineering_candies.big_o_test.BigOAnalyser;
-import com.sw_engineering_candies.big_o_test.BigOAssert;
-import com.sw_engineering_candies.big_o_test.BigOAssertException;
 import com.sw_engineering_candies.big_o_test.utils.Algorithms;
 
 public class BigOAssertLogLinearTest {
@@ -64,12 +61,12 @@ public class BigOAssertLogLinearTest {
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
-		sut.runQuadratic(30000);
-		sut.runQuadratic(10000);
-		sut.runQuadratic(3000);
-		sut.runQuadratic(1000);
-		sut.runQuadratic(300);
-		sut.runQuadratic(100);
+		sut.runQuadratic(16384);
+		sut.runQuadratic(8192);
+		sut.runQuadratic(4096);
+		sut.runQuadratic(2048);
+		sut.runQuadratic(1024);
+		sut.runQuadratic(512);
 
 		// ACT
 		boolean exceptionHappened = false;

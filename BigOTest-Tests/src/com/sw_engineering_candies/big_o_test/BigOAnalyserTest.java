@@ -43,8 +43,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
-import com.sw_engineering_candies.big_o_test.BigOAnalyser;
-import com.sw_engineering_candies.big_o_test.BigOAssert;
 import com.sw_engineering_candies.big_o_test.internal.Item;
 import com.sw_engineering_candies.big_o_test.utils.Algorithms;
 
@@ -293,16 +291,16 @@ public class BigOAnalyserTest {
 
 		// ASSERT
 		final StringBuilder expected = new StringBuilder();
-		expected.append("N1; N2; N3; TIME\n");
-		expected.append("8.0; 4.0; 5.0; 12345.0\n");
-		expected.append("6.0; 8.0; 0.0; 23456.0\n");
+		expected.append("N1\tN2\tN3\tTIME\n");
+		expected.append("8\t4\t5\t12345\n");
+		expected.append("6\t8\t0\t23456\n");
 		final String actualRun = BigOAnalyser.createDataReport(resultTableRun);
 		Assert.assertEquals(expected.toString(), actualRun);
 
 		final StringBuilder expected2 = new StringBuilder();
-		expected2.append("N1; TIME\n");
-		expected2.append("100.0; 1000.0\n");
-		expected2.append("1000.0; 2000.0\n");
+		expected2.append("N1\tTIME\n");
+		expected2.append("100\t1000\n");
+		expected2.append("1000\t2000\n");
 		final String actualRunLinear = BigOAnalyser.createDataReport(resultTableLinear);
 		Assert.assertEquals(expected2.toString(), actualRunLinear);
 	}
@@ -334,9 +332,9 @@ public class BigOAnalyserTest {
 
 		// ASSERT
 		final StringBuilder expected = new StringBuilder();
-		expected.append("N1; N2; N3; TIME\n");
-		expected.append("8.0; 4.0; 5.0; 12345.0\n");
-		expected.append("6.0; 8.0; 0.0; 23456.0\n");
+		expected.append("N1\tN2\tN3\tTIME\n");
+		expected.append("8\t4\t5\t12345\n");
+		expected.append("6\t8\t0\t23456\n");
 		Assert.assertEquals(expected.toString(), actual);
 	}
 
@@ -354,7 +352,7 @@ public class BigOAnalyserTest {
 		final String actual = BigOAnalyser.createDataReport(resultTable);
 
 		// ASSERT
-		Assert.assertEquals("N1; TIME\n10.0; 123.0\n", actual);
+		Assert.assertEquals("N1\tTIME\n10\t123\n", actual);
 	}
 
 	@Test
@@ -388,7 +386,7 @@ public class BigOAnalyserTest {
 		final String actual = BigOAnalyser.createDataReport(resultTable);
 
 		// ASSERT
-		final String expected = "N1; TIME\n100.0; 500.0\n10.0; 123.0\n1000.0; 567.0\n";
+		final String expected = "N1\tTIME\n100\t500\n10\t123\n1000\t567\n";
 		Assert.assertEquals(expected.toString(), actual);
 	}
 
@@ -422,7 +420,7 @@ public class BigOAnalyserTest {
 
 		// ASSERT
 		final String actual = BigOAnalyser.createDataReport(resultTable);
-		final String expected = "N1; TIME\n100.0; 500.0\n10.0; 123.0\n1000.0; 2000.0\n";
+		final String expected = "N1\tTIME\n100\t500\n10\t123\n1000\t2000\n";
 		Assert.assertEquals(expected.toString(), actual);
 	}
 
@@ -444,7 +442,7 @@ public class BigOAnalyserTest {
 		final String actual = BigOAnalyser.createDataReport(resultTable);
 
 		// ASSERT
-		final String expected = "N1; N2; N3; TIME\n8.0; 4.0; 5.0; 12345.0\n";
+		final String expected = "N1\tN2\tN3\tTIME\n8\t4\t5\t12345\n";
 		Assert.assertEquals(expected, actual);
 	}
 

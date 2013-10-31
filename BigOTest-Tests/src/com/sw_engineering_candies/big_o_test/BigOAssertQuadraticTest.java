@@ -4,9 +4,6 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.sw_engineering_candies.big_o_test.BigOAnalyser;
-import com.sw_engineering_candies.big_o_test.BigOAssert;
-import com.sw_engineering_candies.big_o_test.BigOAssertException;
 import com.sw_engineering_candies.big_o_test.utils.Algorithms;
 
 public class BigOAssertQuadraticTest {

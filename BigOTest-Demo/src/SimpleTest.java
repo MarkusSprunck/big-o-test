@@ -11,7 +11,7 @@ public class SimpleTest {
 	private static List<Integer> createSortInput(int size) {
 		final List<Integer> result = new ArrayList<Integer>(size);
 		for (int i = 0; i < size; i++) {
-			result.add((int) Math.round(100.0f * Math.random()));
+			result.add((int) Math.round(Integer.MAX_VALUE * Math.random()));
 		}
 		return result;
 	}
@@ -24,12 +24,22 @@ public class SimpleTest {
 		final HeapSort sut = (HeapSort) bom.createProxy(HeapSort.class);
 
 		// ACT
-		sut.sort(createSortInput(300000));
-		sut.sort(createSortInput(100000));
-		sut.sort(createSortInput(30000));
-		sut.sort(createSortInput(10000));
-		sut.sort(createSortInput(3000));
-		sut.sort(createSortInput(1000));
+		// Deactivate measurement to give JIT compiler the chance to optimize
+		bom.deactivateMeasurement();
+		sut.sort(createSortInput(128));
+
+		// Activate measurement
+		bom.activateMeasurement();
+		for (int x = 64; x <= 32 * 1024; x *= 2) {
+			sut.sort(createSortInput(x));
+		}
+
+		System.out.println(BigOAnalyser.createBestFitReport(
+				bom.getResultTable("sort"), false));
+		
+		System.out.println(BigOAnalyser.createDataReport(bom
+				.getResultTable("sort")));
+	
 
 		// ASSERT
 		BigOAssert.assertLogLinear(bom, "sort");
