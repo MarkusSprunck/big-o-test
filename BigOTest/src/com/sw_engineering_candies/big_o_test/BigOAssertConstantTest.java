@@ -22,7 +22,7 @@ public class BigOAssertConstantTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertConstant(bom, "runLinear");
-		} catch (final IllegalArgumentException ex) {
+		} catch (final IllegalStateException ex) {
 			exceptionHappened = true;
 		}
 

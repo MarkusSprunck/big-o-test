@@ -22,7 +22,7 @@ public class BigOAssertPolynomialDegreeTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertPolynomialDegree(bom, "runLinear", 1.0, 0.1);
-		} catch (final IllegalArgumentException ex) {
+		} catch (final IllegalStateException ex) {
 			exceptionHappened = true;
 		}
 

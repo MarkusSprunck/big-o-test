@@ -31,7 +31,6 @@
 
 package com.sw_engineering_candies.big_o_test;
 
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -77,7 +76,7 @@ public class BigOAnalyserTest {
 
 		// ACT
 		final Item result = bom.getValue("run#8#4#5");
-		long actual = result.getTime();
+		final long actual = result.getTime();
 
 		// ASSERT
 		Assert.assertTrue(actual > 0L);

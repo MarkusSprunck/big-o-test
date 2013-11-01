@@ -22,7 +22,7 @@ public class BigOAssertLogLinearTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertLogLinear(bom, "runNLogN");
-		} catch (final IllegalArgumentException ex) {
+		} catch (final IllegalStateException ex) {
 			exceptionHappened = true;
 		}
 

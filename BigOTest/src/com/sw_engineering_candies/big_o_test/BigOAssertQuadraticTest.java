@@ -22,7 +22,7 @@ public class BigOAssertQuadraticTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertQuadratic(bom, "runQuadratic");
-		} catch (final IllegalArgumentException ex) {
+		} catch (final IllegalStateException ex) {
 			exceptionHappened = true;
 		}
 

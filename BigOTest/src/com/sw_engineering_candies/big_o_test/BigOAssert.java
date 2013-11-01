@@ -41,88 +41,117 @@ import com.sw_engineering_candies.big_o_test.internal.Reports;
 
 public class BigOAssert {
 
-	public static void assertPolynomialDegree(BigOAnalyser bom, String method, double expected,
-			double range) {
-
-		final Table<Integer, String, Double> resultTable = getDataTable(bom, method);
-
-		final double estimate = estimatePolynomialDegree(resultTable);
-		if (estimate < expected - range || estimate > expected + range)
-			throw new BigOAssertException(
-					"BigOAssertException assertPolynomialDegree failed:\n\tPolynomial degree expected = "
-							+ expected + "\n\tPolynomial degree actual   = " + estimate);
-
+	public static void assertConstant(BigOAnalyser bom, String methodName) {
+		// fetch data table with some internal checks
+		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
+		// a constant function should have a polynomial degree of 0.0
+		assertPolynomialDegree(bom, methodName, 0.0, 0.1);
+		// find the best fit function
+		final String details = Reports.createBestFitReport(resultTable, true);
+		if (!details.startsWith("Polynomial")) {
+			final StringBuilder message = new StringBuilder();
+			message.append("BigOAssertException assertConstant failed:\n");
+			message.append(details);
+			throw new BigOAssertException(message.toString());
+		}
 	}
 
-	public static void assertConstant(BigOAnalyser bom, String method) {
-
-		final Table<Integer, String, Double> resultTable = getDataTable(bom, method);
-
-		// A Constant function should have a polynomial degree of 0.0
-		assertPolynomialDegree(bom, method, 0.0, 0.1);
-
-		final String details = Reports.createBestFitReport(resultTable, true).trim();
-		if (!details.startsWith("Polynomial"))
-			throw new BigOAssertException("BigOAssertException assertConstant failed:\n" + details);
+	public static void assertLinear(BigOAnalyser bom, String methodName) {
+		// fetch data table with some internal checks
+		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
+		// a linear function should have a polynomial degree of 1.0
+		assertPolynomialDegree(bom, methodName, 1.0, 0.2);
+		// find the best fit function
+		final String details = Reports.createBestFitReport(resultTable, true);
+		if (!details.startsWith("Polynomial")) {
+			final StringBuilder message = new StringBuilder();
+			message.append("BigOAssertException assertLinear failed:\n");
+			message.append(details);
+			throw new BigOAssertException(message.toString());
+		}
 	}
 
-	public static void assertLinear(BigOAnalyser bom, String method) throws BigOAssertException {
-
-		final Table<Integer, String, Double> resultTable = getDataTable(bom, method);
-
-		// A Linear function should have a polynomial degree of 1.0
-		assertPolynomialDegree(bom, method, 1.0, 0.2);
-
-		final String details = Reports.createBestFitReport(resultTable, true).trim();
-		if (!details.startsWith("Polynomial"))
-			throw new BigOAssertException("BigOAssertException assertLinear failed:\n" + details);
+	public static void assertLogLinear(BigOAnalyser bom, String methodName) {
+		// fetch data table with some internal checks
+		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
+		// a LogLinear function should have a polynomial degree of 1.1
+		assertPolynomialDegree(bom, methodName, 1.1, 0.2);
+		// find the best fit function
+		final String details = Reports.createBestFitReport(resultTable, true);
+		if (!(details.startsWith("LogLinear") || details.startsWith("PowerLaw"))) {
+			final StringBuilder message = new StringBuilder();
+			message.append("BigOAssertException assertLogLinear failed:\n");
+			message.append(details);
+			throw new BigOAssertException(message.toString());
+		}
 	}
 
-	public static void assertLogLinear(BigOAnalyser bom, String method) {
-
-		// Get measured data
-		final Table<Integer, String, Double> resultTable = getDataTable(bom, method);
-
-		// A LogLinear function should have a polynomial degree of 1.1
-		assertPolynomialDegree(bom, method, 1.1, 0.2);
-
-		final String details = Reports.createBestFitReport(resultTable, true).trim();
-		if (!(details.startsWith("LogLinear") || details.startsWith("PowerLaw")))
-			throw new BigOAssertException("BigOAssertException assertLogLinear failed:\n" + details);
+	public static void assertQuadratic(BigOAnalyser bom, String methodName) {
+		// fetch data table with some internal checks
+		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
+		// a LogLinear function should have a polynomial degree of 2.0
+		assertPolynomialDegree(bom, methodName, 2.0, 0.1);
+		// find the best fit function
+		final String details = Reports.createBestFitReport(resultTable, true);
+		if (!details.startsWith("Polynomial")) {
+			final StringBuilder message = new StringBuilder();
+			message.append("BigOAssertException assertQuadratic failed:\n");
+			message.append(details);
+			throw new BigOAssertException(message.toString());
+		}
 	}
 
-	public static void assertQuadratic(BigOAnalyser bom, String method) {
-
-		final Table<Integer, String, Double> resultTable = getDataTable(bom, method);
-
-		// A LogLinear function should have a polynomial degree of 2.0
-		assertPolynomialDegree(bom, method, 2.0, 0.1);
-
-		final String details = Reports.createBestFitReport(resultTable, true).trim();
-		if (!details.startsWith("Polynomial"))
-			throw new BigOAssertException("BigOAssertException assertQuadratic failed:\n" + details);
-
-	}
-
-	public static Double estimatePolynomialDegree(Table<Integer, String, Double> report) {
-		// Calculate logarithms of both axis
+	public static Double estimatePolynomialDegree(Table<Integer, String, Double> resultTable) {
+		// calculate logarithms of both axis
 		final Map<Integer, Double> xValues = new TreeMap<Integer, Double>();
 		final Map<Integer, Double> yValues = new TreeMap<Integer, Double>();
-		for (int index = 1; index <= report.column("N1").size(); index++) {
-			xValues.put(index, Math.log10(report.column("N1").get(index)));
-			yValues.put(index, Math.log10(report.column("TIME").get(index)));
+		for (int index = 1; index <= resultTable.column("N1").size(); index++) {
+			xValues.put(index, Math.log10(resultTable.column("N1").get(index)));
+			yValues.put(index, Math.log10(resultTable.column("TIME").get(index)));
 		}
-		// Fit polynomial of first degree (a0 + a1 * x)
+		// fit polynomial of first degree (a0 + a1 * x)
 		final FitterPolynomial polynom = new FitterPolynomial();
 		polynom.init(xValues, yValues, 1);
-		// The coefficient a1 is the estimation of the polynomial degree
-		return polynom.getCoefficient(1);
+		// coefficient of the linear term a1 it what we need
+		double result = polynom.getCoefficient(1);
+		// check the quality of the fit in cases the function is not constant
+		if (result > 0.8) {
+			double coefficientOfDetermination = polynom.getCoefficientOfDetermination();
+			Preconditions.checkState(coefficientOfDetermination > 0.8, "R^2=" + coefficientOfDetermination);
+		}
+		
+		return result;
 	}
 
-	private static Table<Integer, String, Double> getDataTable(BigOAnalyser bom, String method) {
-		final Table<Integer, String, Double> resultTable = bom.getResultTable(method);
-		Preconditions.checkArgument(resultTable.column("TIME").size() >= 4,
-				"minimum 5 data points needed for reliable analysis");
+	public static void assertPolynomialDegree(BigOAnalyser bom, String method, double expected, double range) {
+		// fetch data table with some internal checks
+		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, method);
+		// estimate polynomial degree
+		final double estimate = estimatePolynomialDegree(resultTable);
+		// assert that degree is in expected range
+		if (estimate < expected - range || estimate > expected + range) {
+			final StringBuilder message = new StringBuilder();
+			message.append("BigOAssertException assertPolynomialDegree failed:");
+			message.append("\n\tPolynomial degree expected = ").append(expected);
+			message.append("\n\tPolynomial degree actual   = ").append(estimate);
+			throw new BigOAssertException(message.toString());
+		}
+	}
+
+	private static Table<Integer, String, Double> getDataTableChecked(BigOAnalyser bom, String method) {
+		// check preconditions
+		Preconditions.checkNotNull(bom);
+		Preconditions.checkNotNull(method);
+		Preconditions.checkArgument(!method.isEmpty());
+		// fetch data table
+		final Table<Integer, String, Double> resultTable;
+		resultTable = bom.getResultTable(method);
+		// check size of data point table
+		final boolean isNumberOfDataPointsSufficient = resultTable.column("TIME").size() >= 4;
+		final String message = "minimum 4 data points are needed for a reliable analysis";
+		Preconditions.checkState(isNumberOfDataPointsSufficient, message);
+		
 		return resultTable;
 	}
+
 }
