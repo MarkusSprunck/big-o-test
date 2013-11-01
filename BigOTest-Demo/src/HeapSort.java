@@ -1,11 +1,10 @@
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sw_engineering_candies.big_o_test.BigOParameter;
 
-public class HeapSort  {
+public class HeapSort {
 
 	private final ArrayList<Integer> heap = new ArrayList<Integer>();
 
@@ -24,7 +23,7 @@ public class HeapSort  {
 		for (int i = 0; i < unsorted.size(); i++) {
 			sorted[i] = pop();
 		}
-		
+
 		return sorted;
 	}
 
@@ -63,7 +62,8 @@ public class HeapSort  {
 
 		// Get index of the parent element
 		int parent = getParentIndex(current);
-		while ((current > 1) && (getValueAtIndex(current) <= getValueAtIndex(parent))) {
+		while ((current > 1)
+				&& (getValueAtIndex(current) <= getValueAtIndex(parent))) {
 			// While the current index is not the head, and the parent is
 			// greater than the child
 			swap(current, parent);
@@ -97,7 +97,8 @@ public class HeapSort  {
 								// next
 
 			// If the left child is larger than the right child
-			if ((right <= length) && (getValueAtIndex(left) > getValueAtIndex(right))) {
+			if ((right <= length)
+					&& (getValueAtIndex(left) > getValueAtIndex(right))) {
 				move = right; // Set the next move to the right child
 			}
 

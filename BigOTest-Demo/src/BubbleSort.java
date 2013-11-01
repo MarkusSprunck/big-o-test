@@ -13,7 +13,7 @@ public class BubbleSort {
 			result[i] = unsorted.get(i);
 		}
 		bubbleSort(result);
-		
+
 		return result;
 	}
 
