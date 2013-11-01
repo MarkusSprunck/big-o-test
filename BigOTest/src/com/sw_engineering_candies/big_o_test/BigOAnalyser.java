@@ -159,7 +159,7 @@ public class BigOAnalyser {
 							} else if (type.toString().startsWith("java.util.List")) {
 								result.append("#").append(((List) args[index]).size());
 							} else {
-								System.err.println("BigOMeter -> missing '" + type + "'");
+								System.err.println("ERROR #8  in getCurrentKey - '" + type + "'");
 							}
 						}
 					}
