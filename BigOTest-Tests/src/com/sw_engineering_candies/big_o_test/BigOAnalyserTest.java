@@ -294,8 +294,8 @@ public class BigOAnalyserTest {
 		// ASSERT
 		final StringBuilder expected = new StringBuilder();
 		expected.append("N1\tN2\tN3\tTIME\n");
-		expected.append("8\t4\t5\t12345\n");
 		expected.append("6\t8\t0\t23456\n");
+		expected.append("8\t4\t5\t12345\n");
 		final String actualRun = Reports.createDataReport(resultTableRun);
 		Assert.assertEquals(expected.toString(), actualRun);
 
@@ -335,8 +335,8 @@ public class BigOAnalyserTest {
 		// ASSERT
 		final StringBuilder expected = new StringBuilder();
 		expected.append("N1\tN2\tN3\tTIME\n");
-		expected.append("8\t4\t5\t12345\n");
 		expected.append("6\t8\t0\t23456\n");
+		expected.append("8\t4\t5\t12345\n");
 		Assert.assertEquals(expected.toString(), actual);
 	}
 
@@ -388,7 +388,11 @@ public class BigOAnalyserTest {
 		final String actual = Reports.createDataReport(resultTable);
 
 		// ASSERT
-		final String expected = "N1\tTIME\n100\t500\n10\t123\n1000\t567\n";
+		final StringBuilder expected = new StringBuilder();
+		expected.append("N1\tTIME\n");
+		expected.append("10\t123\n");
+		expected.append("100\t500\n");
+		expected.append("1000\t567\n");
 		Assert.assertEquals(expected.toString(), actual);
 	}
 
@@ -422,7 +426,11 @@ public class BigOAnalyserTest {
 
 		// ASSERT
 		final String actual = Reports.createDataReport(resultTable);
-		final String expected = "N1\tTIME\n100\t500\n10\t123\n1000\t2000\n";
+		final StringBuilder expected = new StringBuilder();
+		expected.append("N1\tTIME\n");
+		expected.append("10\t123\n");
+		expected.append("100\t500\n");
+		expected.append("1000\t2000\n");
 		Assert.assertEquals(expected.toString(), actual);
 	}
 

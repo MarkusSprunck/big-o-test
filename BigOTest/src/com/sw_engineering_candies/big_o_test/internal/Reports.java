@@ -59,8 +59,16 @@ public class Reports {
 		}
 		result.append("TIME\n");
 		// values of the table
-		final Set<Integer> rows = input.rowKeySet();
-		for (int row = 1; row <= rows.size(); row++) {
+		final SortedSet<Double> rows = new TreeSet<Double>();
+		rows.addAll(input.column("N1").values());
+		for (Double value : rows) {
+			Integer row = 0;
+			for (Integer index : input.column("N1").keySet()) {
+				if (value.equals(input.get(index, "N1"))) {
+					row = index;
+					break;
+				}
+			}
 			for (int col = 1; col < cols.size(); col++) {
 				result.append(String.format("%.0f", input.get(row, "N" + col)) + "\t");
 			}
