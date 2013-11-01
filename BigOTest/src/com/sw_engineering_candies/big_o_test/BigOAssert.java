@@ -87,7 +87,7 @@ public class BigOAssert {
 		assertPolynomialDegree(bom, method, 1.1, 0.2);
 
 		final String details = Reports.createBestFitReport(resultTable, true).trim();
-		if (!details.startsWith("LogLinear"))
+		if (!(details.startsWith("LogLinear") || details.startsWith("PowerLaw")))
 			throw new BigOAssertException("BigOAssertException assertLogLinear failed:\n" + details);
 	}
 

@@ -91,7 +91,6 @@ public class BigOAssertLogLinearTest {
 		sut.runConstant(4096);
 		sut.runConstant(2048);
 		sut.runConstant(1024);
-		sut.runConstant(512);
 
 		// ACT
 		boolean exceptionHappened = false;

@@ -32,7 +32,7 @@ public class FitterPowerLawTest {
 		fitter.init(input.column("N1"), input.column("TIME"));
 
 		// ASSERT
-		final String expected = "+1.00E+01 * x ^ +1.10E+00";
+		final String expected = "+10,0000 * x ^ +1,1000";
 		Assert.assertEquals(expected, fitter.toString());
 	}
 

@@ -58,7 +58,7 @@ public class FitterPolynomialTest {
 		polynom.init(input.column("N1"), input.column("TIME"), 2);
 
 		// ASSERT
-		final String expected = "-8.60E-02x^2 +9.96E-01x^1 +1.66E+00";
+		final String expected = "-0,0860x^2 +0,9957x^1 +1,6625";
 		Assert.assertEquals(expected, polynom.toString());
 	}
 
