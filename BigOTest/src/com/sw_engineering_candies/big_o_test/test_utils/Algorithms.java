@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.sw_engineering_candies.big_o_test.utils;
+package com.sw_engineering_candies.big_o_test.test_utils;
 
 import java.util.List;
 

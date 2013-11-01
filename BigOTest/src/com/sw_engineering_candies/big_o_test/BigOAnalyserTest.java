@@ -31,8 +31,6 @@
 
 package com.sw_engineering_candies.big_o_test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -46,7 +44,7 @@ import org.junit.Test;
 import com.google.common.collect.Table;
 import com.sw_engineering_candies.big_o_test.internal.Item;
 import com.sw_engineering_candies.big_o_test.internal.Reports;
-import com.sw_engineering_candies.big_o_test.utils.Algorithms;
+import com.sw_engineering_candies.big_o_test.test_utils.Algorithms;
 
 public class BigOAnalyserTest {
 
@@ -79,9 +77,10 @@ public class BigOAnalyserTest {
 
 		// ACT
 		final Item result = bom.getValue("run#8#4#5");
+		long actual = result.getTime();
 
 		// ASSERT
-		assertThat(result.getTime(), greaterThan(0L));
+		Assert.assertTrue(actual > 0L);
 	}
 
 	@Test

@@ -4,24 +4,24 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.sw_engineering_candies.big_o_test.utils.Algorithms;
+import com.sw_engineering_candies.big_o_test.test_utils.Algorithms;
 
-public class BigOAssertLogLinearTest {
+public class BigOAssertPolynomialDegreeTest {
 
 	@Test
-	public void assertLogLinear_ThreeDataPoints_RaiseIllegalArgumentException() {
+	public void estimatePolynomialDegree_ThreeDataPoints_RaiseIllegalArgumentException() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
-		sut.runNLogN(10000);
-		sut.runNLogN(3000);
-		sut.runNLogN(1000);
+		sut.runLinear(10000);
+		sut.runLinear(3000);
+		sut.runLinear(1000);
 
 		// ACT
 		boolean exceptionHappened = false;
 		try {
-			BigOAssert.assertLogLinear(bom, "runNLogN");
+			BigOAssert.assertPolynomialDegree(bom, "runLinear", 1.0, 0.1);
 		} catch (final IllegalArgumentException ex) {
 			exceptionHappened = true;
 		}
@@ -31,22 +31,22 @@ public class BigOAssertLogLinearTest {
 	}
 
 	@Test
-	public void assertLogLinear_RunNLogN_DetectLinearIsOk() {
+	public void estimatePolynomialDegree_RunLinear_CheckPolynomialDegreeIsOk() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
-		sut.runNLogN(16384);
-		sut.runNLogN(8192);
-		sut.runNLogN(4096);
-		sut.runNLogN(2048);
-		sut.runNLogN(1024);
-		sut.runNLogN(512);
+		sut.runLinear(10000);
+		sut.runLinear(3000);
+		sut.runLinear(1000);
+		sut.runLinear(300);
 
 		// ACT
 		boolean exceptionHappened = false;
 		try {
-			BigOAssert.assertLogLinear(bom, "runNLogN");
+			final double expected = 1.0;
+			final double range = 0.2;
+			BigOAssert.assertPolynomialDegree(bom, "runLinear", expected, range);
 		} catch (final BigOAssertException ex) {
 			exceptionHappened = true;
 		}
@@ -56,22 +56,23 @@ public class BigOAssertLogLinearTest {
 	}
 
 	@Test
-	public void assertLogLinear_RunQuadratic_DetectLinearFailedAsExpected() {
+	public void estimatePolynomialDegree_RunLinear_CheckPolynomialDegreeIsSmaller() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
-		sut.runQuadratic(16384);
-		sut.runQuadratic(8192);
-		sut.runQuadratic(4096);
-		sut.runQuadratic(2048);
-		sut.runQuadratic(1024);
-		sut.runQuadratic(512);
+		sut.runConstant(10000);
+		sut.runConstant(3000);
+		sut.runConstant(1000);
+		sut.runConstant(300);
+		sut.runConstant(100);
 
 		// ACT
 		boolean exceptionHappened = false;
 		try {
-			BigOAssert.assertLogLinear(bom, "runQuadratic");
+			final double expected = 1.0;
+			final double range = 0.1;
+			BigOAssert.assertPolynomialDegree(bom, "runConstant", expected, range);
 		} catch (final BigOAssertException ex) {
 			exceptionHappened = true;
 		}
@@ -81,21 +82,23 @@ public class BigOAssertLogLinearTest {
 	}
 
 	@Test
-	public void assertLogLinear_RunConstant_DetectLinearFailedAsExpected() {
+	public void estimatePolynomialDegree_RunLinear_CheckPolynomialDegreeIsLargerr() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
-		sut.runConstant(16384);
-		sut.runConstant(8192);
-		sut.runConstant(4096);
-		sut.runConstant(2048);
-		sut.runConstant(1024);
+		sut.runQuadratic(10000);
+		sut.runQuadratic(3000);
+		sut.runQuadratic(1000);
+		sut.runQuadratic(300);
+		sut.runQuadratic(100);
 
 		// ACT
 		boolean exceptionHappened = false;
 		try {
-			BigOAssert.assertLogLinear(bom, "runConstant");
+			final double expected = 1.0;
+			final double range = 0.1;
+			BigOAssert.assertPolynomialDegree(bom, "runQuadratic", expected, range);
 		} catch (final BigOAssertException ex) {
 			exceptionHappened = true;
 		}
