@@ -28,6 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.sw_engineering_candies.big_o_test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,6 +45,7 @@ import org.junit.Test;
 
 import com.google.common.collect.Table;
 import com.sw_engineering_candies.big_o_test.internal.Item;
+import com.sw_engineering_candies.big_o_test.internal.Reports;
 import com.sw_engineering_candies.big_o_test.utils.Algorithms;
 
 public class BigOAnalyserTest {
@@ -294,14 +296,14 @@ public class BigOAnalyserTest {
 		expected.append("N1\tN2\tN3\tTIME\n");
 		expected.append("8\t4\t5\t12345\n");
 		expected.append("6\t8\t0\t23456\n");
-		final String actualRun = BigOAnalyser.createDataReport(resultTableRun);
+		final String actualRun = Reports.createDataReport(resultTableRun);
 		Assert.assertEquals(expected.toString(), actualRun);
 
 		final StringBuilder expected2 = new StringBuilder();
 		expected2.append("N1\tTIME\n");
 		expected2.append("100\t1000\n");
 		expected2.append("1000\t2000\n");
-		final String actualRunLinear = BigOAnalyser.createDataReport(resultTableLinear);
+		final String actualRunLinear = Reports.createDataReport(resultTableLinear);
 		Assert.assertEquals(expected2.toString(), actualRunLinear);
 	}
 
@@ -328,7 +330,7 @@ public class BigOAnalyserTest {
 		final Table<Integer, String, Double> resultTable = bom.getResultTable("run");
 
 		// ACT
-		final String actual = BigOAnalyser.createDataReport(resultTable);
+		final String actual = Reports.createDataReport(resultTable);
 
 		// ASSERT
 		final StringBuilder expected = new StringBuilder();
@@ -349,7 +351,7 @@ public class BigOAnalyserTest {
 		final Table<Integer, String, Double> resultTable = bom.getResultTable("runLinear");
 
 		// ACT
-		final String actual = BigOAnalyser.createDataReport(resultTable);
+		final String actual = Reports.createDataReport(resultTable);
 
 		// ASSERT
 		Assert.assertEquals("N1\tTIME\n10\t123\n", actual);
@@ -383,7 +385,7 @@ public class BigOAnalyserTest {
 		final Table<Integer, String, Double> resultTable = bom.getResultTable("runLinear");
 
 		// ACT
-		final String actual = BigOAnalyser.createDataReport(resultTable);
+		final String actual = Reports.createDataReport(resultTable);
 
 		// ASSERT
 		final String expected = "N1\tTIME\n100\t500\n10\t123\n1000\t567\n";
@@ -419,7 +421,7 @@ public class BigOAnalyserTest {
 		final Table<Integer, String, Double> resultTable = bom.getResultTable("runLinear");
 
 		// ASSERT
-		final String actual = BigOAnalyser.createDataReport(resultTable);
+		final String actual = Reports.createDataReport(resultTable);
 		final String expected = "N1\tTIME\n100\t500\n10\t123\n1000\t2000\n";
 		Assert.assertEquals(expected.toString(), actual);
 	}
@@ -439,7 +441,7 @@ public class BigOAnalyserTest {
 		final Table<Integer, String, Double> resultTable = bom.getResultTable("run");
 
 		// ACT
-		final String actual = BigOAnalyser.createDataReport(resultTable);
+		final String actual = Reports.createDataReport(resultTable);
 
 		// ASSERT
 		final String expected = "N1\tN2\tN3\tTIME\n8\t4\t5\t12345\n";

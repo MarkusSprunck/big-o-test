@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import com.sw_engineering_candies.big_o_test.BigOAnalyser;
 import com.sw_engineering_candies.big_o_test.BigOAssert;
+import com.sw_engineering_candies.big_o_test.internal.Reports;
 
 public class SimpleTest {
 
@@ -34,15 +35,11 @@ public class SimpleTest {
 			sut.sort(createSortInput(x));
 		}
 
-		System.out.println(BigOAnalyser.createBestFitReport(
-				bom.getResultTable("sort"), false));
-		
-		System.out.println(BigOAnalyser.createDataReport(bom
-				.getResultTable("sort")));
-	
-
 		// ASSERT
 		BigOAssert.assertLogLinear(bom, "sort");
+
+		System.out.print(Reports.createFullReport(bom.getResultTable("sort")));
+
 	}
 
 }

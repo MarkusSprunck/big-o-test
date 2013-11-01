@@ -37,6 +37,7 @@ import java.util.TreeMap;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Table;
 import com.sw_engineering_candies.big_o_test.internal.FitterPolynomial;
+import com.sw_engineering_candies.big_o_test.internal.Reports;
 
 public class BigOAssert {
 
@@ -60,7 +61,7 @@ public class BigOAssert {
 		// A Constant function should have a polynomial degree of 0.0
 		assertPolynomialDegree(bom, method, 0.0, 0.1);
 
-		final String details = BigOAnalyser.createBestFitReport(resultTable, true).trim();
+		final String details = Reports.createBestFitReport(resultTable, true).trim();
 		if (!details.startsWith("Polynomial"))
 			throw new BigOAssertException("BigOAssertException assertConstant failed:\n" + details);
 	}
@@ -72,7 +73,7 @@ public class BigOAssert {
 		// A Linear function should have a polynomial degree of 1.0
 		assertPolynomialDegree(bom, method, 1.0, 0.2);
 
-		final String details = BigOAnalyser.createBestFitReport(resultTable, true).trim();
+		final String details = Reports.createBestFitReport(resultTable, true).trim();
 		if (!details.startsWith("Polynomial"))
 			throw new BigOAssertException("BigOAssertException assertLinear failed:\n" + details);
 	}
@@ -85,7 +86,7 @@ public class BigOAssert {
 		// A LogLinear function should have a polynomial degree of 1.1
 		assertPolynomialDegree(bom, method, 1.1, 0.2);
 
-		final String details = BigOAnalyser.createBestFitReport(resultTable, true).trim();
+		final String details = Reports.createBestFitReport(resultTable, true).trim();
 		if (!details.startsWith("LogLinear"))
 			throw new BigOAssertException("BigOAssertException assertLogLinear failed:\n" + details);
 	}
@@ -97,7 +98,7 @@ public class BigOAssert {
 		// A LogLinear function should have a polynomial degree of 2.0
 		assertPolynomialDegree(bom, method, 2.0, 0.1);
 
-		final String details = BigOAnalyser.createBestFitReport(resultTable, true).trim();
+		final String details = Reports.createBestFitReport(resultTable, true).trim();
 		if (!details.startsWith("Polynomial"))
 			throw new BigOAssertException("BigOAssertException assertQuadratic failed:\n" + details);
 
