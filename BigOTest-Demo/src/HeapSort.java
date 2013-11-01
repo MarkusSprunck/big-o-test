@@ -11,7 +11,7 @@ public class HeapSort  {
 
 	private int length = 0;
 
-	public double sort(@BigOParameter List<Integer> unsorted) {
+	public Integer[] sort(@BigOParameter List<Integer> unsorted) {
 
 		final Integer[] sorted = new Integer[unsorted.size()];
 
@@ -25,7 +25,7 @@ public class HeapSort  {
 			sorted[i] = pop();
 		}
 		
-		return 0.0;
+		return sorted;
 	}
 
 	private int getLeftChildIndex(final int parent) {

@@ -61,9 +61,9 @@ public class Reports {
 		// values of the table
 		final SortedSet<Double> rows = new TreeSet<Double>();
 		rows.addAll(input.column("N1").values());
-		for (Double value : rows) {
+		for (final Double value : rows) {
 			Integer row = 0;
-			for (Integer index : input.column("N1").keySet()) {
+			for (final Integer index : input.column("N1").keySet()) {
 				if (value.equals(input.get(index, "N1"))) {
 					row = index;
 					break;

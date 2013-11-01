@@ -35,24 +35,15 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 import javassist.util.proxy.MethodHandler;
 
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import com.sw_engineering_candies.big_o_test.internal.FitterExponential;
-import com.sw_engineering_candies.big_o_test.internal.FitterLogLinear;
-import com.sw_engineering_candies.big_o_test.internal.FitterLogarithmic;
-import com.sw_engineering_candies.big_o_test.internal.FitterPolynomial;
-import com.sw_engineering_candies.big_o_test.internal.FitterPowerLaw;
 import com.sw_engineering_candies.big_o_test.internal.Item;
 
 public class BigOAnalyser {
@@ -207,5 +198,4 @@ public class BigOAnalyser {
 		return result;
 	}
 
-	
 }

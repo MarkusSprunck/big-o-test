@@ -28,7 +28,6 @@ public class SimpleTest {
 		// Deactivate measurement to give JIT compiler the chance to optimize
 		bom.deactivateMeasurement();
 		sut.sort(createSortInput(128));
-
 		// Activate measurement
 		bom.activateMeasurement();
 		for (int x = 64; x <= 32 * 1024; x *= 2) {
@@ -37,9 +36,36 @@ public class SimpleTest {
 
 		// ASSERT
 		BigOAssert.assertLogLinear(bom, "sort");
+		
+		System.out.println("============================================");
+		System.out.println("assertLogLinear_RunHeapSort_DetectLogLinear\n");
+		System.out
+				.println(Reports.createFullReport(bom.getResultTable("sort")));
+	}
 
+	@Test
+	public void assertQuadratic_RunBubbleSort_DetectQuadratic() {
+
+		// ARRANGE
+		final BigOAnalyser bom = new BigOAnalyser();
+		final BubbleSort sut = (BubbleSort) bom.createProxy(BubbleSort.class);
+
+		// ACT
+		// Deactivate measurement to give JIT compiler the chance to optimize
+		bom.deactivateMeasurement();
+		sut.sort(createSortInput(128));
+		// Activate measurement
+		bom.activateMeasurement();
+		for (int x = 64; x <= 2048; x *= 2) {
+			sut.sort(createSortInput(x));
+		}
+
+		// ASSERT
+		BigOAssert.assertQuadratic(bom, "sort");
+		
+		System.out.println("============================================");
+		System.out.println("\nassertQuadratic_RunBubbleSort_DetectQuadratic\n");
 		System.out.print(Reports.createFullReport(bom.getResultTable("sort")));
-
 	}
 
 }
