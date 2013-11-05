@@ -171,8 +171,12 @@ public class BigOAnalyser {
 							} else if (type.toString().startsWith("java.util.Map")) {
 								result.append("#").append(((Map) args[index]).values().size());
 							} else {
-								Preconditions.checkState(false, "Not supported data type '" + type
-										+ "' for BigOAnalysis in method " + method.getName());
+								StringBuilder message = new StringBuilder();
+								message.append("Not supported data type '");
+								message.append(type);
+								message.append("' for BigOAnalysis in method ");
+								message.append(method.getName());
+								Preconditions.checkState(false, message);
 							}
 						}
 					}
