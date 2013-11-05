@@ -68,7 +68,7 @@ public class BigOAssertTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertConstant(bom, "runConstant");
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -92,7 +92,7 @@ public class BigOAssertTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertConstant(bom, "runNLogN");
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -116,7 +116,7 @@ public class BigOAssertTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertConstant(bom, "runLinear");
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -162,7 +162,7 @@ public class BigOAssertTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertLinear(bom, "runConstant");
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -186,7 +186,7 @@ public class BigOAssertTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertLinear(bom, "runQuadratic");
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -210,7 +210,7 @@ public class BigOAssertTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertLinear(bom, "runLinear");
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -257,7 +257,7 @@ public class BigOAssertTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertLogLinear(bom, "runNLogN");
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -282,7 +282,7 @@ public class BigOAssertTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertLogLinear(bom, "runQuadratic");
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -306,7 +306,7 @@ public class BigOAssertTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertLogLinear(bom, "runConstant");
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -353,7 +353,7 @@ public class BigOAssertTest {
 			final double expected = 1.0;
 			final double range = 0.2;
 			BigOAssert.assertPolynomialDegree(bom, "runLinear", expected, range);
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -379,7 +379,7 @@ public class BigOAssertTest {
 			final double expected = 1.0;
 			final double range = 0.1;
 			BigOAssert.assertPolynomialDegree(bom, "runConstant", expected, range);
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -405,7 +405,7 @@ public class BigOAssertTest {
 			final double expected = 1.0;
 			final double range = 0.1;
 			BigOAssert.assertPolynomialDegree(bom, "runQuadratic", expected, range);
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -451,7 +451,7 @@ public class BigOAssertTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertQuadratic(bom, "runQuadratic");
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -476,7 +476,7 @@ public class BigOAssertTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertQuadratic(bom, "runLinear");
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 
@@ -501,7 +501,7 @@ public class BigOAssertTest {
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertQuadratic(bom, "runConstant");
-		} catch (final BigOAssertException ex) {
+		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
 

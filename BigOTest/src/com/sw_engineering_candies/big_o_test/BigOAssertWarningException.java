@@ -32,15 +32,11 @@
 package com.sw_engineering_candies.big_o_test;
 
 @SuppressWarnings("serial")
-public class BigOAssertException extends AssertionError {
+public class BigOAssertWarningException extends AssertionError {
 
-	public BigOAssertException(String message) {
-		super(defaultString(message));
+	public BigOAssertWarningException(String message) {
+		super(message);
 		System.out.println(message);
-	}
-
-	private static String defaultString(String message) {
-		return message == null ? "" : message;
 	}
 
 }

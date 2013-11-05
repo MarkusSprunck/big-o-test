@@ -39,11 +39,11 @@ public class WrapperTest {
 		bom.activateMeasurement();
 
 		// ACT
-		int x = 1024;
+		int x = 4*1024;
 		do {
 			sut.simpleSortWrapper(createSortInput(x));
 			x /= 2;
-		} while (x >= 2);
+		} while (x >= 128);
 
 		// ASSERT
 		BigOAssert.assertLogLinear(bom, "simpleSortWrapper");
