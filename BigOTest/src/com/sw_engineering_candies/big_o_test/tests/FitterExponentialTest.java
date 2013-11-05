@@ -1,10 +1,11 @@
-package com.sw_engineering_candies.big_o_test.internal;
+package com.sw_engineering_candies.big_o_test.tests;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
+import com.sw_engineering_candies.big_o_test.internal.FitterExponential;
 
 public class FitterExponentialTest {
 

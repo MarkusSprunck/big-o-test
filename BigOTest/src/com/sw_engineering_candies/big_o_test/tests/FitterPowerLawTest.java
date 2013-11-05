@@ -1,18 +1,19 @@
-package com.sw_engineering_candies.big_o_test.internal;
+package com.sw_engineering_candies.big_o_test.tests;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
+import com.sw_engineering_candies.big_o_test.internal.FitterPowerLaw;
 
-public class FitterLogarithmicTest {
+public class FitterPowerLawTest {
 
 	@Test
 	public void getCoefficientOfDetermination_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
 		// ARRANGE
 		final Table<Integer, String, Double> input = createTenPoints();
-		final FitterLogarithmic fitter = new FitterLogarithmic();
+		final FitterPowerLaw fitter = new FitterPowerLaw();
 		fitter.init(input.column("N1"), input.column("TIME"));
 
 		// ACT
@@ -23,16 +24,16 @@ public class FitterLogarithmicTest {
 	}
 
 	@Test
-	public void init_LogarithmicFunctionWithoutNoise_CorrectFunction() {
+	public void init_PowerLawWithoutNoise_CorrectFunction() {
 		// ARRANGE
 		final Table<Integer, String, Double> input = createTenPoints();
-		final FitterLogarithmic fitter = new FitterLogarithmic();
+		final FitterPowerLaw fitter = new FitterPowerLaw();
 
 		// ACT
 		fitter.init(input.column("N1"), input.column("TIME"));
 
 		// ASSERT
-		final String expected = "+100,0000 +10,5000 * log ( x )";
+		final String expected = "+10,0000 * x ^ +1,1000";
 		Assert.assertEquals(expected, fitter.toString());
 	}
 
@@ -41,7 +42,7 @@ public class FitterLogarithmicTest {
 		input = TreeBasedTable.create();
 		for (int i = 1; i <= 100; i++) {
 			input.put(i, "N1", (double) i);
-			input.put(i, "TIME", (100.0 + 10.5 * Math.log(i)));
+			input.put(i, "TIME", (10.0 * Math.pow(i, 1.1)));
 		}
 		return input;
 	}

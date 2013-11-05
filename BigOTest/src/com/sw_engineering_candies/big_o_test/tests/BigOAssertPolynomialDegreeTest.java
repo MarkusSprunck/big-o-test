@@ -1,10 +1,12 @@
-package com.sw_engineering_candies.big_o_test;
+package com.sw_engineering_candies.big_o_test.tests;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.sw_engineering_candies.big_o_test.test_utils.Algorithms;
+import com.sw_engineering_candies.big_o_test.BigOAnalyser;
+import com.sw_engineering_candies.big_o_test.BigOAssert;
+import com.sw_engineering_candies.big_o_test.BigOAssertException;
 
 public class BigOAssertPolynomialDegreeTest {
 
