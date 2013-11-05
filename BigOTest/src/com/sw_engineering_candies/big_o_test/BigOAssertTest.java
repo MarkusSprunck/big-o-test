@@ -58,6 +58,10 @@ public class BigOAssertTest {
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+		bom.deactivateMeasurement();
+		sut.runConstant(32768);
+		bom.activateMeasurement();
+		sut.runConstant(32768);
 		sut.runConstant(16384);
 		sut.runConstant(8192);
 		sut.runConstant(4096);
