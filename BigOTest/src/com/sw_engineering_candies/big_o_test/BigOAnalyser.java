@@ -50,9 +50,9 @@ import com.sw_engineering_candies.big_o_test.internal.Item;
 public class BigOAnalyser {
 
 	/**
-	 * Measurement interval
+	 * Measurement interval in nanoseconds
 	 */
-	private static final long FIFTY_MILLI_SECONDS_IN_NANO_SECONDS = 50000000L;
+	private static final long MEASUREMENT_INTERVAL = 50*1000*1000L;
 
 	/**
 	 * Stores all measured results in <b>Item</b> objects. The <b>keys</b> of the
@@ -65,7 +65,7 @@ public class BigOAnalyser {
 	 * Used to deactivate measurement during analysis. This is needed, because
 	 * the first results are usually not representative.
 	 */
-	private boolean activeMeasurement = true;
+	private boolean active = true;
 
 	/**
 	 * Creates a class proxy that makes all the time measurements and stores the
@@ -99,20 +99,17 @@ public class BigOAnalyser {
 
 			@Override
 			public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) {
-
 				final String Key = getCurrentKey(thisMethod, args);
-				final long startTime = System.nanoTime();
 				long endTime = 0;
 				long calls = 0;
-
-				// Execute method about 50ms
 				Object result = null;
+				final long startTime = System.nanoTime();
 				try {
 					do {
 						result = proceed.invoke(self, args);
 						calls++;
 						endTime = System.nanoTime();
-					} while ((endTime - startTime) < FIFTY_MILLI_SECONDS_IN_NANO_SECONDS);
+					} while ((endTime - startTime) < MEASUREMENT_INTERVAL);
 				} catch (final IllegalArgumentException e) {
 					System.err.println("ERROR #6 in MethodHandler -> " + e.getMessage());
 				} catch (final IllegalAccessException e) {
@@ -120,7 +117,7 @@ public class BigOAnalyser {
 				} catch (final InvocationTargetException e) {
 					System.err.println("ERROR #7  in MethodHandler -> " + e.getMessage());
 				}
-				if (activeMeasurement) {
+				if (active) {
 					storeTimeMeasurement(Key, endTime - startTime, calls);
 				}
 				return result;
@@ -139,7 +136,6 @@ public class BigOAnalyser {
 				}
 			}
 
-			@SuppressWarnings("rawtypes")
 			private String getCurrentKey(Method method, Object[] args) {
 				final StringBuilder result = new StringBuilder(method.getName());
 				final Type[] types = method.getGenericParameterTypes();
@@ -147,37 +143,7 @@ public class BigOAnalyser {
 				for (final Annotation[] annotations : method.getParameterAnnotations()) {
 					for (final Annotation annotation : annotations) {
 						if (annotation instanceof BigOParameter) {
-							final Type type = types[index];
-							if (type.toString().equals("int[]")) {
-								result.append("#").append(((int[]) args[index]).length);
-							} else if (type.toString().equals("long[]")) {
-								result.append("#").append(((long[]) args[index]).length);
-							} else if (type.toString().equals("double[]")) {
-								result.append("#").append(((double[]) args[index]).length);
-							} else if (type.toString().equals("byte[]")) {
-								result.append("#").append(((byte[]) args[index]).length);
-							} else if (type.toString().equals("float[]")) {
-								result.append("#").append(((float[]) args[index]).length);
-							} else if (type.toString().equals("int")) {
-								result.append("#").append(args[index]);
-							} else if (type.toString().equals("class java.lang.String")) {
-								result.append("#").append(((String) args[index]).length());
-							} else if (type.toString().equals("long")) {
-								result.append("#").append(args[index]);
-							} else if (type.toString().startsWith("java.util.List")) {
-								result.append("#").append(((List) args[index]).size());
-							} else if (type.toString().startsWith("java.util.Set")) {
-								result.append("#").append(((Set) args[index]).size());
-							} else if (type.toString().startsWith("java.util.Map")) {
-								result.append("#").append(((Map) args[index]).values().size());
-							} else {
-								StringBuilder message = new StringBuilder();
-								message.append("Not supported data type '");
-								message.append(type);
-								message.append("' for BigOAnalysis in method ");
-								message.append(method.getName());
-								Preconditions.checkState(false, message);
-							}
+							appendParameterInformation(method.getName(), result, types[index], args[index]);
 						}
 					}
 					index++;
@@ -185,16 +151,43 @@ public class BigOAnalyser {
 				return result.toString();
 			}
 
+			@SuppressWarnings("rawtypes")
+			private void appendParameterInformation(final String methodName, final StringBuilder result,
+					final Type parameterType, Object parameterArgument) {
+				if (parameterType.toString().equals("int[]")) {
+					result.append("#").append(((int[]) parameterArgument).length);
+				} else if (parameterType.toString().equals("long[]")) {
+					result.append("#").append(((long[]) parameterArgument).length);
+				} else if (parameterType.toString().equals("double[]")) {
+					result.append("#").append(((double[]) parameterArgument).length);
+				} else if (parameterType.toString().equals("byte[]")) {
+					result.append("#").append(((byte[]) parameterArgument).length);
+				} else if (parameterType.toString().equals("float[]")) {
+					result.append("#").append(((float[]) parameterArgument).length);
+				} else if (parameterType.toString().equals("int")) {
+					result.append("#").append(parameterArgument);
+				} else if (parameterType.toString().equals("class java.lang.String")) {
+					result.append("#").append(((String) parameterArgument).length());
+				} else if (parameterType.toString().equals("long")) {
+					result.append("#").append(parameterArgument);
+				} else if (parameterType.toString().startsWith("java.util.List")) {
+					result.append("#").append(((List) parameterArgument).size());
+				} else if (parameterType.toString().startsWith("java.util.Set")) {
+					result.append("#").append(((Set) parameterArgument).size());
+				} else if (parameterType.toString().startsWith("java.util.Map")) {
+					result.append("#").append(((Map) parameterArgument).values().size());
+				} else {
+					StringBuilder message = new StringBuilder();
+					message.append("Not supported data type '");
+					message.append(parameterType);
+					message.append("' for BigOAnalysis in method ");
+					message.append(methodName);
+					Preconditions.checkState(false, message);
+				}
+			}
+
 		};
 		return handler;
-	}
-
-	public void deactivateMeasurement() {
-		activeMeasurement = false;
-	}
-
-	public void activateMeasurement() {
-		activeMeasurement = true;
 	}
 
 	public Table<Integer, String, Double> getResultTable(String methodName) {
@@ -215,6 +208,14 @@ public class BigOAnalyser {
 		}
 		Preconditions.checkState(!result.isEmpty(), "No data for method name '" + methodName + "' available.");
 		return result;
+	}
+
+	public void deactivate() {
+		active = false;
+	}
+
+	public void activate() {
+		active = true;
 	}
 
 	protected Item getValue(String key) {
