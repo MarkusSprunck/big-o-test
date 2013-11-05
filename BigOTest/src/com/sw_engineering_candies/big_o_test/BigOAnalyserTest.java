@@ -32,9 +32,12 @@
 package com.sw_engineering_candies.big_o_test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import junit.framework.Assert;
 
@@ -535,6 +538,62 @@ public class BigOAnalyserTest {
 
 		// ASSERT
 		Assert.assertEquals(1, bigOProbe.getCalls());
+	}
+
+	@Test
+	public void getKeys_AllParameter_GetCorrectKeys() {
+		// ARRANGE
+		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+
+		final int[] in01 = { 11, 22 };
+		final long[] in02 = { 11, 22, 33 };
+		final float[] in03 = { 11.4f, 2.1f, 2.23f, 12.2f };
+		final double[] in04 = { 11.4f, 2.1f, 2.23f, 4.2f, 8.2f };
+		final byte[] in05 = { 11, 22, 33, 44, 55, 66 };
+		final String in06 = "1234567";
+		final List<Integer> in07 = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
+		final Set<Integer> in08 = new TreeSet<Integer>();
+		in08.addAll(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10, 11));
+		final Map<Integer, Integer> in09 = new HashMap<Integer, Integer>();
+		in09.put(1, 1);
+		in09.put(2, 2);
+		in09.put(3, 3);
+		in09.put(4, 4);
+		in09.put(5, 1);
+		in09.put(6, 2);
+		in09.put(7, 3);
+		in09.put(8, 4);
+		in09.put(9, 4);
+		in09.put(10, 4);
+		final int in10 = 11;
+		final long in11 = 12;
+		sut.runAllParameter(in01, in02, in03, in04, in05, in06, in07, in08, in09, in10, in11);
+
+		// ACT
+		final Set<String> actual = bom.getKeys();
+
+		// ASSERT
+		final Set<String> expectedKeys = new HashSet<String>();
+		expectedKeys.add("runAllParameter#2#3#4#5#6#7#8#9#10#11#12");
+		Assert.assertEquals(expectedKeys, actual);
+	}
+
+	@Test
+	public void runNotSupportedParameter_wrongParameterType_GetIllegalStateException() {
+		// ARRANGE
+		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+
+		// ACT
+		String actual = "";
+		String expected = "Not supported data type 'class java.io.File' for BigOAnalysis in method runNotSupportedParameter";
+		try {
+			sut.runNotSupportedParameter(null);
+		} catch (final IllegalStateException ex) {
+			actual = ex.getMessage();
+		}
+
+		// ASSERT
+		Assert.assertEquals(expected, actual);
 	}
 
 }

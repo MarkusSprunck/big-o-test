@@ -30,7 +30,10 @@
  */
 package com.sw_engineering_candies.big_o_test.test_utils;
 
+import java.io.File;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.sw_engineering_candies.big_o_test.BigOParameter;
 
@@ -82,6 +85,24 @@ public class Algorithms {
 			for (long index2 = 0; index2 < logN; index2++) {
 				result += index + index2;
 			}
+		}
+		return result;
+	}
+
+	public double runAllParameter(@BigOParameter int[] in01, @BigOParameter long[] in02, @BigOParameter float[] in03,
+			@BigOParameter double[] in04, @BigOParameter byte[] in05, @BigOParameter String in06,
+			@BigOParameter List<Integer> in07, @BigOParameter Set<Integer> in08, @BigOParameter Map<Integer, Integer> in09,@BigOParameter  int in10, @BigOParameter long in11) {
+		double result = 0;
+		for (int index = 0; index < 10; index++) {
+			result += index;
+		}
+		return result;
+	}
+	
+	public double runNotSupportedParameter(@BigOParameter File file) {
+		double result = 0;
+		for (int index = 0; index < 10; index++) {
+			result += index;
 		}
 		return result;
 	}

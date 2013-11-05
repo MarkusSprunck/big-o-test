@@ -512,7 +512,7 @@ public class BigOAssertTest {
 		// ASSERT
 		Assert.assertTrue(exceptionHappened);
 	}
-	
+
 	@Test
 	public void assertQuadratic_RunNLogN_DetectQuadraticFailedAsExpected() {
 
@@ -537,6 +537,5 @@ public class BigOAssertTest {
 		// ASSERT
 		Assert.assertTrue(exceptionHappened);
 	}
-
 
 }

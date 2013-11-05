@@ -150,14 +150,29 @@ public class BigOAnalyser {
 							final Type type = types[index];
 							if (type.toString().equals("int[]")) {
 								result.append("#").append(((int[]) args[index]).length);
+							} else if (type.toString().equals("long[]")) {
+								result.append("#").append(((long[]) args[index]).length);
+							} else if (type.toString().equals("double[]")) {
+								result.append("#").append(((double[]) args[index]).length);
+							} else if (type.toString().equals("byte[]")) {
+								result.append("#").append(((byte[]) args[index]).length);
 							} else if (type.toString().equals("float[]")) {
 								result.append("#").append(((float[]) args[index]).length);
 							} else if (type.toString().equals("int")) {
 								result.append("#").append(args[index]);
+							} else if (type.toString().equals("class java.lang.String")) {
+								result.append("#").append(((String) args[index]).length());
+							} else if (type.toString().equals("long")) {
+								result.append("#").append(args[index]);
 							} else if (type.toString().startsWith("java.util.List")) {
 								result.append("#").append(((List) args[index]).size());
+							} else if (type.toString().startsWith("java.util.Set")) {
+								result.append("#").append(((Set) args[index]).size());
+							} else if (type.toString().startsWith("java.util.Map")) {
+								result.append("#").append(((Map) args[index]).values().size());
 							} else {
-								System.err.println("ERROR #8  in getCurrentKey - '" + type + "'");
+								Preconditions.checkState(false, "Not supported data type '" + type
+										+ "' for BigOAnalysis in method " + method.getName());
 							}
 						}
 					}
