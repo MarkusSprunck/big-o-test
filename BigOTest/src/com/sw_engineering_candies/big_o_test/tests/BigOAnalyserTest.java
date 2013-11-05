@@ -51,6 +51,25 @@ public class BigOAnalyserTest {
 	final BigOAnalyser bom = new BigOAnalyser();
 
 	@Test
+	public void getResultTable_wrongMethodName_GetIllegalStateException() {
+		// ARRANGE
+		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+		sut.runQuadratic(10);
+
+		// ACT
+		boolean exceptionHappened = false;
+		try {
+			bom.getResultTable("wrongMethodName");
+		} catch (final IllegalStateException ex) {
+			System.out.println(ex.getMessage());
+			exceptionHappened = true;
+		}
+
+		// ASSERT
+		Assert.assertTrue(exceptionHappened);
+	}
+
+	@Test
 	public void createProxy_RunCalled_CorrectResult() {
 		// ARRANGE
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);

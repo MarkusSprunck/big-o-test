@@ -42,6 +42,7 @@ import java.util.Set;
 
 import javassist.util.proxy.MethodHandler;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.sw_engineering_candies.big_o_test.internal.Item;
@@ -195,6 +196,7 @@ public class BigOAnalyser {
 				result.put(rowIndex, "TIME", cell);
 			}
 		}
+		Preconditions.checkState(!result.isEmpty(), "No data for method name '" + methodName +"' available.");
 		return result;
 	}
 
