@@ -52,25 +52,24 @@ public class BigOAnalyser {
 	/**
 	 * Measurement interval in nanoseconds
 	 */
-	private static final long MEASUREMENT_INTERVAL = 50*1000*1000L;
+	private static final long MEASUREMENT_INTERVAL = 50 * 1000 * 1000L;
 
 	/**
-	 * Stores all measured results in <b>Item</b> objects. The <b>keys</b> of the
-	 * hash map follow the convention: <i>[method name]#[first size]#[second
-	 * size]...#[last size]</i>
+	 * Stores all measured results in <b>Item</b> objects. The <b>keys</b> of the hash map follow the
+	 * convention: <i>[method name]#[first size]#[second size]...#[last size]</i>
 	 */
 	private final Map<String, Item> values = new HashMap<String, Item>(1000);
 
 	/**
-	 * Used to deactivate measurement during analysis. This is needed, because
-	 * the first results are usually not representative.
+	 * Used to deactivate measurement during analysis. This is needed, because the first results are
+	 * usually not representative.
 	 */
 	private boolean active = true;
 
 	/**
-	 * Creates a class proxy that makes all the time measurements and stores the
-	 * results in a hash-map for later analysis. The annotation @BigOParameter
-	 * marks the parameter to be investigated.
+	 * Creates a class proxy that makes all the time measurements and stores the results in a
+	 * hash-map for later analysis. The annotation @BigOParameter marks the parameter to be
+	 * investigated.
 	 */
 	public Object createProxy(Class<?> type) {
 		Object proxy = null;
@@ -137,23 +136,23 @@ public class BigOAnalyser {
 			}
 
 			private String getCurrentKey(Method method, Object[] args) {
-				final StringBuilder result = new StringBuilder(method.getName());
+				final StringBuilder key = new StringBuilder(method.getName());
 				final Type[] types = method.getGenericParameterTypes();
 				int index = 0;
 				for (final Annotation[] annotations : method.getParameterAnnotations()) {
 					for (final Annotation annotation : annotations) {
 						if (annotation instanceof BigOParameter) {
-							appendParameterInformation(method.getName(), result, types[index], args[index]);
+							appendParameterInformation(key, types[index], args[index]);
 						}
 					}
 					index++;
 				}
-				return result.toString();
+				return key.toString();
 			}
 
 			@SuppressWarnings("rawtypes")
-			private void appendParameterInformation(final String methodName, final StringBuilder result,
-					final Type parameterType, Object parameterArgument) {
+			private void appendParameterInformation(final StringBuilder result, final Type parameterType,
+					Object parameterArgument) {
 				if (parameterType.toString().equals("int[]")) {
 					result.append("#").append(((int[]) parameterArgument).length);
 				} else if (parameterType.toString().equals("long[]")) {
@@ -181,7 +180,7 @@ public class BigOAnalyser {
 					message.append("Not supported data type '");
 					message.append(parameterType);
 					message.append("' for BigOAnalysis in method ");
-					message.append(methodName);
+					message.append((result.toString().split("#"))[0]);
 					Preconditions.checkState(false, message);
 				}
 			}
@@ -206,7 +205,7 @@ public class BigOAnalyser {
 				result.put(rowIndex, "TIME", cell);
 			}
 		}
-		Preconditions.checkState(!result.isEmpty(), "No data for method name '" + methodName + "' available.");
+		Preconditions.checkState(!result.isEmpty(), "No data for method name '" + methodName + "'");
 		return result;
 	}
 
