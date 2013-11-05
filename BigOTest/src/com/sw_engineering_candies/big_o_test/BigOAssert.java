@@ -113,12 +113,12 @@ public class BigOAssert {
 		final FitterPolynomial polynom = new FitterPolynomial();
 		polynom.init(xValues, yValues, 1);
 		// coefficient of the linear term a1 it what we need
-		double result = polynom.getCoefficient(1);
+		final double result = polynom.getCoefficient(1);
 		// check the quality of the fit in cases the function is not constant
 		if (result > 0.8) {
-			double coefficientOfDetermination = polynom.getCoefficientOfDetermination();
+			final double coefficientOfDetermination = polynom.getCoefficientOfDetermination();
 			Preconditions.checkState(coefficientOfDetermination > 0.8, "R^2=" + coefficientOfDetermination);
-		}		
+		}
 		return result;
 	}
 
@@ -148,7 +148,7 @@ public class BigOAssert {
 		// check size of data point table
 		final boolean isNumberOfDataPointsSufficient = resultTable.column("TIME").size() >= 4;
 		final String message = "minimum 4 data points are needed for a reliable analysis";
-		Preconditions.checkState(isNumberOfDataPointsSufficient, message);		
+		Preconditions.checkState(isNumberOfDataPointsSufficient, message);
 		return resultTable;
 	}
 

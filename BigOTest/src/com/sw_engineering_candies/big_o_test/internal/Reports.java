@@ -77,8 +77,7 @@ public class Reports {
 		return result.toString();
 	}
 
-	public static String createBestFitReport(final Table<Integer, String, Double> input,
-			boolean sumary) {
+	public static String createBestFitReport(final Table<Integer, String, Double> input, boolean sumary) {
 
 		final StringBuilder result = new StringBuilder();
 		final double degree = BigOAssert.estimatePolynomialDegree(input);
@@ -91,8 +90,8 @@ public class Reports {
 		final FitterPolynomial fitterPolynomialLin = new FitterPolynomial();
 		fitterPolynomialLin.init(input.column("N1"), input.column("TIME"), (int) Math.round(degree));
 		coefficientOfDetermination = fitterPolynomialLin.getCoefficientOfDetermination();
-		message = String.format("Polynomial\t%.4f  \ty = ", coefficientOfDetermination)
-				+ fitterPolynomialLin.toString() + "\n";
+		message = String.format("Polynomial\t%.4f  \ty = ", coefficientOfDetermination) + fitterPolynomialLin.toString()
+				+ "\n";
 		resultMap.put(coefficientOfDetermination, message);
 
 		if (degree > 0.5) {
@@ -100,8 +99,8 @@ public class Reports {
 				final FitterLogLinear fitterLinearLog = new FitterLogLinear();
 				fitterLinearLog.init(input.column("N1"), input.column("TIME"));
 				coefficientOfDetermination = fitterLinearLog.getCoefficientOfDetermination();
-				message = String.format("LogLinear\t%.4f  \ty = ", coefficientOfDetermination)
-						+ fitterLinearLog.toString() + "\n";
+				message = String.format("LogLinear\t%.4f  \ty = ", coefficientOfDetermination) + fitterLinearLog.toString()
+						+ "\n";
 				resultMap.put(coefficientOfDetermination, message);
 			}
 
@@ -123,8 +122,8 @@ public class Reports {
 				final FitterPowerLaw fitterPowerLaw = new FitterPowerLaw();
 				fitterPowerLaw.init(input.column("N1"), input.column("TIME"));
 				coefficientOfDetermination = fitterPowerLaw.getCoefficientOfDetermination();
-				message = String.format("PowerLaw\t%.4f  \ty = ", coefficientOfDetermination)
-						+ fitterPowerLaw.toString() + "\n";
+				message = String.format("PowerLaw\t%.4f  \ty = ", coefficientOfDetermination) + fitterPowerLaw.toString()
+						+ "\n";
 				resultMap.put(coefficientOfDetermination, message);
 			}
 		}

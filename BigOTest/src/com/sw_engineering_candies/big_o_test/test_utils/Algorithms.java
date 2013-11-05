@@ -36,8 +36,8 @@ import com.sw_engineering_candies.big_o_test.BigOParameter;
 
 public class Algorithms {
 
-	public double run(@BigOParameter @DummyAnnotation List<Integer> m,
-			@DummyAnnotation boolean flag, @BigOParameter int[] n, @BigOParameter float[] k) {
+	public double run(@BigOParameter @DummyAnnotation List<Integer> m, @DummyAnnotation boolean flag,
+			@BigOParameter int[] n, @BigOParameter float[] k) {
 		double result = 0;
 		for (final Integer value_m : m) {
 			for (final int value_n : n) {

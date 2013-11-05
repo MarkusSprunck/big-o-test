@@ -178,7 +178,6 @@ public class BigOAnalyser {
 		activeMeasurement = true;
 	}
 
-
 	public Table<Integer, String, Double> getResultTable(String methodName) {
 		final TreeBasedTable<Integer, String, Double> result = TreeBasedTable.create();
 		int rowIndex = 0;
@@ -198,7 +197,6 @@ public class BigOAnalyser {
 		Preconditions.checkState(!result.isEmpty(), "No data for method name '" + methodName + "' available.");
 		return result;
 	}
-	
 
 	protected Item getValue(String key) {
 		return values.get(key);

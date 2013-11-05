@@ -40,15 +40,14 @@ package com.sw_engineering_candies.big_o_test.internal;
 import org.junit.Assert;
 import org.junit.Test;
 
-
 public class MatrixTest {
 
 	@Test
 	public void solve_PolynomialRegressionThirdDegree_CorrectCorrelationCoefficients() {
 
 		// ARRANGE
-		final double[][] points = new double[][] { { -1, -1 }, { 0, 3 }, { 1, 2.5 }, { 2, 5 },
-				{ 3, 4 }, { 5, 2 }, { 7, 5 }, { 9, 4 } };
+		final double[][] points = new double[][] { { -1, -1 }, { 0, 3 }, { 1, 2.5 }, { 2, 5 }, { 3, 4 }, { 5, 2 },
+				{ 7, 5 }, { 9, 4 } };
 		// Polynomial degree 3, 8 x,y data pairs.
 		// Correlation coefficient (r^2) = 0.6614129183293465
 		// Standard error = 1.2393490986012985
@@ -80,8 +79,8 @@ public class MatrixTest {
 		final Matrix result = A.solve(b);
 
 		// ASSERT
-		final double[] expected = new double[] { 1.8942743159231679, 1.8132651038133907,
-				-0.44164664000338555, 0.030260423355553609 };
+		final double[] expected = new double[] { 1.8942743159231679, 1.8132651038133907, -0.44164664000338555,
+				0.030260423355553609 };
 		Assert.assertArrayEquals(expected, result.transpose().getData()[0], 1.0E-10);
 	}
 
@@ -89,8 +88,8 @@ public class MatrixTest {
 	public void solve_PolynomialRegressionDataSecondDegree_CorrectCorrelationCoefficients() {
 
 		// ARRANGE
-		final double[][] points = new double[][] { { -1, -1 }, { 0, 3 }, { 1, 2.5 }, { 2, 5 },
-				{ 3, 4 }, { 5, 2 }, { 7, 5 }, { 9, 4 } };
+		final double[][] points = new double[][] { { -1, -1 }, { 0, 3 }, { 1, 2.5 }, { 2, 5 }, { 3, 4 }, { 5, 2 },
+				{ 7, 5 }, { 9, 4 } };
 		// Polynomial degree 2, 8 x,y data pairs.
 		// Correlation coefficient (r^2) = 0.49210052111119
 		// Standard error = 1.5179146298460922
@@ -121,8 +120,7 @@ public class MatrixTest {
 		final Matrix result = A.solve(b);
 
 		// ASSERT
-		final double[] expected = new double[] { 1.6484391286220554, 0.99555711903272903,
-				-0.085717636022514102 };
+		final double[] expected = new double[] { 1.6484391286220554, 0.99555711903272903, -0.085717636022514102 };
 		Assert.assertArrayEquals(expected, result.transpose().getData()[0], 1.0E-10);
 	}
 
