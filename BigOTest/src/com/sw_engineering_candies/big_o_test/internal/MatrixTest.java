@@ -1,4 +1,4 @@
-package com.sw_engineering_candies.big_o_test.tests;
+package com.sw_engineering_candies.big_o_test.internal;
 
 /**
  * Copyright (C) 2012-2013, Markus Sprunck
@@ -40,7 +40,6 @@ package com.sw_engineering_candies.big_o_test.tests;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.sw_engineering_candies.big_o_test.internal.Matrix;
 
 public class MatrixTest {
 

@@ -28,62 +28,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.sw_engineering_candies.big_o_test.tests;
+package com.sw_engineering_candies.big_o_test.test_utils;
 
-import java.util.List;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.sw_engineering_candies.big_o_test.BigOParameter;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-public class Algorithms {
-
-	public double run(@BigOParameter @DummyAnnotation List<Integer> m,
-			@DummyAnnotation boolean flag, @BigOParameter int[] n, @BigOParameter float[] k) {
-		double result = 0;
-		for (final Integer value_m : m) {
-			for (final int value_n : n) {
-				for (final float value_k : k) {
-					result += value_m * value_n * value_k;
-				}
-			}
-		}
-		return result;
-	}
-
-	public double runConstant(@BigOParameter int m) {
-		double result = 0;
-		for (int index = 0; index < 10; index++) {
-			result += index;
-		}
-		return result;
-	}
-
-	public double runLinear(@BigOParameter int m) {
-		double result = 0;
-		for (int index = 0; index < m; index++) {
-			result += index;
-		}
-		return result;
-	}
-
-	public double runQuadratic(@BigOParameter int m) {
-		double result = 0;
-		for (int index = 0; index < m; index++) {
-			for (int index2 = 0; index2 < m; index2++) {
-				result += index + index2;
-			}
-		}
-		return result;
-	}
-
-	public double runNLogN(@BigOParameter int m) {
-		double result = 0;
-		final long logN = Math.round(Math.log(m));
-		for (int index = 0; index < m; index++) {
-			for (long index2 = 0; index2 < logN; index2++) {
-				result += index + index2;
-			}
-		}
-		return result;
-	}
+@Target({ PARAMETER })
+@Retention(RUNTIME)
+public @interface DummyAnnotation {
 
 }

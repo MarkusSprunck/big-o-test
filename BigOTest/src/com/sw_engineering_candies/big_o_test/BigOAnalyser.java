@@ -50,8 +50,14 @@ import com.sw_engineering_candies.big_o_test.internal.Item;
 public class BigOAnalyser {
 
 	/**
-	 * Stores all measured results in probe objects. The keys convention:
-	 * "<method name>#<first size>#<second size>...#<last size>"
+	 * Measurement interval
+	 */
+	private static final long FIFTY_MILLI_SECONDS_IN_NANO_SECONDS = 50000000L;
+
+	/**
+	 * Stores all measured results in <b>Item</b> objects. The <b>keys</b> of the
+	 * hash map follow the convention: <i>[method name]#[first size]#[second
+	 * size]...#[last size]</i>
 	 */
 	private final Map<String, Item> values = new HashMap<String, Item>(1000);
 
@@ -97,7 +103,7 @@ public class BigOAnalyser {
 				final String Key = getCurrentKey(thisMethod, args);
 				final long startTime = System.nanoTime();
 				long endTime = 0;
-				int calls = 0;
+				long calls = 0;
 
 				// Execute method about 50ms
 				Object result = null;
@@ -106,7 +112,7 @@ public class BigOAnalyser {
 						result = proceed.invoke(self, args);
 						calls++;
 						endTime = System.nanoTime();
-					} while ((endTime - startTime) < 50000000L);
+					} while ((endTime - startTime) < FIFTY_MILLI_SECONDS_IN_NANO_SECONDS);
 				} catch (final IllegalArgumentException e) {
 					System.err.println("ERROR #6 in MethodHandler -> " + e.getMessage());
 				} catch (final IllegalAccessException e) {
@@ -120,7 +126,7 @@ public class BigOAnalyser {
 				return result;
 			}
 
-			private void storeTimeMeasurement(String currentKey, long deltaTime, int calls) {
+			private void storeTimeMeasurement(String currentKey, long deltaTime, long calls) {
 				if (values.containsKey(currentKey)) {
 					final Item bigOProbe = values.get(currentKey);
 					bigOProbe.addTime(deltaTime);
@@ -172,13 +178,6 @@ public class BigOAnalyser {
 		activeMeasurement = true;
 	}
 
-	public Item getValue(String key) {
-		return values.get(key);
-	}
-
-	public Set<String> getKeys() {
-		return values.keySet();
-	}
 
 	public Table<Integer, String, Double> getResultTable(String methodName) {
 		final TreeBasedTable<Integer, String, Double> result = TreeBasedTable.create();
@@ -196,8 +195,17 @@ public class BigOAnalyser {
 				result.put(rowIndex, "TIME", cell);
 			}
 		}
-		Preconditions.checkState(!result.isEmpty(), "No data for method name '" + methodName +"' available.");
+		Preconditions.checkState(!result.isEmpty(), "No data for method name '" + methodName + "' available.");
 		return result;
+	}
+	
+
+	protected Item getValue(String key) {
+		return values.get(key);
+	}
+
+	protected Set<String> getKeys() {
+		return values.keySet();
 	}
 
 }

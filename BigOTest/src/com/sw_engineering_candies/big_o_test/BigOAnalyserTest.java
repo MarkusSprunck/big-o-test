@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.sw_engineering_candies.big_o_test.tests;
+package com.sw_engineering_candies.big_o_test;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -41,10 +41,9 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
-import com.sw_engineering_candies.big_o_test.BigOAnalyser;
-import com.sw_engineering_candies.big_o_test.BigOAssert;
 import com.sw_engineering_candies.big_o_test.internal.Item;
 import com.sw_engineering_candies.big_o_test.internal.Reports;
+import com.sw_engineering_candies.big_o_test.test_utils.Algorithms;
 
 public class BigOAnalyserTest {
 

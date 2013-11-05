@@ -1,11 +1,10 @@
-package com.sw_engineering_candies.big_o_test.tests;
+package com.sw_engineering_candies.big_o_test.internal;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import com.sw_engineering_candies.big_o_test.internal.FitterPolynomial;
 
 public class FitterPolynomialTest {
 

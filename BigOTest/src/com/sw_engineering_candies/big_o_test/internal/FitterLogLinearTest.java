@@ -1,19 +1,18 @@
-package com.sw_engineering_candies.big_o_test.tests;
+package com.sw_engineering_candies.big_o_test.internal;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import com.sw_engineering_candies.big_o_test.internal.FitterLogarithmic;
 
-public class FitterLogarithmicTest {
+public class FitterLogLinearTest {
 
 	@Test
 	public void getCoefficientOfDetermination_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
 		// ARRANGE
-		final Table<Integer, String, Double> input = createTenPoints();
-		final FitterLogarithmic fitter = new FitterLogarithmic();
+		final Table<Integer, String, Double> input = createTestFunction();
+		final FitterLogLinear fitter = new FitterLogLinear();
 		fitter.init(input.column("N1"), input.column("TIME"));
 
 		// ACT
@@ -24,25 +23,28 @@ public class FitterLogarithmicTest {
 	}
 
 	@Test
-	public void init_LogarithmicFunctionWithoutNoise_CorrectFunction() {
+	public void init_PowerLawWithoutNoise_CorrectFunction() {
 		// ARRANGE
-		final Table<Integer, String, Double> input = createTenPoints();
-		final FitterLogarithmic fitter = new FitterLogarithmic();
+		final Table<Integer, String, Double> input = createTestFunction();
+		final FitterLogLinear fitter = new FitterLogLinear();
 
 		// ACT
 		fitter.init(input.column("N1"), input.column("TIME"));
 
 		// ASSERT
-		final String expected = "+100,0000 +10,5000 * log ( x )";
+		final String expected = "+5,0000 * x * log( +3,0000 * x )";
 		Assert.assertEquals(expected, fitter.toString());
 	}
 
-	private Table<Integer, String, Double> createTenPoints() {
+	private Table<Integer, String, Double> createTestFunction() {
 		final Table<Integer, String, Double> input;
 		input = TreeBasedTable.create();
-		for (int i = 1; i <= 100; i++) {
-			input.put(i, "N1", (double) i);
-			input.put(i, "TIME", (100.0 + 10.5 * Math.log(i)));
+		int index = 1;
+		for (int i = 1; i <= 100; i *= 2) {
+			final double x = i;
+			input.put(index, "N1", x);
+			input.put(index, "TIME", (5 * x * Math.log(3.0 * x)));
+			index++;
 		}
 		return input;
 	}

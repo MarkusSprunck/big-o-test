@@ -35,7 +35,7 @@ package com.sw_engineering_candies.big_o_test.internal;
  */
 public class Item {
 
-	private int calls = 0;
+	private long calls = 0L;
 
 	private long time = 0L;
 
@@ -48,7 +48,7 @@ public class Item {
 		time += d;
 	}
 
-	public int getCalls() {
+	public long getCalls() {
 		return calls;
 	}
 
@@ -56,8 +56,8 @@ public class Item {
 		time = d;
 	}
 
-	public void setCalls(int calls) {
-		this.calls = calls;
+	public void setCalls(long calls2) {
+		this.calls = calls2;
 	}
 
 }
