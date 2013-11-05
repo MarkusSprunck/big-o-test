@@ -44,7 +44,7 @@ public class BigOAssert {
 	public static void assertConstant(BigOAnalyser bom, String methodName) {
 		// fetch data table with some internal checks
 		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
-		// a constant function should have a polynomial degree of 0.0
+		// constant functions should have a polynomial degree of 0.0
 		assertPolynomialDegree(bom, methodName, 0.0, 0.1);
 		// find the best fit function
 		final String details = Reports.createBestFitReport(resultTable, true);
@@ -59,7 +59,7 @@ public class BigOAssert {
 	public static void assertLinear(BigOAnalyser bom, String methodName) {
 		// fetch data table with some internal checks
 		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
-		// a linear function should have a polynomial degree of 1.0
+		// linear functions should have a polynomial degree of 1.0
 		assertPolynomialDegree(bom, methodName, 1.0, 0.2);
 		// find the best fit function
 		final String details = Reports.createBestFitReport(resultTable, true);
@@ -74,7 +74,7 @@ public class BigOAssert {
 	public static void assertLogLinear(BigOAnalyser bom, String methodName) {
 		// fetch data table with some internal checks
 		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
-		// a LogLinear function should have a polynomial degree of 1.1
+		// log-linear functions should have a polynomial degree of 1.1
 		assertPolynomialDegree(bom, methodName, 1.1, 0.2);
 		// find the best fit function
 		final String details = Reports.createBestFitReport(resultTable, true);
@@ -89,7 +89,7 @@ public class BigOAssert {
 	public static void assertQuadratic(BigOAnalyser bom, String methodName) {
 		// fetch data table with some internal checks
 		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
-		// a LogLinear function should have a polynomial degree of 2.0
+		// quadratic functions should have a polynomial degree of 2.0
 		assertPolynomialDegree(bom, methodName, 2.0, 0.1);
 		// find the best fit function
 		final String details = Reports.createBestFitReport(resultTable, true);

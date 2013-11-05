@@ -512,5 +512,31 @@ public class BigOAssertTest {
 		// ASSERT
 		Assert.assertTrue(exceptionHappened);
 	}
+	
+	@Test
+	public void assertQuadratic_RunNLogN_DetectQuadraticFailedAsExpected() {
+
+		// ARRANGE
+		final BigOAnalyser bom = new BigOAnalyser();
+		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+		sut.runNLogN(16384);
+		sut.runNLogN(8192);
+		sut.runNLogN(4096);
+		sut.runNLogN(2048);
+		sut.runNLogN(1024);
+		sut.runNLogN(512);
+
+		// ACT
+		boolean exceptionHappened = false;
+		try {
+			BigOAssert.assertQuadratic(bom, "runNLogN");
+		} catch (final BigOAssertWarningException ex) {
+			exceptionHappened = true;
+		}
+
+		// ASSERT
+		Assert.assertTrue(exceptionHappened);
+	}
+
 
 }
