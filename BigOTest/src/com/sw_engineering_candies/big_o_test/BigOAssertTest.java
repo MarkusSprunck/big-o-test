@@ -61,8 +61,6 @@ public class BigOAssertTest {
 		bom.deactivate();
 		sut.runConstant(32768);
 		bom.activate();
-		sut.runConstant(32768);
-		sut.runConstant(16384);
 		sut.runConstant(8192);
 		sut.runConstant(4096);
 		sut.runConstant(2048);
@@ -245,7 +243,7 @@ public class BigOAssertTest {
 	}
 
 	@Test
-	public void assertLogLinear_RunNLogN_DetectLinearIsOk() {
+	public void assertLogLinear_RunNLogN_DetectassertPowerLawIsOk() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
@@ -260,7 +258,7 @@ public class BigOAssertTest {
 		// ACT
 		boolean exceptionHappened = false;
 		try {
-			BigOAssert.assertLogLinear(bom, "runNLogN");
+			BigOAssert.assertPowerLaw(bom, "runNLogN");
 		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
@@ -440,7 +438,7 @@ public class BigOAssertTest {
 	}
 
 	@Test
-	public void assertQuadratic_RunConstant_DetectQuadraticIsOk() {
+	public void assertQuadratic_RunConstant_DetectPowerLawIsOk() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
@@ -454,7 +452,7 @@ public class BigOAssertTest {
 		// ACT
 		boolean exceptionHappened = false;
 		try {
-			BigOAssert.assertQuadratic(bom, "runQuadratic");
+			BigOAssert.assertPowerLaw(bom, "runQuadratic");
 		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}

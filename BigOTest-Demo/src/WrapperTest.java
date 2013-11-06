@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -10,33 +12,61 @@ import com.sw_engineering_candies.big_o_test.BigOParameter;
 
 public class WrapperTest extends TestBase {
 
-	public Integer[] simpleWrapper(@BigOParameter List<Integer> input) {
-		final SortedSet<Integer> sorted = new TreeSet<Integer>();
+	public Long[] simpleWrapperFirst(@BigOParameter List<Long> input) {
+		final SortedSet<Long> sorted = new TreeSet<Long>();
 		sorted.addAll(input);
-		Integer[] result = new Integer[sorted.size()];
+
+		Long[] result = new Long[sorted.size()];
+		return sorted.toArray(result);
+	}
+
+	public Long[] simpleWrapperSecond(@BigOParameter List<Long> input) {
+		final List<Long> sorted = new ArrayList<Long>();
+		sorted.addAll(input);
+		Collections.sort(sorted);
+
+		Long[] result = new Long[sorted.size()];
 		return sorted.toArray(result);
 	}
 
 	@Test
-	public void assertLogLinear_RunJavaCollections_DetectLogLinear() {
+	public void simpleWrapperFirst_RunJavaCollections_DetectLogLinear() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
 		final WrapperTest sut = (WrapperTest) bom.createProxy(WrapperTest.class);
 		bom.deactivate(); 											// measurement is deactivated
-		sut.simpleWrapper(createSortInput(8192));				// give JIT compiler the chance to optimize
+		sut.simpleWrapperFirst(createSortInput(16384));		// give JIT compiler the chance to optimize
 		bom.activate();												// measurement is active
 
 		// ACT
-		sut.simpleWrapper(createSortInput(8192));
-		sut.simpleWrapper(createSortInput(4096));
-		sut.simpleWrapper(createSortInput(2048));
-		sut.simpleWrapper(createSortInput(1024));
-		sut.simpleWrapper(createSortInput(512));
+		for (int x = 4 * 65536; x >= 128; x /= 2) {
+			sut.simpleWrapperFirst(createSortInput(x));
+		}
+		traceReport(bom, "simpleWrapperFirst", "simpleWrapperFirst_RunJavaCollections_DetectLogLinear\n");
 
 		// ASSERT
-		BigOAssert.assertLogLinear(bom, "simpleWrapper");
-		traceReport(bom, "simpleWrapper", "assertLogLinear_RunJavaCollections_DetectLogLinear\n");
+		BigOAssert.assertPowerLaw(bom, "simpleWrapperFirst");
+	}
+
+	@Test
+	public void simpleWrapperSecond_RunJavaCollections_DetectLogLinear() {
+
+		// ARRANGE
+		final BigOAnalyser bom = new BigOAnalyser();
+		final WrapperTest sut = (WrapperTest) bom.createProxy(WrapperTest.class);
+		bom.deactivate(); 											// measurement is deactivated
+		sut.simpleWrapperSecond(createSortInput(16384));	// give JIT compiler the chance to optimize
+		bom.activate();												// measurement is active
+
+		// ACT
+		for (int x = 4 * 65536; x >= 128; x /= 2) {
+			sut.simpleWrapperSecond(createSortInput(x));
+		}
+		traceReport(bom, "simpleWrapperSecond", "simpleWrapperSecond_RunJavaCollections_DetectPowerLaw\n");
+
+		// ASSERT
+		BigOAssert.assertPowerLaw(bom, "simpleWrapperSecond");
 	}
 
 }

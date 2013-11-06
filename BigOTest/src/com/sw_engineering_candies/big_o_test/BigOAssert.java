@@ -78,7 +78,7 @@ public class BigOAssert {
 		assertPolynomialDegree(bom, methodName, 1.1, 0.2);
 		// find the best fit function
 		final String details = Reports.createBestFitReport(resultTable, true);
-		if (!(details.startsWith("LogLinear") || details.startsWith("PowerLaw"))) {
+		if (!(details.startsWith("LogLinear"))) {
 			final StringBuilder message = new StringBuilder();
 			message.append("BigOAssertException assertLogLinear failed:\n");
 			message.append(details);
@@ -96,6 +96,19 @@ public class BigOAssert {
 		if (!details.startsWith("Polynomial")) {
 			final StringBuilder message = new StringBuilder();
 			message.append("BigOAssertException assertQuadratic failed:\n");
+			message.append(details);
+			throw new BigOAssertWarningException(message.toString());
+		}
+	}
+
+	public static void assertPowerLaw(BigOAnalyser bom, String methodName) {
+		// fetch data table with some internal checks
+		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
+		// find the best fit function
+		final String details = Reports.createBestFitReport(resultTable, true);
+		if (!details.startsWith("PowerLaw")) {
+			final StringBuilder message = new StringBuilder();
+			message.append("BigOAssertException assertPowerLaw failed:\n");
 			message.append(details);
 			throw new BigOAssertWarningException(message.toString());
 		}

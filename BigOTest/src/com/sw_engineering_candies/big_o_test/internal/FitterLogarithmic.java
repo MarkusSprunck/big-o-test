@@ -47,6 +47,7 @@ public class FitterLogarithmic extends FitterAbstractBase {
 
 		super.xValues = xValues_in;
 		super.yValues = yValues_in;
+		super.k = 2;
 
 		calculateCoefficients();
 		calculateCoefficientOfDetermination();
@@ -58,7 +59,7 @@ public class FitterLogarithmic extends FitterAbstractBase {
 	 */
 	@Override
 	public double getY(final double x) {
-		return coefficients.get(0) + coefficients.get(1) * Math.log(x);
+		return Math.max(1.0, coefficients.get(0) + coefficients.get(1) * Math.log(x));
 	}
 
 	private void calculateCoefficients() {

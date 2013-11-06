@@ -47,6 +47,7 @@ public class FitterPowerLaw extends FitterAbstractBase {
 
 		super.xValues = xValues_in;
 		super.yValues = yValues_in;
+		super.k = 2;
 
 		calculateCoefficients();
 		calculateCoefficientOfDetermination();
@@ -58,7 +59,7 @@ public class FitterPowerLaw extends FitterAbstractBase {
 	 */
 	@Override
 	public double getY(final double x) {
-		return coefficients.get(0) * Math.pow(x, coefficients.get(1));
+		return Math.max(1.0, coefficients.get(0) * Math.pow(x, coefficients.get(1)));
 	}
 
 	private void calculateCoefficients() {

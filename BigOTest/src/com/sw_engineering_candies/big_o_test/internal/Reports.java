@@ -92,7 +92,9 @@ public class Reports {
 		coefficientOfDetermination = fitterPolynomialLin.getCoefficientOfDetermination();
 		message = String.format("Polynomial\t%.4f  \ty = ", coefficientOfDetermination) + fitterPolynomialLin.toString()
 				+ "\n";
-		resultMap.put(coefficientOfDetermination, message);
+		if (coefficientOfDetermination > 0.0 || degree < 0.5) {
+			resultMap.put(coefficientOfDetermination, message);
+		}
 
 		if (degree > 0.5) {
 			if (degree < 1.3 && degree > 1.05) {
@@ -101,7 +103,9 @@ public class Reports {
 				coefficientOfDetermination = fitterLinearLog.getCoefficientOfDetermination();
 				message = String.format("LogLinear\t%.4f  \ty = ", coefficientOfDetermination) + fitterLinearLog.toString()
 						+ "\n";
-				resultMap.put(coefficientOfDetermination, message);
+				if (coefficientOfDetermination > 0.0) {
+					resultMap.put(coefficientOfDetermination, message);
+				}
 			}
 
 			final FitterExponential fitterExponential = new FitterExponential();
@@ -109,14 +113,18 @@ public class Reports {
 			coefficientOfDetermination = fitterExponential.getCoefficientOfDetermination();
 			message = String.format("Exponential\t%.4f  \ty = ", coefficientOfDetermination)
 					+ fitterExponential.toString() + "\n";
-			resultMap.put(coefficientOfDetermination, message);
+			if (coefficientOfDetermination > 0.0) {
+				resultMap.put(coefficientOfDetermination, message);
+			}
 
 			final FitterLogarithmic fitterLogarithmic = new FitterLogarithmic();
 			fitterLogarithmic.init(input.column("N1"), input.column("TIME"));
 			coefficientOfDetermination = fitterLogarithmic.getCoefficientOfDetermination();
 			message = String.format("Logarithmic\t%.4f  \ty = ", coefficientOfDetermination)
 					+ fitterLogarithmic.toString() + "\n";
-			resultMap.put(coefficientOfDetermination, message);
+			if (coefficientOfDetermination > 0.0) {
+				resultMap.put(coefficientOfDetermination, message);
+			}
 
 			if (degree > 1.1) {
 				final FitterPowerLaw fitterPowerLaw = new FitterPowerLaw();
@@ -124,7 +132,9 @@ public class Reports {
 				coefficientOfDetermination = fitterPowerLaw.getCoefficientOfDetermination();
 				message = String.format("PowerLaw\t%.4f  \ty = ", coefficientOfDetermination) + fitterPowerLaw.toString()
 						+ "\n";
-				resultMap.put(coefficientOfDetermination, message);
+				if (coefficientOfDetermination > 0.0) {
+					resultMap.put(coefficientOfDetermination, message);
+				}
 			}
 		}
 

@@ -6,7 +6,7 @@ import com.sw_engineering_candies.big_o_test.BigOAssert;
 public class HeapSortTest extends TestBase {
 
 	@Test
-	public void assertLogLinear_RunHeapSort_DetectLogLinear() {
+	public void assertLogLinear_RunHeapSort_DetectPowerLaw() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
@@ -16,14 +16,13 @@ public class HeapSortTest extends TestBase {
 		bom.activate();												// measurement is active
 
 		// ACT
-		sut.sort(createSortInput(8192));
-		sut.sort(createSortInput(4096));
-		sut.sort(createSortInput(2048));
-		sut.sort(createSortInput(1024));
+		for (int x = 4 * 65536; x >= 128; x /= 2) {
+			sut.sort(createSortInput(x));
+		}
 
 		// ASSERT
-		BigOAssert.assertLogLinear(bom, "sort");
-		traceReport(bom, "sort", "assertLogLinear_RunHeapSort_DetectLogLinear\n");
+		BigOAssert.assertPowerLaw(bom, "sort");
+		traceReport(bom, "sort", "assertLogLinear_RunHeapSort_DetectPowerLaw\n");
 
 	}
 

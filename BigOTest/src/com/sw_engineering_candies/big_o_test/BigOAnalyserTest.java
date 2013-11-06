@@ -585,7 +585,7 @@ public class BigOAnalyserTest {
 
 		// ACT
 		String actual = "";
-		String expected = "Not supported data type 'class java.io.File' for BigOAnalysis in method runNotSupportedParameter";
+		final String expected = "Not supported data type 'class java.io.File' for BigOAnalysis in method runNotSupportedParameter";
 		try {
 			sut.runNotSupportedParameter(null);
 		} catch (final IllegalStateException ex) {

@@ -37,14 +37,18 @@ import java.util.Map;
 public abstract class FitterAbstractBase {
 
 	/**
-	 * Coefficient of Determination for the fitted polynomial and the underlying
-	 * data points
+	 * Coefficient of Determination for the fitted polynomial and the underlying data points
 	 */
 	private double coefficientOfDetermination = 0.0;
 
 	/**
-	 * Coefficients of the fitted Polynomial starting with a0=coefficients[0],
-	 * a1=coefficients[1], ...
+	 * Number of parameters of fit
+	 */
+	protected int k = 1;
+
+	/**
+	 * Coefficients of the fitted Polynomial starting with a0=coefficients[0], a1=coefficients[1],
+	 * ...
 	 */
 	protected final ArrayList<Double> coefficients = new ArrayList<Double>();
 
@@ -70,38 +74,42 @@ public abstract class FitterAbstractBase {
 	}
 
 	/**
-	 * Get coefficient of determination for the fitted polynomial and the
-	 * underlying data points
+	 * Get coefficient of determination for the fitted polynomial and the underlying data points
 	 */
 	public double getCoefficientOfDetermination() {
 		return coefficientOfDetermination;
 	}
 
 	/**
-	 * Calculates the Coefficient of Determination
+	 * Calculates the Adjusted Coefficient of Determination
 	 * 
 	 * see http://en.wikipedia.org/wiki/Coefficient_of_determination
+	 * 
+	 * "The adjusted R2 accounts for the number of parameters fit by the regression, and so can be
+	 * compared between models with different numbers of parameters."
+	 * http://www.graphpad.com/guides/prism/6/curve-fitting/index.htm?reg_diagnostics_tab_7_2.htm
+	 * 
 	 */
 	protected void calculateCoefficientOfDetermination() {
 
-		// Calculate the mean value of y
+		// Calculate the mean value of y values
 		double ySum = 0.0;
-		for (int index = 1; index <= this.xValues.size(); index++) {
-			final double y = this.yValues.get(index);
-			ySum += y;
+		final int n = this.xValues.size();
+		for (int index = 1; index <= n; index++) {
+			ySum += this.yValues.get(index);
 		}
-		final double yMean = ySum / this.yValues.size();
+		final double yMean = ySum / n;
 
 		// Coefficient of determination
 		double SS_tot = 0.0;
 		double SS_res = 0.0;
-		for (int index = 1; index <= this.xValues.size(); index++) {
+		for (int index = 1; index <= n; index++) {
 			final double x = this.xValues.get(index);
-			final double y = this.yValues.get(index);
-			SS_tot += Math.pow(y - yMean, 2);
-			SS_res += Math.pow(y - this.getY(x), 2);
+			final double y = Math.log(this.yValues.get(index));
+			SS_tot += Math.pow(y - Math.log(yMean), 2);
+			SS_res += Math.pow(y - Math.log(this.getY(x)), 2);
 		}
-		this.coefficientOfDetermination = 1.0 - SS_res / SS_tot;
+		this.coefficientOfDetermination = 1.0 - (SS_res / (n - k)) / (SS_tot / (n - 1));
 	}
 
 }

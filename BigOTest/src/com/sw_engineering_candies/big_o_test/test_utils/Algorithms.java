@@ -91,14 +91,15 @@ public class Algorithms {
 
 	public double runAllParameter(@BigOParameter int[] in01, @BigOParameter long[] in02, @BigOParameter float[] in03,
 			@BigOParameter double[] in04, @BigOParameter byte[] in05, @BigOParameter String in06,
-			@BigOParameter List<Integer> in07, @BigOParameter Set<Integer> in08, @BigOParameter Map<Integer, Integer> in09,@BigOParameter  int in10, @BigOParameter long in11) {
+			@BigOParameter List<Integer> in07, @BigOParameter Set<Integer> in08,
+			@BigOParameter Map<Integer, Integer> in09, @BigOParameter int in10, @BigOParameter long in11) {
 		double result = 0;
 		for (int index = 0; index < 10; index++) {
 			result += index;
 		}
 		return result;
 	}
-	
+
 	public double runNotSupportedParameter(@BigOParameter File file) {
 		double result = 0;
 		for (int index = 0; index < 10; index++) {

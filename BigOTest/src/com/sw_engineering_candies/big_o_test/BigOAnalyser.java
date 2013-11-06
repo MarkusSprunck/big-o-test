@@ -176,7 +176,7 @@ public class BigOAnalyser {
 				} else if (parameterType.toString().startsWith("java.util.Map")) {
 					result.append("#").append(((Map) parameterArgument).values().size());
 				} else {
-					StringBuilder message = new StringBuilder();
+					final StringBuilder message = new StringBuilder();
 					message.append("Not supported data type '");
 					message.append(parameterType);
 					message.append("' for BigOAnalysis in method ");

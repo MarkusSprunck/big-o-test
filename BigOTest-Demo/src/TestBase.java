@@ -7,10 +7,10 @@ import com.sw_engineering_candies.big_o_test.internal.Reports;
 
 public class TestBase {
 
-	public static List<Integer> createSortInput(int size) {
-		final List<Integer> result = new ArrayList<Integer>(size);
+	public static List<Long> createSortInput(int size) {
+		final List<Long> result = new ArrayList<Long>(size);
 		for (int i = 0; i < size; i++) {
-			result.add((int) Math.round(Integer.MAX_VALUE * Math.random()));
+			result.add(Math.round(Long.MAX_VALUE * Math.random()));
 		}
 		return result;
 	}

@@ -5,16 +5,16 @@ import com.sw_engineering_candies.big_o_test.BigOParameter;
 
 public class HeapSort {
 
-	private final ArrayList<Integer> heap = new ArrayList<Integer>();
+	private final ArrayList<Long> heap = new ArrayList<Long>();
 
 	private int length = 0;
 
-	public Integer[] sort(@BigOParameter List<Integer> unsorted) {
+	public Long[] sort(@BigOParameter List<Long> unsorted) {
 
-		final Integer[] sorted = new Integer[unsorted.size()];
+		final Long[] sorted = new Long[unsorted.size()];
 
 		// Insert each number in the list into the heap
-		for (final int element : unsorted) {
+		for (final long element : unsorted) {
 			insert(element);
 		}
 
@@ -38,7 +38,7 @@ public class HeapSort {
 		return (node / 2);
 	}
 
-	private Integer getValueAtIndex(final int index) {
+	private Long getValueAtIndex(final int index) {
 		return heap.get(index - 1);
 	}
 
@@ -47,12 +47,12 @@ public class HeapSort {
 		index_a--;
 		index_b--;
 
-		final Integer tmp = heap.get(index_a);
+		final Long tmp = heap.get(index_a);
 		heap.set(index_a, heap.get(index_b));
 		heap.set(index_b, tmp);
 	}
 
-	private void insert(final Integer value) {
+	private void insert(final Long value) {
 		// Appends the specified element to the end of this list.
 		heap.add(value);
 
@@ -70,13 +70,13 @@ public class HeapSort {
 		}
 	}
 
-	private Integer pop() {
+	private Long pop() {
 		// Pops the head of the heap, and then moves the last value added to
 		// the top of the heap. Finally, that value is percolated downwards
 		// accordingly
 
 		// Value to be returned
-		final Integer ret = getValueAtIndex(1);
+		final Long ret = getValueAtIndex(1);
 
 		// Index to begin percolating
 		int current = 1;

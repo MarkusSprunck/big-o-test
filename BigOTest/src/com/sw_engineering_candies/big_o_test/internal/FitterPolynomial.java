@@ -34,9 +34,8 @@ package com.sw_engineering_candies.big_o_test.internal;
 import java.util.Map;
 
 /**
- * The polynomial fitter has no performance optimizations to better understand
- * and maintain the implementation. A degree polynomial has (degree+1)
- * coefficients.
+ * The polynomial fitter has no performance optimizations to better understand and maintain the
+ * implementation. A degree polynomial has (degree+1) coefficients.
  * 
  */
 public class FitterPolynomial extends FitterAbstractBase {
@@ -49,6 +48,7 @@ public class FitterPolynomial extends FitterAbstractBase {
 			return false;
 		super.xValues = xValues_in;
 		super.yValues = yValues_in;
+		super.k = degree + 1;
 
 		calculateCoefficients(degree);
 		calculateCoefficientOfDetermination();
@@ -64,7 +64,7 @@ public class FitterPolynomial extends FitterAbstractBase {
 		for (int p = 0; p < coefficients.size(); p++) {
 			result += coefficients.get(p) * Math.pow(x, p);
 		}
-		return result;
+		return Math.max(1.0, result);
 	}
 
 	/**

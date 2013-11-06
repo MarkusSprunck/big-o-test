@@ -45,7 +45,7 @@ public class FitterPolynomialTest {
 		final double result = polynom.getCoefficient(1);
 
 		// ASSERT
-		Assert.assertEquals(0.9956756058992482, result, 1E-12);
+		Assert.assertEquals(2.0000000000002167, result, 1E-12);
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public class FitterPolynomialTest {
 		polynom.init(input.column("N1"), input.column("TIME"), 2);
 
 		// ASSERT
-		final String expected = "-0,0860x^2 +0,9957x^1 +1,6625";
+		final String expected = "+3,0000x^2 +2,0000x^1 +1,0000";
 		Assert.assertEquals(expected, polynom.toString());
 	}
 
@@ -73,26 +73,26 @@ public class FitterPolynomialTest {
 		final double result = polynom.getCoefficientOfDetermination();
 
 		// ASSERT
-		Assert.assertEquals(0.4854187308473215, result, 0.000000000000001);
+		Assert.assertEquals(1.0, result, 0.000000000000001);
 	}
 
 	private Table<Integer, String, Double> createSevenPoints() {
 		final Table<Integer, String, Double> input;
 		input = TreeBasedTable.create();
-		input.put(1, "N1", -1.0);
-		input.put(1, "TIME", -1.0);
-		input.put(2, "N1", 0.0);
-		input.put(2, "TIME", 3.0);
-		input.put(3, "N1", 2.0);
-		input.put(3, "TIME", 5.0);
-		input.put(4, "N1", 3.0);
-		input.put(4, "TIME", 4.0);
+		input.put(2, "N1", 2.0);
+		input.put(2, "TIME", 17.0);
+		input.put(3, "N1", 3.0);
+		input.put(3, "TIME", 34.0);
+		input.put(4, "N1", 4.0);
+		input.put(4, "TIME", 57.0);
 		input.put(5, "N1", 5.0);
-		input.put(5, "TIME", 2.0);
-		input.put(6, "N1", 7.0);
-		input.put(6, "TIME", 5.0);
-		input.put(7, "N1", 9.0);
-		input.put(7, "TIME", 4.0);
+		input.put(5, "TIME", 86.0);
+		input.put(6, "N1", 6.0);
+		input.put(6, "TIME", 121.0);
+		input.put(7, "N1", 7.0);
+		input.put(7, "TIME", 162.0);
+		input.put(1, "N1", 1.0);
+		input.put(1, "TIME", 6.0);
 		return input;
 	}
 
