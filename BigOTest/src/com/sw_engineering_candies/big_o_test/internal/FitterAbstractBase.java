@@ -90,15 +90,20 @@ public abstract class FitterAbstractBase {
 	 * http://www.graphpad.com/guides/prism/6/curve-fitting/index.htm?reg_diagnostics_tab_7_2.htm
 	 * 
 	 */
-	protected void calculateCoefficientOfDetermination() {
+	protected void calculateCoefficientOfDeterminationLogarithmicData() {
 
 		// Calculate the mean value of y values
 		double ySum = 0.0;
+		int number = 0;
 		final int n = this.xValues.size();
 		for (int index = 1; index <= n; index++) {
-			ySum += this.yValues.get(index);
+			final double fit = this.getY(this.xValues.get(index));
+			if (fit > 1) {
+				ySum += this.yValues.get(index);
+				number++;
+			}
 		}
-		final double yMean = ySum / n;
+		final double yMean = ySum / number;
 
 		// Coefficient of determination
 		double SS_tot = 0.0;
@@ -106,10 +111,38 @@ public abstract class FitterAbstractBase {
 		for (int index = 1; index <= n; index++) {
 			final double x = this.xValues.get(index);
 			final double y = Math.log(this.yValues.get(index));
-			SS_tot += Math.pow(y - Math.log(yMean), 2);
-			SS_res += Math.pow(y - Math.log(this.getY(x)), 2);
+			final double fit = this.getY(x);
+			if (fit > 1) {
+				SS_tot += Math.pow(y - Math.log(yMean), 2);
+				SS_res += Math.pow(y - Math.log(fit), 2);
+			}
 		}
-		this.coefficientOfDetermination = 1.0 - (SS_res / (n - k)) / (SS_tot / (n - 1));
+		this.coefficientOfDetermination = 1.0 - (SS_res / (number - k)) / (SS_tot / (number - 1));
+	}
+
+	protected void calculateCoefficientOfDeterminationOriginalData() {
+
+		// Calculate the mean value of y values
+		double ySum = 0.0;
+		int number = 0;
+		final int n = this.xValues.size();
+		for (int index = 1; index <= n; index++) {
+			ySum += this.yValues.get(index);
+			number++;
+		}
+		final double yMean = ySum / number;
+
+		// Coefficient of determination
+		double SS_tot = 0.0;
+		double SS_res = 0.0;
+		for (int index = 1; index <= n; index++) {
+			final double x = this.xValues.get(index);
+			final double y = this.yValues.get(index);
+			final double fit = this.getY(x);
+			SS_tot += Math.pow(y - yMean, 2);
+			SS_res += Math.pow(y - fit, 2);
+		}
+		this.coefficientOfDetermination = 1.0 - (SS_res / (number - k)) / (SS_tot / (number - 1));
 	}
 
 }

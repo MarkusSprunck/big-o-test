@@ -51,7 +51,7 @@ public class FitterPolynomial extends FitterAbstractBase {
 		super.k = degree + 1;
 
 		calculateCoefficients(degree);
-		calculateCoefficientOfDetermination();
+		calculateCoefficientOfDeterminationOriginalData();
 		return true;
 	}
 
@@ -64,7 +64,7 @@ public class FitterPolynomial extends FitterAbstractBase {
 		for (int p = 0; p < coefficients.size(); p++) {
 			result += coefficients.get(p) * Math.pow(x, p);
 		}
-		return Math.max(1.0, result);
+		return result;
 	}
 
 	/**

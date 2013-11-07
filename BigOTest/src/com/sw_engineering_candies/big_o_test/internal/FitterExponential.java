@@ -50,7 +50,7 @@ public class FitterExponential extends FitterAbstractBase {
 		super.k = 2;
 
 		calculateCoefficients();
-		calculateCoefficientOfDetermination();
+		calculateCoefficientOfDeterminationLogarithmicData();
 		return true;
 	}
 
@@ -59,7 +59,7 @@ public class FitterExponential extends FitterAbstractBase {
 	 */
 	@Override
 	public double getY(final double x) {
-		return Math.max(1.0, coefficients.get(0) * Math.exp(coefficients.get(1) * x));
+		return coefficients.get(0) * Math.exp(coefficients.get(1) * x);
 	}
 
 	private void calculateCoefficients() {

@@ -30,7 +30,7 @@ public class WrapperTest extends TestBase {
 	}
 
 	@Test
-	public void simpleWrapperFirst_RunJavaCollections_DetectLogLinear() {
+	public void simpleWrapperFirst_RunJavaCollections_DetectPowerLaw() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
@@ -40,17 +40,17 @@ public class WrapperTest extends TestBase {
 		bom.activate();												// measurement is active
 
 		// ACT
-		for (int x = 4 * 65536; x >= 128; x /= 2) {
+		for (int x = 4 * 65536; x >= 512; x /= 2) {
 			sut.simpleWrapperFirst(createSortInput(x));
 		}
-		traceReport(bom, "simpleWrapperFirst", "simpleWrapperFirst_RunJavaCollections_DetectLogLinear\n");
+		traceReport(bom, "simpleWrapperFirst", "simpleWrapperFirst_RunJavaCollections_DetectPowerLaw\n");
 
 		// ASSERT
 		BigOAssert.assertPowerLaw(bom, "simpleWrapperFirst");
 	}
 
 	@Test
-	public void simpleWrapperSecond_RunJavaCollections_DetectLogLinear() {
+	public void simpleWrapperSecond_RunJavaCollections_DetectPowerLaw() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
@@ -60,7 +60,7 @@ public class WrapperTest extends TestBase {
 		bom.activate();												// measurement is active
 
 		// ACT
-		for (int x = 4 * 65536; x >= 128; x /= 2) {
+		for (int x = 4 * 65536; x >= 512; x /= 2) {
 			sut.simpleWrapperSecond(createSortInput(x));
 		}
 		traceReport(bom, "simpleWrapperSecond", "simpleWrapperSecond_RunJavaCollections_DetectPowerLaw\n");

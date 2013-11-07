@@ -6,7 +6,7 @@ import com.sw_engineering_candies.big_o_test.BigOAssert;
 public class BubbleSortTest extends TestBase {
 
 	@Test
-	public void assertQuadratic_RunBubbleSort_DetectPowerLaw() {
+	public void assertQuadratic_RunBubbleSort_DetectQuadratic() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
@@ -16,13 +16,13 @@ public class BubbleSortTest extends TestBase {
 		bom.activate(); 											// measurement is active
 
 		// ACT
-		for (int x = 1024; x >= 128; x /= 2) {
+		for (int x = 1024; x >= 64; x /= 2) {
 			sut.sort(createSortInput(x));
 		}
 
 		// ASSERT
-		BigOAssert.assertPowerLaw(bom, "sort");
-		traceReport(bom, "sort", "assertQuadratic_RunBubbleSort_DetectPowerLaw\n");
+		BigOAssert.assertQuadratic(bom, "sort");
+		traceReport(bom, "sort", "assertQuadratic_RunBubbleSort_DetectQuadratic\n");
 	}
 
 }
