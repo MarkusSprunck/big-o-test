@@ -83,9 +83,9 @@ public class FitterExponential extends FitterAbstractBase {
 	@Override
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
-		result.append(String.format("%+.4f", coefficients.get(0)));
+		result.append(String.format("%.2E", coefficients.get(0)));
 		result.append(" * exp ( ");
-		result.append(String.format("%+.4f", coefficients.get(1)));
+		result.append(String.format("%.2E", coefficients.get(1)));
 		result.append(" * x )");
 		return result.toString();
 	}

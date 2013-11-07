@@ -32,7 +32,7 @@ public class FitterExponentialTest {
 		exponetialFunction.init(input.column("N1"), input.column("TIME"));
 
 		// ASSERT
-		final String expected = "+100,0000 * exp ( +0,5000 * x )";
+		final String expected = "1.00E+02 * exp ( 5.00E-01 * x )";
 		Assert.assertEquals(expected, exponetialFunction.toString());
 	}
 

@@ -58,7 +58,7 @@ public class FitterPolynomialTest {
 		polynom.init(input.column("N1"), input.column("TIME"), 2);
 
 		// ASSERT
-		final String expected = "+3,0000x^2 +2,0000x^1 +1,0000";
+		final String expected = "3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00";
 		Assert.assertEquals(expected, polynom.toString());
 	}
 

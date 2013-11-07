@@ -106,9 +106,9 @@ public class FitterPolynomial extends FitterAbstractBase {
 		final StringBuilder result = new StringBuilder();
 		final int maxIndex = coefficients.size() - 1;
 		for (int index = maxIndex; index >= 0; index--) {
-			result.append(String.format("%+.4f", coefficients.get(index)));
+			result.append(String.format("%.2E", coefficients.get(index)));
 			if (index > 0) {
-				result.append("x^").append(index).append(" ");
+				result.append(" * x^").append(index).append(" + ");
 			}
 		}
 		return result.toString();

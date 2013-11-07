@@ -32,7 +32,7 @@ public class FitterLogLinearTest {
 		fitter.init(input.column("N1"), input.column("TIME"));
 
 		// ASSERT
-		final String expected = "+5,0000 * x * log( +3,0000 * x )";
+		final String expected = "5.00E+00 * x * log( 3.00E+00 * x )";
 		Assert.assertEquals(expected, fitter.toString());
 	}
 
