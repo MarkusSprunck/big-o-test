@@ -85,6 +85,7 @@ public class FitterPowerLaw extends FitterAbstractBase {
 	@Override
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
+		result.append(String.format("PowerLaw\t%.4f  \ty = ", getRSquareAdjusted()));
 		result.append(String.format("%.2E", coefficients.get(0)));
 		result.append(" * x^");
 		result.append(String.format("%.2E", coefficients.get(1)));

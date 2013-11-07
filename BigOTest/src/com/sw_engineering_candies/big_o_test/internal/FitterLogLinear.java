@@ -112,6 +112,7 @@ public class FitterLogLinear extends FitterAbstractBase {
 	@Override
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
+		result.append(String.format("LogLinear\t%.4f  \ty = ", getRSquareAdjusted()));
 		result.append(String.format("%.2E", coefficients.get(0)));
 		result.append(" * x * log( ");
 		result.append(String.format("%.2E", coefficients.get(1)));

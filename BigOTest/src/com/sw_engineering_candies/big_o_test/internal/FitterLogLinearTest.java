@@ -16,7 +16,7 @@ public class FitterLogLinearTest {
 		fitter.init(input.column("N1"), input.column("TIME"));
 
 		// ACT
-		final double result = fitter.getCoefficientOfDetermination();
+		final double result = fitter.getRSquareAdjusted();
 
 		// ASSERT
 		Assert.assertEquals(1.0, result, 0.000000000000001);
@@ -32,7 +32,7 @@ public class FitterLogLinearTest {
 		fitter.init(input.column("N1"), input.column("TIME"));
 
 		// ASSERT
-		final String expected = "5.00E+00 * x * log( 3.00E+00 * x )";
+		final String expected = "LogLinear	1,0000  	y = 5.00E+00 * x * log( 3.00E+00 * x )";
 		Assert.assertEquals(expected, fitter.toString());
 	}
 

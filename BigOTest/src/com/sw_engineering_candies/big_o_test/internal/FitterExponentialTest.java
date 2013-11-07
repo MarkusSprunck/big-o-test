@@ -16,7 +16,7 @@ public class FitterExponentialTest {
 		polynom.init(input.column("N1"), input.column("TIME"));
 
 		// ACT
-		final double result = polynom.getCoefficientOfDetermination();
+		final double result = polynom.getRSquareAdjusted();
 
 		// ASSERT
 		Assert.assertEquals(1.0, result, 0.000000000000001);
@@ -32,7 +32,7 @@ public class FitterExponentialTest {
 		exponetialFunction.init(input.column("N1"), input.column("TIME"));
 
 		// ASSERT
-		final String expected = "1.00E+02 * exp ( 5.00E-01 * x )";
+		final String expected = "Exponential	1,0000  	y = 1.00E+02 * exp ( 5.00E-01 * x )";
 		Assert.assertEquals(expected, exponetialFunction.toString());
 	}
 

@@ -58,7 +58,7 @@ public class FitterPolynomialTest {
 		polynom.init(input.column("N1"), input.column("TIME"), 2);
 
 		// ASSERT
-		final String expected = "3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00";
+		final String expected = "Polynomial	1,0000  	y = 3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00";
 		Assert.assertEquals(expected, polynom.toString());
 	}
 
@@ -70,7 +70,7 @@ public class FitterPolynomialTest {
 		polynom.init(input.column("N1"), input.column("TIME"), 2);
 
 		// ACT
-		final double result = polynom.getCoefficientOfDetermination();
+		final double result = polynom.getRSquareAdjusted();
 
 		// ASSERT
 		Assert.assertEquals(1.0, result, 0.000000000000001);

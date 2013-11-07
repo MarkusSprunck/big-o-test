@@ -16,7 +16,7 @@ public class FitterPowerLawTest {
 		fitter.init(input.column("N1"), input.column("TIME"));
 
 		// ACT
-		final double result = fitter.getCoefficientOfDetermination();
+		final double result = fitter.getRSquareAdjusted();
 
 		// ASSERT
 		Assert.assertEquals(1.0, result, 0.000000000000001);
@@ -32,7 +32,7 @@ public class FitterPowerLawTest {
 		fitter.init(input.column("N1"), input.column("TIME"));
 
 		// ASSERT
-		final String expected = "1.00E+01 * x^1.10E+00";
+		final String expected = "PowerLaw	1,0000  	y = 1.00E+01 * x^1.10E+00";
 		Assert.assertEquals(expected, fitter.toString());
 	}
 

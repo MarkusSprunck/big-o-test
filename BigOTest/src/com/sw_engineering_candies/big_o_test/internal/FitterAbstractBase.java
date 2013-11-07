@@ -76,7 +76,7 @@ public abstract class FitterAbstractBase {
 	/**
 	 * Get coefficient of determination for the fitted polynomial and the underlying data points
 	 */
-	public double getCoefficientOfDetermination() {
+	public double getRSquareAdjusted() {
 		return coefficientOfDetermination;
 	}
 

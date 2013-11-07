@@ -83,6 +83,7 @@ public class FitterExponential extends FitterAbstractBase {
 	@Override
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
+		result.append(String.format("Exponential\t%.4f  \ty = ", getRSquareAdjusted()));
 		result.append(String.format("%.2E", coefficients.get(0)));
 		result.append(" * exp ( ");
 		result.append(String.format("%.2E", coefficients.get(1)));

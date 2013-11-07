@@ -243,7 +243,7 @@ public class BigOAssertTest {
 	}
 
 	@Test
-	public void assertLogLinear_RunNLogN_DetectassertPowerLawIsOk() {
+	public void assertLogLinear_RunNLogN_DetectPowerLawIsOk() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();

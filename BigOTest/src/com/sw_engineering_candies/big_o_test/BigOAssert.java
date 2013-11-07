@@ -47,7 +47,7 @@ public class BigOAssert {
 		// constant functions should have a polynomial degree of 0.0
 		assertPolynomialDegree(bom, methodName, 0.0, 0.1);
 		// find the best fit function
-		final String details = Reports.createBestFitReport(resultTable, true);
+		final String details = Reports.createBestFit(resultTable);
 		if (!details.startsWith("Polynomial")) {
 			final StringBuilder message = new StringBuilder();
 			message.append("BigOAssertException assertConstant failed:\n");
@@ -62,7 +62,7 @@ public class BigOAssert {
 		// linear functions should have a polynomial degree of 1.0
 		assertPolynomialDegree(bom, methodName, 1.0, 0.2);
 		// find the best fit function
-		final String details = Reports.createBestFitReport(resultTable, true);
+		final String details = Reports.createBestFit(resultTable);
 		if (!details.startsWith("Polynomial")) {
 			final StringBuilder message = new StringBuilder();
 			message.append("BigOAssertException assertLinear failed:\n");
@@ -77,7 +77,7 @@ public class BigOAssert {
 		// log-linear functions should have a polynomial degree of 1.1
 		assertPolynomialDegree(bom, methodName, 1.1, 0.2);
 		// find the best fit function
-		final String details = Reports.createBestFitReport(resultTable, true);
+		final String details = Reports.createBestFit(resultTable);
 		if (!(details.startsWith("LogLinear"))) {
 			final StringBuilder message = new StringBuilder();
 			message.append("BigOAssertException assertLogLinear failed:\n");
@@ -92,7 +92,7 @@ public class BigOAssert {
 		// quadratic functions should have a polynomial degree of 2.0
 		assertPolynomialDegree(bom, methodName, 2.0, 0.1);
 		// find the best fit function
-		final String details = Reports.createBestFitReport(resultTable, true);
+		final String details = Reports.createBestFit(resultTable);
 		if (!details.startsWith("Polynomial")) {
 			final StringBuilder message = new StringBuilder();
 			message.append("BigOAssertException assertQuadratic failed:\n");
@@ -105,7 +105,7 @@ public class BigOAssert {
 		// fetch data table with some internal checks
 		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
 		// find the best fit function
-		final String details = Reports.createBestFitReport(resultTable, true);
+		final String details = Reports.createBestFit(resultTable);
 		if (!details.startsWith("PowerLaw")) {
 			final StringBuilder message = new StringBuilder();
 			message.append("BigOAssertException assertPowerLaw failed:\n");
@@ -129,7 +129,7 @@ public class BigOAssert {
 		final double result = polynom.getCoefficient(1);
 		// check the quality of the fit in cases the function is not constant
 		if (result > 0.8) {
-			final double coefficientOfDetermination = polynom.getCoefficientOfDetermination();
+			final double coefficientOfDetermination = polynom.getRSquareAdjusted();
 			Preconditions.checkState(coefficientOfDetermination > 0.8, "R^2=" + coefficientOfDetermination);
 		}
 		return result;

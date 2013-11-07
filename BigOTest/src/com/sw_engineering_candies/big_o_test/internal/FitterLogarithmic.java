@@ -85,6 +85,7 @@ public class FitterLogarithmic extends FitterAbstractBase {
 	@Override
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
+		result.append(String.format("Logarithmic\t%.4f  \ty = ", getRSquareAdjusted()));
 		result.append(String.format("%.2E", coefficients.get(0)));
 		result.append(" + ");
 		result.append(String.format("%.2E", coefficients.get(1)));
