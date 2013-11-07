@@ -34,7 +34,7 @@ package com.sw_engineering_candies.big_o_test.internal;
 public class Version {
 
 	public static void main(String[] args) {
-		System.out.print("BogOTest v0.1");
+		System.out.print("BigOTest v0.2");
 
 	}
 
