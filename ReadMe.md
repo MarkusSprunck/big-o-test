@@ -8,7 +8,7 @@ and refactoring.
 
 The goal is to support unit-test in the following form:
 
-    public class WrapperTest extends TestBase {
+    public class WrapperTest {
     
     	public Long[] simpleWrapperFirst(@BigOParameter List<Long> input) {
     		final SortedSet<Long> sorted = new TreeSet<Long>();
@@ -16,6 +16,14 @@ The goal is to support unit-test in the following form:
     		Long[] result = new Long[sorted.size()];
     		return sorted.toArray(result);
     	}
+    	
+    	public static List<Long> createSortInput(int size) {
+			final List<Long> result = new ArrayList<Long>(size);
+			for (int i = 0; i < size; i++) {
+				result.add(Math.round(Long.MAX_VALUE * Math.random()));
+			}
+			return result;
+		}
     
     	@Test
     	public void simpleWrapper() {
