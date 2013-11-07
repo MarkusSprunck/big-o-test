@@ -139,7 +139,7 @@ public class Reports {
 		}
 
 		// just print the three best fitting functions
-		result.append("TYPE      \tR^2     \tFUNCTION\n");
+		result.append("TYPE      \tR^2 (adjusted)\tFUNCTION\n");
 		final SortedSet<Double> keys = new TreeSet<Double>(Collections.reverseOrder());
 		keys.addAll(resultMap.keySet());
 		for (final Double key : keys) {
