@@ -16,7 +16,7 @@ public class BubbleSortTest extends TestBase {
 		bom.activate(); 											// measurement is active
 
 		// ACT
-		for (int x = 1024; x >= 64; x /= 2) {
+		for (int x = 1024; x >= 16; x /= 2) {
 			sut.sort(createSortInput(x));
 		}
 
