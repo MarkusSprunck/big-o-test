@@ -3,7 +3,7 @@ import java.util.List;
 
 import com.google.common.collect.Table;
 import com.sw_engineering_candies.big_o_test.BigOAnalyser;
-import com.sw_engineering_candies.big_o_test.internal.Reports;
+import com.sw_engineering_candies.big_o_test.BigOReports;
 
 public class TestBase {
 
@@ -18,7 +18,7 @@ public class TestBase {
 	public static void traceReport(final BigOAnalyser bom, String method, String title) {
 		System.out.println(title);
 		Table<Integer, String, Double> resultTable = bom.getResultTable(method);
-		System.out.println(Reports.createFullReport(resultTable));
+		System.out.println(BigOReports.createFullReport(resultTable));
 	}
 
 }
