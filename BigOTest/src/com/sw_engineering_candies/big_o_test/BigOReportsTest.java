@@ -32,12 +32,7 @@
 package com.sw_engineering_candies.big_o_test;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import junit.framework.Assert;
 

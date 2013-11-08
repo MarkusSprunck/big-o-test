@@ -326,7 +326,6 @@ public class BigOAnalyserTest {
 		Assert.assertEquals(expected2.toString(), actualRunLinear);
 	}
 
-
 	@Test
 	public void getResultTable_FourMixedCalls_GetCorrectValues() {
 		// ARRANGE

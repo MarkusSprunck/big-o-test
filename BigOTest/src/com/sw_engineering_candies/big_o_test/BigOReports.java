@@ -31,8 +31,6 @@
 
 package com.sw_engineering_candies.big_o_test;
 
-import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -81,27 +79,20 @@ public class BigOReports {
 	}
 
 	public static String createBestFit(final Table<Integer, String, Double> input) {
-		// try to find best fits
-		final Map<Double, String> result = findBestFittingFunctions(input);
-
-		// order the function by the R^2 value of the fit
-		final SortedSet<Double> keys = new TreeSet<Double>(Collections.reverseOrder());
-		keys.addAll(result.keySet());
-
+		// try to find all the fits
+		final TreeMap<Double, String> result = findBestFittingFunctions(input);
 		// return best fit
-		return result.get(keys.first());
+		return result.get(result.descendingKeySet().first());
 	}
 
 	public static String createBestFitReport(final Table<Integer, String, Double> input) {
 		// try to find best fits
-		final Map<Double, String> resultMap = findBestFittingFunctions(input);
+		final TreeMap<Double, String> resultMap = findBestFittingFunctions(input);
 
 		// order the function by the R^2 value of the fit
-		final SortedSet<Double> keys = new TreeSet<Double>(Collections.reverseOrder());
-		keys.addAll(resultMap.keySet());
 		final StringBuilder result = new StringBuilder();
 		result.append("TYPE      \tR^2 (adjusted)\tFUNCTION\n");
-		for (final Double key : keys) {
+		for (final Double key : resultMap.descendingKeySet()) {
 			result.append(resultMap.get(key)).append('\n');
 		}
 		result.append("\n");
@@ -110,13 +101,13 @@ public class BigOReports {
 		return result.toString();
 	}
 
-	private static Map<Double, String> findBestFittingFunctions(final Table<Integer, String, Double> input) {
+	private static TreeMap<Double, String> findBestFittingFunctions(final Table<Integer, String, Double> input) {
 
 		// first Polynomial Function
 		final FitterPolynomial fitterPolymomial = new FitterPolynomial();
 		final double degree = BigOAssert.estimatePolynomialDegree(input);
 		fitterPolymomial.init(input.column("N1"), input.column("TIME"), (int) Math.round(degree));
-		final Map<Double, String> result = new TreeMap<Double, String>();
+		final TreeMap<Double, String> result = new TreeMap<Double, String>();
 		result.put(fitterPolymomial.getRSquareAdjusted(), fitterPolymomial.toString());
 
 		// ensure that it is not a constant function, because of problems in some fit functions
