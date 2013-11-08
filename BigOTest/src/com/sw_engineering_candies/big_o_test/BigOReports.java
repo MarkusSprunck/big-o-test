@@ -45,8 +45,41 @@ import com.sw_engineering_candies.big_o_test.internal.FitterPowerLaw;
 
 public class BigOReports {
 
-	public static String createFullReport(Table<Integer, String, Double> input) {
-		return createBestFitReport(input).concat(createDataReport(input));
+	private static TreeMap<Double, String> findBestFittingFunctions(final Table<Integer, String, Double> input) {
+
+		// first Polynomial Function
+		final FitterPolynomial fitterPolymomial = new FitterPolynomial();
+		final double degree = BigOAssert.estimatePolynomialDegree(input);
+		fitterPolymomial.init(input.column("N1"), input.column("TIME"), (int) Math.round(degree));
+		final TreeMap<Double, String> result = new TreeMap<Double, String>();
+		result.put(fitterPolymomial.getRSquareAdjusted(), fitterPolymomial.toString());
+
+		// ensure that it is not a constant function, because of problems in some fit functions
+		if (degree > 0.1) {
+			// second Exponential Function
+			final FitterExponential fitterExponential = new FitterExponential();
+			fitterExponential.init(input.column("N1"), input.column("TIME"));
+			result.put(fitterExponential.getRSquareAdjusted(), fitterExponential.toString());
+
+			// third Logarithmic Function
+			final FitterLogarithmic fitterLogarithmic = new FitterLogarithmic();
+			fitterLogarithmic.init(input.column("N1"), input.column("TIME"));
+			result.put(fitterLogarithmic.getRSquareAdjusted(), fitterLogarithmic.toString());
+
+			if (degree > 1.05 && degree < 1.25) {
+				// likely a LogLinear -> sixth LogLinear Function
+				final FitterLogLinear fitterLogLinear = new FitterLogLinear();
+				fitterLogLinear.init(input.column("N1"), input.column("TIME"));
+				result.put(fitterLogLinear.getRSquareAdjusted(), fitterLogLinear.toString());
+			}
+			if (degree < 1.95 || degree > 2.05) {
+				// likely not a Quadratic Function -> fourth PowerLaw Function
+				final FitterPowerLaw fitterPowerLaw = new FitterPowerLaw();
+				fitterPowerLaw.init(input.column("N1"), input.column("TIME"));
+				result.put(fitterPowerLaw.getRSquareAdjusted(), fitterPowerLaw.toString());
+			}
+		}
+		return result;
 	}
 
 	public static String createDataReport(Table<Integer, String, Double> input) {
@@ -101,44 +134,8 @@ public class BigOReports {
 		return result.toString();
 	}
 
-	private static TreeMap<Double, String> findBestFittingFunctions(final Table<Integer, String, Double> input) {
-
-		// first Polynomial Function
-		final FitterPolynomial fitterPolymomial = new FitterPolynomial();
-		final double degree = BigOAssert.estimatePolynomialDegree(input);
-		fitterPolymomial.init(input.column("N1"), input.column("TIME"), (int) Math.round(degree));
-		final TreeMap<Double, String> result = new TreeMap<Double, String>();
-		result.put(fitterPolymomial.getRSquareAdjusted(), fitterPolymomial.toString());
-
-		// ensure that it is not a constant function, because of problems in some fit functions
-		if (degree > 0.1) {
-			// second Exponential Function
-			final FitterExponential fitterExponential = new FitterExponential();
-			fitterExponential.init(input.column("N1"), input.column("TIME"));
-			result.put(fitterExponential.getRSquareAdjusted(), fitterExponential.toString());
-
-			// third Logarithmic Function
-			final FitterLogarithmic fitterLogarithmic = new FitterLogarithmic();
-			fitterLogarithmic.init(input.column("N1"), input.column("TIME"));
-			result.put(fitterLogarithmic.getRSquareAdjusted(), fitterLogarithmic.toString());
-
-			// it is likely not a Quadratic Function
-			if (degree < 1.95 || degree > 2.05) {
-				// fourth PowerLaw Function
-				final FitterPowerLaw fitterPowerLaw = new FitterPowerLaw();
-				fitterPowerLaw.init(input.column("N1"), input.column("TIME"));
-				result.put(fitterPowerLaw.getRSquareAdjusted(), fitterPowerLaw.toString());
-			}
-
-			// it is likely a LogLinear
-			if (degree > 1.05 && degree < 1.25) {
-				// sixth LogLinear Function
-				final FitterLogLinear fitterLogLinear = new FitterLogLinear();
-				fitterLogLinear.init(input.column("N1"), input.column("TIME"));
-				result.put(fitterLogLinear.getRSquareAdjusted(), fitterLogLinear.toString());
-			}
-		}
-		return result;
+	public static String createFullReport(Table<Integer, String, Double> input) {
+		return createBestFitReport(input).concat(createDataReport(input));
 	}
 
 }

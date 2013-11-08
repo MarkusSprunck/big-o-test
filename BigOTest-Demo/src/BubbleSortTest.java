@@ -11,18 +11,18 @@ public class BubbleSortTest extends TestBase {
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
 		final BubbleSort sut = (BubbleSort) bom.createProxy(BubbleSort.class);
-		bom.deactivate(); 										// measurement is deactivated
-		sut.sort(createSortInput(1024)); 					// give JIT compiler the chance to optimize
-		bom.activate(); 											// measurement is active
+		bom.deactivate();                                                                                         // measurement is deactivated
+		sut.sort(createSortInput(1024));        // give JIT compiler the chance to optimize
+		bom.activate();                                                                                                // measurement is active
 
 		// ACT
 		for (int x = 1024; x >= 16; x /= 2) {
 			sut.sort(createSortInput(x));
 		}
+		traceReport(bom, "sort", "BubbleSortTest\n");
 
 		// ASSERT
 		BigOAssert.assertQuadratic(bom, "sort");
-		traceReport(bom, "sort", "assertQuadratic_RunBubbleSort_DetectQuadratic\n");
 	}
 
 }

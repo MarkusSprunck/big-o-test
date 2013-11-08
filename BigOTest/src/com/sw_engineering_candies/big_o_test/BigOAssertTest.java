@@ -233,7 +233,7 @@ public class BigOAssertTest {
 		// ACT
 		boolean exceptionHappened = false;
 		try {
-			BigOAssert.assertLogLinear(bom, "runNLogN");
+			BigOAssert.assertLogLinearOrPowerLaw(bom, "runNLogN");
 		} catch (final IllegalStateException ex) {
 			exceptionHappened = true;
 		}
@@ -243,7 +243,7 @@ public class BigOAssertTest {
 	}
 
 	@Test
-	public void assertLogLinear_RunNLogN_DetectPowerLawIsOk() {
+	public void assertLogLinear_RunNLogN_DetectLogLinearOk() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
@@ -253,12 +253,11 @@ public class BigOAssertTest {
 		sut.runNLogN(4096);
 		sut.runNLogN(2048);
 		sut.runNLogN(1024);
-		sut.runNLogN(512);
 
 		// ACT
 		boolean exceptionHappened = false;
 		try {
-			BigOAssert.assertPowerLaw(bom, "runNLogN");
+			BigOAssert.assertLogLinearOrPowerLaw(bom, "runNLogN");
 		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
@@ -283,7 +282,7 @@ public class BigOAssertTest {
 		// ACT
 		boolean exceptionHappened = false;
 		try {
-			BigOAssert.assertLogLinear(bom, "runQuadratic");
+			BigOAssert.assertLogLinearOrPowerLaw(bom, "runQuadratic");
 		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}
@@ -307,7 +306,7 @@ public class BigOAssertTest {
 		// ACT
 		boolean exceptionHappened = false;
 		try {
-			BigOAssert.assertLogLinear(bom, "runConstant");
+			BigOAssert.assertLogLinearOrPowerLaw(bom, "runConstant");
 		} catch (final BigOAssertWarningException ex) {
 			exceptionHappened = true;
 		}

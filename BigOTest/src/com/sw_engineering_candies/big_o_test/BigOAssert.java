@@ -70,14 +70,14 @@ public class BigOAssert {
 		}
 	}
 
-	public static void assertLogLinear(BigOAnalyser bom, String methodName) {
+	public static void assertLogLinearOrPowerLaw(BigOAnalyser bom, String methodName) {
 		// fetch data table with some internal checks
 		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
 		// log-linear functions should have a polynomial degree of 1.1
 		assertPolynomialDegree(bom, methodName, 1.1, 0.2);
 		// find the best fit function
 		final String details = BigOReports.createBestFit(resultTable);
-		if (!(details.startsWith("LogLinear"))) {
+		if (!(details.startsWith("LogLinear") || details.startsWith("PowerLaw"))) {
 			final StringBuilder message = new StringBuilder();
 			message.append("BigOAssertException assertLogLinear failed:\n");
 			message.append(details);
