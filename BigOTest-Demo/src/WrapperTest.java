@@ -8,9 +8,8 @@ import com.sw_engineering_candies.big_o_test.BigOParameter;
 
 public class WrapperTest extends TestBase {
 
-	public List<Long> simpleSortWrapper(@BigOParameter List<Long> values) {
+	public void sortWrapper(@BigOParameter List<Long> values) {
 		Collections.sort(values);
-		return values;
 	}
 
 	@Test
@@ -20,17 +19,17 @@ public class WrapperTest extends TestBase {
 		final BigOAnalyser bom = new BigOAnalyser();
 		final WrapperTest sut = (WrapperTest) bom.createProxy(WrapperTest.class);
 		bom.deactivate();                                                                                         // measurement is deactivated
-		sut.simpleSortWrapper(createSortInput(1024));        // give JIT compiler the chance to optimize
+		sut.sortWrapper(createSortInput(1024));        // give JIT compiler the chance to optimize
 		bom.activate();                                                                                                // measurement is active
 
 		// ACT
-		for (int x = 1024 * 1024; x >= 1024; x /= 2) {
-			sut.simpleSortWrapper(createSortInput(x));
+		for (int x = 256 * 1024; x >= 256; x /= 2) {
+			sut.sortWrapper(createSortInput(x));
 		}
-		traceReport(bom, "simpleSortWrapper", "WrapperTest\n");
+		traceReport(bom, "sortWrapper", "WrapperTest\n");
 
 		// ASSERT
-		BigOAssert.assertPowerLaw(bom, "simpleSortWrapper");
+		BigOAssert.assertPowerLaw(bom, "sortWrapper");
 	}
 
 }

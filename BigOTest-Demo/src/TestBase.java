@@ -16,9 +16,11 @@ public class TestBase {
 	}
 
 	public static void traceReport(final BigOAnalyser bom, String method, String title) {
+		System.out.println("----------------------------------------");
 		System.out.println(title);
 		Table<Integer, String, Double> resultTable = bom.getResultTable(method);
-		System.out.println(BigOReports.createFullReport(resultTable));
+		System.out.println(BigOReports.caclulateBestFunctionsTable(resultTable));
+		System.out.println(BigOReports.createDataReport(resultTable));
 	}
 
 }

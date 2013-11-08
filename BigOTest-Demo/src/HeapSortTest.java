@@ -16,7 +16,7 @@ public class HeapSortTest extends TestBase {
 		bom.activate();                                                                                                // measurement is active
 
 		// ACT
-		for (int x = 1024; x >= 16; x /= 2) {
+		for (int x = 4*1024; x >= 16; x /= 2) {
 			sut.sort(createSortInput(x));
 		}
 		traceReport(bom, "sort", "HeapSortTest\n");

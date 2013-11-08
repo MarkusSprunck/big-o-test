@@ -49,7 +49,7 @@ public class FitterPolynomialTest {
 	}
 
 	@Test
-	public void fit_PolynomialRegressionDataSecondDegree_CorrectPolynom() {
+	public void init_PolynomialRegressionDataSecondDegree_CorrectPolynom() {
 		// ARRANGE
 		final Table<Integer, String, Double> input = createSevenPoints();
 		final FitterPolynomial polynom = new FitterPolynomial();
@@ -63,7 +63,7 @@ public class FitterPolynomialTest {
 	}
 
 	@Test
-	public void getCoefficientOfDetermination_SevenDataPoints_GetCorrectCoefficiantOfDetermination() {
+	public void getRSquareAdjusted_SevenDataPoints_GetCorrectCoefficiantOfDetermination() {
 		// ARRANGE
 		final Table<Integer, String, Double> input = createSevenPoints();
 		final FitterPolynomial polynom = new FitterPolynomial();

@@ -9,7 +9,7 @@ import com.google.common.collect.TreeBasedTable;
 public class FitterLogLinearTest {
 
 	@Test
-	public void getCoefficientOfDetermination_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
+	public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
 		// ARRANGE
 		final Table<Integer, String, Double> input = createTestFunction();
 		final FitterLogLinear fitter = new FitterLogLinear();

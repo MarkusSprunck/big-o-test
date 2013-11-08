@@ -7,7 +7,7 @@ import org.junit.Test;
 public class BigOAssertWarningExceptionTest {
 
 	@Test
-	public void testBigOAssertWarningException() {
+	public void getMessage_CreateException_MessageIsOk() {
 		// ARRANGE
 		final BigOAssertWarningException sut = new BigOAssertWarningException("my Message");
 

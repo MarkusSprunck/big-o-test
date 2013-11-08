@@ -4,6 +4,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.google.common.collect.Table;
 import com.sw_engineering_candies.big_o_test.test_utils.Algorithms;
 
 public class BigOAssertTest {
@@ -202,17 +203,21 @@ public class BigOAssertTest {
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+		bom.deactivate();
+		sut.runLinear(1000000);
+		bom.activate();
+		sut.runLinear(1000000);
+		sut.runLinear(300000);
 		sut.runLinear(100000);
 		sut.runLinear(30000);
-		sut.runLinear(10000);
-		sut.runLinear(3000);
-		sut.runLinear(1000);
 
 		// ACT
 		boolean exceptionHappened = false;
 		try {
 			BigOAssert.assertLinear(bom, "runLinear");
 		} catch (final BigOAssertWarningException ex) {
+			Table<Integer, String, Double> resultTable = bom.getResultTable("runLinear");
+			System.out.println(BigOReports.caclulateBestFunctionsTable(resultTable));		
 			exceptionHappened = true;
 		}
 
@@ -316,7 +321,7 @@ public class BigOAssertTest {
 	}
 
 	@Test
-	public void estimatePolynomialDegree_ThreeDataPoints_RaiseIllegalArgumentException() {
+	public void assertPolynomialDegree_ThreeDataPoints_RaiseIllegalArgumentException() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
@@ -338,7 +343,7 @@ public class BigOAssertTest {
 	}
 
 	@Test
-	public void estimatePolynomialDegree_RunLinear_CheckPolynomialDegreeIsOk() {
+	public void assertPolynomialDegree_RunLinear_CheckPolynomialDegreeIsOk() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
@@ -365,7 +370,7 @@ public class BigOAssertTest {
 	}
 
 	@Test
-	public void estimatePolynomialDegree_RunLinear_CheckPolynomialDegreeIsSmaller() {
+	public void assertPolynomialDegree_RunLinear_CheckPolynomialDegreeIsSmaller() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();
@@ -391,7 +396,7 @@ public class BigOAssertTest {
 	}
 
 	@Test
-	public void estimatePolynomialDegree_RunLinear_CheckPolynomialDegreeIsLargerr() {
+	public void assertPolynomialDegree_RunQuadratic_CheckPolynomialDegreeOk() {
 
 		// ARRANGE
 		final BigOAnalyser bom = new BigOAnalyser();

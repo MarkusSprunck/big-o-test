@@ -45,7 +45,7 @@ import com.sw_engineering_candies.big_o_test.internal.FitterPowerLaw;
 
 public class BigOReports {
 
-	private static TreeMap<Double, String> findBestFittingFunctions(final Table<Integer, String, Double> input) {
+	private static TreeMap<Double, String> calculateBestFittingFunctions(final Table<Integer, String, Double> input) {
 
 		// first Polynomial Function
 		final FitterPolynomial fitterPolymomial = new FitterPolynomial();
@@ -66,7 +66,7 @@ public class BigOReports {
 			fitterLogarithmic.init(input.column("N1"), input.column("TIME"));
 			result.put(fitterLogarithmic.getRSquareAdjusted(), fitterLogarithmic.toString());
 
-			if (degree > 1.05 && degree < 1.25) {
+			if (degree > 1.05 && degree < 1.15) {
 				// likely a LogLinear -> sixth LogLinear Function
 				final FitterLogLinear fitterLogLinear = new FitterLogLinear();
 				fitterLogLinear.init(input.column("N1"), input.column("TIME"));
@@ -111,31 +111,24 @@ public class BigOReports {
 		return result.toString();
 	}
 
-	public static String createBestFit(final Table<Integer, String, Double> input) {
+	public static String calculateBestFunction(final Table<Integer, String, Double> input) {
 		// try to find all the fits
-		final TreeMap<Double, String> result = findBestFittingFunctions(input);
+		final TreeMap<Double, String> result = calculateBestFittingFunctions(input);
 		// return best fit
 		return result.get(result.descendingKeySet().first());
 	}
 
-	public static String createBestFitReport(final Table<Integer, String, Double> input) {
+	public static String caclulateBestFunctionsTable(final Table<Integer, String, Double> input) {
 		// try to find best fits
-		final TreeMap<Double, String> resultMap = findBestFittingFunctions(input);
-
-		// order the function by the R^2 value of the fit
+		final TreeMap<Double, String> resultMap = calculateBestFittingFunctions(input);
+		// add the function ordered by the R^2 value of the fits
 		final StringBuilder result = new StringBuilder();
 		result.append("TYPE      \tR^2 (adjusted)\tFUNCTION\n");
 		for (final Double key : resultMap.descendingKeySet()) {
 			result.append(resultMap.get(key)).append('\n');
 		}
 		result.append("\n");
-
-		// return all fits
 		return result.toString();
 	}
-
-	public static String createFullReport(Table<Integer, String, Double> input) {
-		return createBestFitReport(input).concat(createDataReport(input));
-	}
-
+	
 }

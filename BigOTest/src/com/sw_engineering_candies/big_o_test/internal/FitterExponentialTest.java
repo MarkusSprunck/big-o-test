@@ -9,7 +9,7 @@ import com.google.common.collect.TreeBasedTable;
 public class FitterExponentialTest {
 
 	@Test
-	public void getCoefficientOfDetermination_TenDataPoints_GetCorrectCoefficiantOfDetermination() {
+	public void getRSquareAdjusted_TenDataPoints_GetCorrectCoefficiantOfDetermination() {
 		// ARRANGE
 		final Table<Integer, String, Double> input = createTenPoints();
 		final FitterExponential polynom = new FitterExponential();
@@ -26,14 +26,14 @@ public class FitterExponentialTest {
 	public void init_ExponentalFunctionWithoutNoise_CorrectFunction() {
 		// ARRANGE
 		final Table<Integer, String, Double> input = createTenPoints();
-		final FitterExponential exponetialFunction = new FitterExponential();
+		final FitterExponential exponentialFunction = new FitterExponential();
 
 		// ACT
-		exponetialFunction.init(input.column("N1"), input.column("TIME"));
+		exponentialFunction.init(input.column("N1"), input.column("TIME"));
 
 		// ASSERT
 		final String expected = "Exponential	1,0000  	y = 1.00E+02 * exp ( 5.00E-01 * x )";
-		Assert.assertEquals(expected, exponetialFunction.toString());
+		Assert.assertEquals(expected, exponentialFunction.toString());
 	}
 
 	private Table<Integer, String, Double> createTenPoints() {

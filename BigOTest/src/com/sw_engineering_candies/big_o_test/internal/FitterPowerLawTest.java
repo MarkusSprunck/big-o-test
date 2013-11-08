@@ -9,7 +9,7 @@ import com.google.common.collect.TreeBasedTable;
 public class FitterPowerLawTest {
 
 	@Test
-	public void getCoefficientOfDetermination_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
+	public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
 		// ARRANGE
 		final Table<Integer, String, Double> input = createTenPoints();
 		final FitterPowerLaw fitter = new FitterPowerLaw();

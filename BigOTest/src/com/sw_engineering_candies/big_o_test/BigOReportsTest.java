@@ -47,7 +47,7 @@ public class BigOReportsTest {
 	final BigOAnalyser bom = new BigOAnalyser();
 
 	@Test
-	public void createCSV_MoreCallsOfOneFunction_GetCorrectReport() {
+	public void createDataReport_MoreCallsOfOneFunction_GetCorrectReport() {
 		// ARRANGE
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
 
@@ -80,7 +80,7 @@ public class BigOReportsTest {
 	}
 
 	@Test
-	public void createCSV_OneCallOfRunLinear_GetReport() {
+	public void createDataReport_OneCallOfRunLinear_GetReport() {
 		// ARRANGE
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
 		sut.runLinear(10);
@@ -97,7 +97,7 @@ public class BigOReportsTest {
 	}
 
 	@Test
-	public void getValueOfLastCall_FourCallsOfrunLinear_GetReport() {
+	public void createDataReport_FourCallsOfrunLinear_GetReport() {
 		// ARRANGE
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
 
@@ -136,7 +136,7 @@ public class BigOReportsTest {
 	}
 
 	@Test
-	public void createCSV_OneCall_GetCorrectReport() {
+	public void createDataReport_OneCall_GetCorrectReport() {
 		// ARRANGE
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
 

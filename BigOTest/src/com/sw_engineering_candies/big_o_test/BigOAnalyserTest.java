@@ -71,7 +71,7 @@ public class BigOAnalyserTest {
 	}
 
 	@Test
-	public void createProxy_RunCalled_CorrectResult() {
+	public void run_RunCalled_CorrectResult() {
 		// ARRANGE
 		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
 		final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);

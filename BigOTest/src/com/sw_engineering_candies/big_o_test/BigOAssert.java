@@ -40,75 +40,72 @@ import com.sw_engineering_candies.big_o_test.internal.FitterPolynomial;
 
 public class BigOAssert {
 
+	private static final double DEGREE_ALLOWED_DELTA = 0.2;
+
 	public static void assertConstant(BigOAnalyser bom, String methodName) {
-		// fetch data table with some internal checks
+		// fetch measured data
 		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
 		// constant functions should have a polynomial degree of 0.0
-		assertPolynomialDegree(bom, methodName, 0.0, 0.1);
+		assertPolynomialDegree(bom, methodName, 0.0, DEGREE_ALLOWED_DELTA);
 		// find the best fit function
-		final String details = BigOReports.createBestFit(resultTable);
+		final String details = BigOReports.calculateBestFunction(resultTable);
 		if (!details.startsWith("Polynomial")) {
 			final StringBuilder message = new StringBuilder();
-			message.append("BigOAssertException assertConstant failed:\n");
-			message.append(details);
+			message.append("BigOAssertException assertConstant failed:\n").append(details);
 			throw new BigOAssertWarningException(message.toString());
 		}
 	}
 
 	public static void assertLinear(BigOAnalyser bom, String methodName) {
-		// fetch data table with some internal checks
+		// fetch measured data
 		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
 		// linear functions should have a polynomial degree of 1.0
-		assertPolynomialDegree(bom, methodName, 1.0, 0.2);
+		assertPolynomialDegree(bom, methodName, 1.0, DEGREE_ALLOWED_DELTA);
 		// find the best fit function
-		final String details = BigOReports.createBestFit(resultTable);
-		if (!details.startsWith("Polynomial")) {
+		final String details = BigOReports.calculateBestFunction(resultTable);
+		if (!(details.startsWith("Polynomial") || details.startsWith("PowerLaw"))) {
 			final StringBuilder message = new StringBuilder();
-			message.append("BigOAssertException assertLinear failed:\n");
-			message.append(details);
+			message.append("BigOAssertException assertLinear failed:\n").append(details);
 			throw new BigOAssertWarningException(message.toString());
 		}
 	}
 
 	public static void assertLogLinearOrPowerLaw(BigOAnalyser bom, String methodName) {
-		// fetch data table with some internal checks
+		// fetch measured data
 		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
 		// log-linear functions should have a polynomial degree of 1.1
-		assertPolynomialDegree(bom, methodName, 1.1, 0.2);
+		assertPolynomialDegree(bom, methodName, 1.1, DEGREE_ALLOWED_DELTA);
 		// find the best fit function
-		final String details = BigOReports.createBestFit(resultTable);
+		final String details = BigOReports.calculateBestFunction(resultTable);
 		if (!(details.startsWith("LogLinear") || details.startsWith("PowerLaw"))) {
 			final StringBuilder message = new StringBuilder();
-			message.append("BigOAssertException assertLogLinear failed:\n");
-			message.append(details);
+			message.append("BigOAssertException assertLogLinear failed:\n").append(details);
 			throw new BigOAssertWarningException(message.toString());
 		}
 	}
 
 	public static void assertQuadratic(BigOAnalyser bom, String methodName) {
-		// fetch data table with some internal checks
+		// fetch measured data
 		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
 		// quadratic functions should have a polynomial degree of 2.0
-		assertPolynomialDegree(bom, methodName, 2.0, 0.1);
+		assertPolynomialDegree(bom, methodName, 2.0, DEGREE_ALLOWED_DELTA);
 		// find the best fit function
-		final String details = BigOReports.createBestFit(resultTable);
+		final String details = BigOReports.calculateBestFunction(resultTable);
 		if (!details.startsWith("Polynomial")) {
 			final StringBuilder message = new StringBuilder();
-			message.append("BigOAssertException assertQuadratic failed:\n");
-			message.append(details);
+			message.append("BigOAssertException assertQuadratic failed:\n").append(details);
 			throw new BigOAssertWarningException(message.toString());
 		}
 	}
 
 	public static void assertPowerLaw(BigOAnalyser bom, String methodName) {
-		// fetch data table with some internal checks
+		// fetch measured data
 		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
 		// find the best fit function
-		final String details = BigOReports.createBestFit(resultTable);
+		final String details = BigOReports.calculateBestFunction(resultTable);
 		if (!details.startsWith("PowerLaw")) {
 			final StringBuilder message = new StringBuilder();
-			message.append("BigOAssertException assertPowerLaw failed:\n");
-			message.append(details);
+			message.append("BigOAssertException assertPowerLaw failed:\n").append(details);
 			throw new BigOAssertWarningException(message.toString());
 		}
 	}
@@ -135,7 +132,7 @@ public class BigOAssert {
 	}
 
 	public static void assertPolynomialDegree(BigOAnalyser bom, String method, double expected, double range) {
-		// fetch data table with some internal checks
+		// fetch measured data
 		final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, method);
 		// estimate polynomial degree
 		final double estimate = estimatePolynomialDegree(resultTable);
@@ -155,8 +152,7 @@ public class BigOAssert {
 		Preconditions.checkNotNull(method);
 		Preconditions.checkArgument(!method.isEmpty());
 		// fetch data table
-		final Table<Integer, String, Double> resultTable;
-		resultTable = bom.getResultTable(method);
+		final Table<Integer, String, Double> resultTable = bom.getResultTable(method);
 		// check size of data point table
 		final boolean isNumberOfDataPointsSufficient = resultTable.column("TIME").size() >= 4;
 		final String message = "minimum 4 data points are needed for a reliable analysis";

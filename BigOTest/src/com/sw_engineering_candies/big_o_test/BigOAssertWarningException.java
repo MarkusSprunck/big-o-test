@@ -36,7 +36,7 @@ public class BigOAssertWarningException extends AssertionError {
 
 	public BigOAssertWarningException(String message) {
 		super(message);
-		System.out.println(message);
+		System.err.println(message);
 	}
 
 }
