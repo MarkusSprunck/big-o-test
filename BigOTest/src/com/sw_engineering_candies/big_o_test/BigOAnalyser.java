@@ -39,12 +39,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javassist.util.proxy.MethodHandler;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
+import com.sw_engineering_candies.big_o_test.internal.FitterExponential;
+import com.sw_engineering_candies.big_o_test.internal.FitterLogLinear;
+import com.sw_engineering_candies.big_o_test.internal.FitterLogarithmic;
+import com.sw_engineering_candies.big_o_test.internal.FitterPolynomial;
+import com.sw_engineering_candies.big_o_test.internal.FitterPowerLaw;
 import com.sw_engineering_candies.big_o_test.internal.Item;
 
 public class BigOAnalyser {
@@ -61,10 +67,24 @@ public class BigOAnalyser {
 	private final Map<String, Item> values = new HashMap<String, Item>(1000);
 
 	/**
-	 * Used to deactivate measurement during analysis. This is needed, because the first results are
-	 * usually not representative.
+	 * This flag is used to deactivate measurement during execution. This is needed, because the
+	 * first results are usually not representative.
 	 */
 	private boolean active = true;
+
+	/**
+	 * Deactivate measurement
+	 */
+	public void deactivate() {
+		active = false;
+	}
+
+	/**
+	 * Activate measurement
+	 */
+	public void activate() {
+		active = true;
+	}
 
 	/**
 	 * Creates a class proxy that makes all the time measurements and stores the results in a
@@ -90,6 +110,70 @@ public class BigOAnalyser {
 			System.err.println("ERROR #5  in createproxy -> " + e.getMessage());
 		}
 		return proxy;
+	}
+
+	/**
+	 * Get measured data for one method.
+	 */
+	public Table<Integer, String, Double> getResultTable(String methodName) {
+		final TreeBasedTable<Integer, String, Double> result = TreeBasedTable.create();
+		int rowIndex = 0;
+		for (final String key : this.getKeys()) {
+			final String[] splitedKey = key.split("#");
+			if (splitedKey[0].equalsIgnoreCase(methodName)) {
+				rowIndex++;
+				for (int i = 1; i < splitedKey.length; i++) {
+					final double cell = Long.parseLong(splitedKey[i]);
+					result.put(rowIndex, "N" + i, cell);
+				}
+				final Item lastCall = this.getValue(key);
+				final double cell = lastCall.getTime() / lastCall.getCalls();
+				result.put(rowIndex, "TIME", cell);
+			}
+		}
+		Preconditions.checkState(!result.isEmpty(), "No data for method name '" + methodName + "'");
+		return result;
+	}
+
+	/**
+	 * Helper function to find the best fitting function. The approach is based on the estimation of
+	 * the polynomial degree of the measured data.
+	 */
+	protected static TreeMap<Double, String> calculateBestFittingFunctions(final Table<Integer, String, Double> input) {
+
+		// first Polynomial Function
+		final FitterPolynomial fitterPolymomial = new FitterPolynomial();
+		final double degree = BigOAssert.estimatePolynomialDegree(input);
+		fitterPolymomial.init(input.column("N1"), input.column("TIME"), (int) Math.round(degree));
+		final TreeMap<Double, String> result = new TreeMap<Double, String>();
+		result.put(fitterPolymomial.getRSquareAdjusted(), fitterPolymomial.toString());
+
+		// ensure that it is not a constant function, because of problems in some fit functions
+		if (degree > 0.1) {
+			// second Exponential Function
+			final FitterExponential fitterExponential = new FitterExponential();
+			fitterExponential.init(input.column("N1"), input.column("TIME"));
+			result.put(fitterExponential.getRSquareAdjusted(), fitterExponential.toString());
+
+			// third Logarithmic Function
+			final FitterLogarithmic fitterLogarithmic = new FitterLogarithmic();
+			fitterLogarithmic.init(input.column("N1"), input.column("TIME"));
+			result.put(fitterLogarithmic.getRSquareAdjusted(), fitterLogarithmic.toString());
+
+			if (degree > 1.05 && degree < 1.15) {
+				// likely a LogLinear -> sixth LogLinear Function
+				final FitterLogLinear fitterLogLinear = new FitterLogLinear();
+				fitterLogLinear.init(input.column("N1"), input.column("TIME"));
+				result.put(fitterLogLinear.getRSquareAdjusted(), fitterLogLinear.toString());
+			}
+			if (degree < 1.95 || degree > 2.05) {
+				// likely not a Quadratic Function -> fourth PowerLaw Function
+				final FitterPowerLaw fitterPowerLaw = new FitterPowerLaw();
+				fitterPowerLaw.init(input.column("N1"), input.column("TIME"));
+				result.put(fitterPowerLaw.getRSquareAdjusted(), fitterPowerLaw.toString());
+			}
+		}
+		return result;
 	}
 
 	private MethodHandler createMethodHandler() {
@@ -187,34 +271,6 @@ public class BigOAnalyser {
 
 		};
 		return handler;
-	}
-
-	public Table<Integer, String, Double> getResultTable(String methodName) {
-		final TreeBasedTable<Integer, String, Double> result = TreeBasedTable.create();
-		int rowIndex = 0;
-		for (final String key : this.getKeys()) {
-			final String[] splitedKey = key.split("#");
-			if (splitedKey[0].equalsIgnoreCase(methodName)) {
-				rowIndex++;
-				for (int i = 1; i < splitedKey.length; i++) {
-					final double cell = Long.parseLong(splitedKey[i]);
-					result.put(rowIndex, "N" + i, cell);
-				}
-				final Item lastCall = this.getValue(key);
-				final double cell = lastCall.getTime() / lastCall.getCalls();
-				result.put(rowIndex, "TIME", cell);
-			}
-		}
-		Preconditions.checkState(!result.isEmpty(), "No data for method name '" + methodName + "'");
-		return result;
-	}
-
-	public void deactivate() {
-		active = false;
-	}
-
-	public void activate() {
-		active = true;
 	}
 
 	protected Item getValue(String key) {

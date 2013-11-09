@@ -37,50 +37,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import com.google.common.collect.Table;
-import com.sw_engineering_candies.big_o_test.internal.FitterExponential;
-import com.sw_engineering_candies.big_o_test.internal.FitterLogLinear;
-import com.sw_engineering_candies.big_o_test.internal.FitterLogarithmic;
-import com.sw_engineering_candies.big_o_test.internal.FitterPolynomial;
-import com.sw_engineering_candies.big_o_test.internal.FitterPowerLaw;
 
 public class BigOReports {
-
-	private static TreeMap<Double, String> calculateBestFittingFunctions(final Table<Integer, String, Double> input) {
-
-		// first Polynomial Function
-		final FitterPolynomial fitterPolymomial = new FitterPolynomial();
-		final double degree = BigOAssert.estimatePolynomialDegree(input);
-		fitterPolymomial.init(input.column("N1"), input.column("TIME"), (int) Math.round(degree));
-		final TreeMap<Double, String> result = new TreeMap<Double, String>();
-		result.put(fitterPolymomial.getRSquareAdjusted(), fitterPolymomial.toString());
-
-		// ensure that it is not a constant function, because of problems in some fit functions
-		if (degree > 0.1) {
-			// second Exponential Function
-			final FitterExponential fitterExponential = new FitterExponential();
-			fitterExponential.init(input.column("N1"), input.column("TIME"));
-			result.put(fitterExponential.getRSquareAdjusted(), fitterExponential.toString());
-
-			// third Logarithmic Function
-			final FitterLogarithmic fitterLogarithmic = new FitterLogarithmic();
-			fitterLogarithmic.init(input.column("N1"), input.column("TIME"));
-			result.put(fitterLogarithmic.getRSquareAdjusted(), fitterLogarithmic.toString());
-
-			if (degree > 1.05 && degree < 1.15) {
-				// likely a LogLinear -> sixth LogLinear Function
-				final FitterLogLinear fitterLogLinear = new FitterLogLinear();
-				fitterLogLinear.init(input.column("N1"), input.column("TIME"));
-				result.put(fitterLogLinear.getRSquareAdjusted(), fitterLogLinear.toString());
-			}
-			if (degree < 1.95 || degree > 2.05) {
-				// likely not a Quadratic Function -> fourth PowerLaw Function
-				final FitterPowerLaw fitterPowerLaw = new FitterPowerLaw();
-				fitterPowerLaw.init(input.column("N1"), input.column("TIME"));
-				result.put(fitterPowerLaw.getRSquareAdjusted(), fitterPowerLaw.toString());
-			}
-		}
-		return result;
-	}
 
 	public static String createDataReport(Table<Integer, String, Double> input) {
 		final StringBuilder result = new StringBuilder();
@@ -113,14 +71,14 @@ public class BigOReports {
 
 	public static String calculateBestFunction(final Table<Integer, String, Double> input) {
 		// try to find all the fits
-		final TreeMap<Double, String> result = calculateBestFittingFunctions(input);
+		final TreeMap<Double, String> result = BigOAnalyser.calculateBestFittingFunctions(input);
 		// return best fit
 		return result.get(result.descendingKeySet().first());
 	}
 
 	public static String caclulateBestFunctionsTable(final Table<Integer, String, Double> input) {
 		// try to find best fits
-		final TreeMap<Double, String> resultMap = calculateBestFittingFunctions(input);
+		final TreeMap<Double, String> resultMap = BigOAnalyser.calculateBestFittingFunctions(input);
 		// add the function ordered by the R^2 value of the fits
 		final StringBuilder result = new StringBuilder();
 		result.append("TYPE      \tR^2 (adjusted)\tFUNCTION\n");
@@ -130,5 +88,5 @@ public class BigOReports {
 		result.append("\n");
 		return result.toString();
 	}
-	
+
 }
