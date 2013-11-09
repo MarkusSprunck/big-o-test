@@ -39,122 +39,124 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
-import com.sw_engineering_candies.big_o_test.internal.Item;
-import com.sw_engineering_candies.big_o_test.test_utils.Algorithms;
+import com.sw_engineering_candies.big_o_test.fitter.Item;
+import com.sw_engineering_candies.big_o_test.utils.Algorithms;
 
 public class BigOReportsTest {
 
-	final BigOAnalyser bom = new BigOAnalyser();
+   private static final String NL = System.getProperty("line.separator");
 
-	@Test
-	public void createDataReport_MoreCallsOfOneFunction_GetCorrectReport() {
-		// ARRANGE
-		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+   final BigOAnalyser bom = new BigOAnalyser();
 
-		final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
-		final int[] n_input = { 11, 22, 33, 44 };
-		final float[] k_input = { 11.4f, 2.1f, 2.23f, 4.2f, 8.2f };
-		sut.run(m_input, true, n_input, k_input);
-		final Item result = bom.getValue("run#8#4#5");
-		result.setNanoTime(12345);
-		result.setCalls(1);
+   @Test
+   public void createDataReport_MoreCallsOfOneFunction_GetCorrectReport() {
+      // ARRANGE
+      final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
 
-		final List<Integer> m_input2 = Arrays.asList(1, 2, 3, 4, 5, 6);
-		final int[] n_input2 = { 11, 22, 33, 44, 55, 66, 77, 88 };
-		final float[] k_input2 = {};
-		sut.run(m_input2, true, n_input2, k_input2);
-		final Item result2 = bom.getValue("run#6#8#0");
-		result2.setNanoTime(23456);
-		result2.setCalls(1);
-		final Table<Integer, String, Double> resultTable = bom.getResultTable("run");
+      final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
+      final int[] n_input = { 11, 22, 33, 44 };
+      final float[] k_input = { 11.4f, 2.1f, 2.23f, 4.2f, 8.2f };
+      sut.run(m_input, true, n_input, k_input);
+      final Item result = bom.getValue("run#8#4#5");
+      result.setNanoTime(12345);
+      result.setCalls(1);
 
-		// ACT
-		final String actual = BigOReports.createDataReport(resultTable);
+      final List<Integer> m_input2 = Arrays.asList(1, 2, 3, 4, 5, 6);
+      final int[] n_input2 = { 11, 22, 33, 44, 55, 66, 77, 88 };
+      final float[] k_input2 = {};
+      sut.run(m_input2, true, n_input2, k_input2);
+      final Item result2 = bom.getValue("run#6#8#0");
+      result2.setNanoTime(23456);
+      result2.setCalls(1);
+      final Table<Integer, String, Double> resultTable = bom.getResultTable("run");
 
-		// ASSERT
-		final StringBuilder expected = new StringBuilder();
-		expected.append("N1\tN2\tN3\tTIME\n");
-		expected.append("6\t8\t0\t23456\n");
-		expected.append("8\t4\t5\t12345\n");
-		Assert.assertEquals(expected.toString(), actual);
-	}
+      // ACT
+      final String actual = BigOReports.createDataReport(resultTable);
 
-	@Test
-	public void createDataReport_OneCallOfRunLinear_GetReport() {
-		// ARRANGE
-		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
-		sut.runLinear(10);
-		final Item result = bom.getValue("runLinear#10");
-		result.setNanoTime(123);
-		result.setCalls(1);
-		final Table<Integer, String, Double> resultTable = bom.getResultTable("runLinear");
+      // ASSERT
+      final StringBuilder expected = new StringBuilder(100);
+      expected.append("N1\tN2\tN3\tTIME".concat(NL));
+      expected.append("6\t8\t0\t23456".concat(NL));
+      expected.append("8\t4\t5\t12345".concat(NL));
+      Assert.assertEquals(expected.toString(), actual);
+   }
 
-		// ACT
-		final String actual = BigOReports.createDataReport(resultTable);
+   @Test
+   public void createDataReport_OneCallOfRunLinear_GetReport() {
+      // ARRANGE
+      final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+      sut.runLinear(10);
+      final Item result = bom.getValue("runLinear#10");
+      result.setNanoTime(123);
+      result.setCalls(1);
+      final Table<Integer, String, Double> resultTable = bom.getResultTable("runLinear");
 
-		// ASSERT
-		Assert.assertEquals("N1\tTIME\n10\t123\n", actual);
-	}
+      // ACT
+      final String actual = BigOReports.createDataReport(resultTable);
 
-	@Test
-	public void createDataReport_FourCallsOfrunLinear_GetReport() {
-		// ARRANGE
-		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+      // ASSERT
+      Assert.assertEquals("N1\tTIME".concat(NL).concat("10\t123").concat(NL), actual);
+   }
 
-		sut.runLinear(10);
-		final Item result = bom.getValue("runLinear#10");
-		result.setNanoTime(123);
-		result.setCalls(1);
+   @Test
+   public void createDataReport_FourCallsOfrunLinear_GetReport() {
+      // ARRANGE
+      final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
 
-		sut.runLinear(100);
-		final Item result2 = bom.getValue("runLinear#100");
-		result2.setNanoTime(345);
-		result2.setCalls(1);
+      sut.runLinear(10);
+      final Item result = bom.getValue("runLinear#10");
+      result.setNanoTime(123);
+      result.setCalls(1);
 
-		sut.runLinear(100);
-		final Item result4 = bom.getValue("runLinear#100");
-		result4.setNanoTime(1000);
-		result4.setCalls(2);
+      sut.runLinear(100);
+      final Item result2 = bom.getValue("runLinear#100");
+      result2.setNanoTime(345);
+      result2.setCalls(1);
 
-		sut.runLinear(1000);
-		final Item result3 = bom.getValue("runLinear#1000");
-		result3.setNanoTime(567);
-		result3.setCalls(1);
+      sut.runLinear(100);
+      final Item result4 = bom.getValue("runLinear#100");
+      result4.setNanoTime(1000);
+      result4.setCalls(2);
 
-		final Table<Integer, String, Double> resultTable = bom.getResultTable("runLinear");
+      sut.runLinear(1000);
+      final Item result3 = bom.getValue("runLinear#1000");
+      result3.setNanoTime(567);
+      result3.setCalls(1);
 
-		// ACT
-		final String actual = BigOReports.createDataReport(resultTable);
+      final Table<Integer, String, Double> resultTable = bom.getResultTable("runLinear");
 
-		// ASSERT
-		final StringBuilder expected = new StringBuilder();
-		expected.append("N1\tTIME\n");
-		expected.append("10\t123\n");
-		expected.append("100\t500\n");
-		expected.append("1000\t567\n");
-		Assert.assertEquals(expected.toString(), actual);
-	}
+      // ACT
+      final String actual = BigOReports.createDataReport(resultTable);
 
-	@Test
-	public void createDataReport_OneCall_GetCorrectReport() {
-		// ARRANGE
-		final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+      // ASSERT
+      final StringBuilder expected = new StringBuilder(100);
+      expected.append("N1\tTIME".concat(NL));
+      expected.append("10\t123".concat(NL));
+      expected.append("100\t500".concat(NL));
+      expected.append("1000\t567".concat(NL));
+      Assert.assertEquals(expected.toString(), actual);
+   }
 
-		final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
-		final int[] n_input = { 11, 22, 33, 44 };
-		final float[] k_input = { 11.4f, 2.1f, 2.23f, 4.2f, 8.2f };
-		sut.run(m_input, true, n_input, k_input);
-		final Item result = bom.getValue("run#8#4#5");
-		result.setNanoTime(12345);
-		result.setCalls(1);
-		final Table<Integer, String, Double> resultTable = bom.getResultTable("run");
+   @Test
+   public void createDataReport_OneCall_GetCorrectReport() {
+      // ARRANGE
+      final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
 
-		// ACT
-		final String actual = BigOReports.createDataReport(resultTable);
+      final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
+      final int[] n_input = { 11, 22, 33, 44 };
+      final float[] k_input = { 11.4f, 2.1f, 2.23f, 4.2f, 8.2f };
+      sut.run(m_input, true, n_input, k_input);
+      final Item result = bom.getValue("run#8#4#5");
+      result.setNanoTime(12345);
+      result.setCalls(1);
+      final Table<Integer, String, Double> resultTable = bom.getResultTable("run");
 
-		// ASSERT
-		final String expected = "N1\tN2\tN3\tTIME\n8\t4\t5\t12345\n";
-		Assert.assertEquals(expected, actual);
-	}
+      // ACT
+      final String actual = BigOReports.createDataReport(resultTable);
+
+      // ASSERT
+      final String expected = "N1\tN2\tN3\tTIME".concat(NL).concat("8\t4\t5\t12345").concat(NL);
+      Assert.assertEquals(expected, actual);
+   }
 
 }

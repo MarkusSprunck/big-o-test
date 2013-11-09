@@ -40,53 +40,55 @@ import com.google.common.collect.Table;
 
 public class BigOReports {
 
-	public static String createDataReport(Table<Integer, String, Double> input) {
-		final StringBuilder result = new StringBuilder();
+   private static final String NL = System.getProperty("line.separator");
 
-		// header of the table
-		final Set<String> cols = input.columnKeySet();
-		for (int i = 1; i < cols.size(); i++) {
-			result.append("N" + i + "\t");
-		}
-		result.append("TIME\n");
+   public static String createDataReport(Table<Integer, String, Double> input) {
+      final StringBuilder result = new StringBuilder(1000);
 
-		// values of the table
-		final SortedSet<Double> rows = new TreeSet<Double>();
-		rows.addAll(input.column("N1").values());
-		for (final Double value : rows) {
-			Integer row = 0;
-			for (final Integer index : input.column("N1").keySet()) {
-				if (value.equals(input.get(index, "N1"))) {
-					row = index;
-					break;
-				}
-			}
-			for (int col = 1; col < cols.size(); col++) {
-				result.append(String.format("%.0f", input.get(row, "N" + col)) + "\t");
-			}
-			result.append(String.format("%.0f", input.get(row, "TIME"))).append('\n');
-		}
-		return result.toString();
-	}
+      // header of the table
+      final Set<String> cols = input.columnKeySet();
+      for (int i = 1; i < cols.size(); i++) {
+         result.append("N" + i + "\t");
+      }
+      result.append("TIME").append(NL);
 
-	public static String calculateBestFunction(final Table<Integer, String, Double> input) {
-		// try to find all the fits
-		final TreeMap<Double, String> result = BigOAnalyser.calculateBestFittingFunctions(input);
-		// return best fit
-		return result.get(result.descendingKeySet().first());
-	}
+      // values of the table
+      final SortedSet<Double> rows = new TreeSet<Double>();
+      rows.addAll(input.column("N1").values());
+      for (final Double value : rows) {
+         Integer row = 0;
+         for (final Integer index : input.column("N1").keySet()) {
+            if (value.equals(input.get(index, "N1"))) {
+               row = index;
+               break;
+            }
+         }
+         for (int col = 1; col < cols.size(); col++) {
+            result.append(String.format("%.0f", input.get(row, "N" + col)) + "\t");
+         }
+         result.append(String.format("%.0f", input.get(row, "TIME"))).append(NL);
+      }
+      return result.toString();
+   }
 
-	public static String caclulateBestFunctionsTable(final Table<Integer, String, Double> input) {
-		// try to find best fits
-		final TreeMap<Double, String> resultMap = BigOAnalyser.calculateBestFittingFunctions(input);
-		// add the function ordered by the R^2 value of the fits
-		final StringBuilder result = new StringBuilder();
-		result.append("TYPE      \tR^2 (adjusted)\tFUNCTION\n");
-		for (final Double key : resultMap.descendingKeySet()) {
-			result.append(resultMap.get(key)).append('\n');
-		}
-		result.append("\n");
-		return result.toString();
-	}
+   public static String calculateBestFunction(final Table<Integer, String, Double> input) {
+      // try to find all the fits
+      final TreeMap<Double, String> result = BigOAnalyser.calculateBestFittingFunctions(input);
+      // return best fit
+      return result.get(result.descendingKeySet().first());
+   }
+
+   public static String caclulateBestFunctionsTable(final Table<Integer, String, Double> input) {
+      // try to find best fits
+      final TreeMap<Double, String> resultMap = BigOAnalyser.calculateBestFittingFunctions(input);
+      // add the function ordered by the R^2 value of the fits
+      final StringBuilder result = new StringBuilder(1000);
+      result.append("TYPE      \tR^2 (adjusted)\tFUNCTION").append(NL);
+      for (final Double key : resultMap.descendingKeySet()) {
+         result.append(resultMap.get(key)).append(NL);
+      }
+      result.append(NL);
+      return result.toString();
+   }
 
 }

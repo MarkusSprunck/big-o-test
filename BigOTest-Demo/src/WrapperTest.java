@@ -1,5 +1,6 @@
 import java.util.Collections;
 import java.util.List;
+
 import org.junit.Test;
 
 import com.sw_engineering_candies.big_o_test.BigOAnalyser;
@@ -8,28 +9,30 @@ import com.sw_engineering_candies.big_o_test.BigOParameter;
 
 public class WrapperTest extends TestBase {
 
-	public void sortWrapper(@BigOParameter List<Long> values) {
-		Collections.sort(values);
-	}
+   private static final String NL = System.getProperty("line.separator");
 
-	@Test
-	public void simpleSortWrapper_RunJavaCollections_DetectPowerLaw() {
+   public void sortWrapper(@BigOParameter List<Long> values) {
+      Collections.sort(values);
+   }
 
-		// ARRANGE
-		final BigOAnalyser bom = new BigOAnalyser();
-		final WrapperTest sut = (WrapperTest) bom.createProxy(WrapperTest.class);
-		bom.deactivate();                                                                                         // measurement is deactivated
-		sut.sortWrapper(createSortInput(1024));        // give JIT compiler the chance to optimize
-		bom.activate();                                                                                                // measurement is active
+   @Test
+   public void simpleSortWrapper_RunJavaCollections_DetectPowerLaw() {
 
-		// ACT
-		for (int x = 256 * 1024; x >= 256; x /= 2) {
-			sut.sortWrapper(createSortInput(x));
-		}
-		traceReport(bom, "sortWrapper", "WrapperTest\n");
+      // ARRANGE
+      final BigOAnalyser bom = new BigOAnalyser();
+      final WrapperTest sut = (WrapperTest) bom.createProxy(WrapperTest.class);
+      bom.deactivate();                                                                                         // measurement is deactivated
+      sut.sortWrapper(createSortInput(1024));        // give JIT compiler the chance to optimize
+      bom.activate();                                                                                                // measurement is active
 
-		// ASSERT
-		BigOAssert.assertPowerLaw(bom, "sortWrapper");
-	}
+      // ACT
+      for (int x = 256 * 1024; x >= 256; x /= 2) {
+         sut.sortWrapper(createSortInput(x));
+      }
+      traceReport(bom, "sortWrapper", "WrapperTest".concat(NL));
+
+      // ASSERT
+      BigOAssert.assertPowerLaw(bom, "sortWrapper");
+   }
 
 }
