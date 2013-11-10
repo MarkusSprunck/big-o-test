@@ -1,11 +1,14 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
+import com.google.common.collect.Table;
 import com.sw_engineering_candies.big_o_test.BigOAnalyser;
 import com.sw_engineering_candies.big_o_test.BigOAssert;
+import com.sw_engineering_candies.big_o_test.BigOReports;
 
-public class HeapSortTest extends TestBase {
-
-   private static final String NL = System.getProperty("line.separator");
+public class HeapSortTest {
 
    @Test
    public void assertLogLinear_RunHeapSort_DetectLogLinear() {
@@ -21,11 +24,27 @@ public class HeapSortTest extends TestBase {
       for (int x = (4 * 1024); x >= 16; x /= 2) {
          sut.sort(createSortInput(x));
       }
-      traceReport(bom, "sort", "HeapSortTest".concat(NL));
+      traceReport(bom, "sort");
 
       // ASSERT
       BigOAssert.assertLogLinearOrPowerLaw(bom, "sort");
 
+   }
+
+   private static List<Long> createSortInput(int size) {
+      final List<Long> result = new ArrayList<Long>(size);
+      for (int i = 0; i < size; i++) {
+         result.add(Math.round(Long.MAX_VALUE * Math.random()));
+      }
+      return result;
+   }
+
+   private static void traceReport(final BigOAnalyser bom, String method) {
+      System.out.println("----------------------------------------");
+      System.out.println("HeapSortTest");
+      final Table<Integer, String, Double> resultTable = bom.getResultTableChecked(method);
+      System.out.println(BigOReports.caclulateBestFunctionsTable(resultTable));
+      System.out.println(BigOReports.createDataReport(resultTable));
    }
 
 }
