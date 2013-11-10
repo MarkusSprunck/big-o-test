@@ -144,22 +144,22 @@ public class BigOAnalyser {
       Preconditions.checkArgument(!method.isEmpty());
 
       // fetch data table
-      final Table<Integer, String, Double> resultTable = getResultTable(method);
+      final Table<Integer, String, Double> data = getResultTable(method);
 
       // check size of data point table
-      final boolean isNumberOfDataPointsSufficient = resultTable.column("TIME").size() >= 4;
+      final boolean isNumberOfDataPointsSufficient = data.column("TIME").size() >= 4;
       final String message = "minimum 4 data points are needed for a reliable analysis";
       Preconditions.checkState(isNumberOfDataPointsSufficient, message);
-      return resultTable;
+      return data;
    }
 
-   public static Double estimatePolynomialDegree(Table<Integer, String, Double> resultTable) {
+   public static Double estimatePolynomialDegree(Table<Integer, String, Double> data) {
       // calculate logarithms of both axis
       final Map<Integer, Double> xValues = new TreeMap<Integer, Double>();
       final Map<Integer, Double> yValues = new TreeMap<Integer, Double>();
-      for (int index = 1; index <= resultTable.column("N1").size(); index++) {
-         xValues.put(index, Math.log10(resultTable.column("N1").get(index)));
-         yValues.put(index, Math.log10(resultTable.column("TIME").get(index)));
+      for (int index = 1; index <= data.column("N1").size(); index++) {
+         xValues.put(index, Math.log10(data.column("N1").get(index)));
+         yValues.put(index, Math.log10(data.column("TIME").get(index)));
       }
 
       // fit polynomial of first degree (a0 + a1 * x)

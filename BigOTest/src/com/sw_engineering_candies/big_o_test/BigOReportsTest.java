@@ -68,10 +68,10 @@ public class BigOReportsTest {
       final Item result2 = boa.getValue("run#6#8#0");
       result2.setNanoTime(23456);
       result2.setCalls(1);
-      final Table<Integer, String, Double> resultTable = boa.getResultTable("run");
+      final Table<Integer, String, Double> data = boa.getResultTable("run");
 
       // ACT
-      final String actual = BigOReports.createDataReport(resultTable);
+      final String actual = BigOReports.createDataReport(data);
 
       // ASSERT
       final StringBuilder expected = new StringBuilder(100);
@@ -89,10 +89,10 @@ public class BigOReportsTest {
       final Item result = boa.getValue("runLinear#10");
       result.setNanoTime(123);
       result.setCalls(1);
-      final Table<Integer, String, Double> resultTable = boa.getResultTable("runLinear");
+      final Table<Integer, String, Double> data = boa.getResultTable("runLinear");
 
       // ACT
-      final String actual = BigOReports.createDataReport(resultTable);
+      final String actual = BigOReports.createDataReport(data);
 
       // ASSERT
       Assert.assertEquals("N1\tTIME".concat(NL).concat("10\t123").concat(NL), actual);
@@ -123,10 +123,10 @@ public class BigOReportsTest {
       result3.setNanoTime(567);
       result3.setCalls(1);
 
-      final Table<Integer, String, Double> resultTable = boa.getResultTable("runLinear");
+      final Table<Integer, String, Double> data = boa.getResultTable("runLinear");
 
       // ACT
-      final String actual = BigOReports.createDataReport(resultTable);
+      final String actual = BigOReports.createDataReport(data);
 
       // ASSERT
       final StringBuilder expected = new StringBuilder(100);
@@ -149,10 +149,10 @@ public class BigOReportsTest {
       final Item result = boa.getValue("run#8#4#5");
       result.setNanoTime(12345);
       result.setCalls(1);
-      final Table<Integer, String, Double> resultTable = boa.getResultTable("run");
+      final Table<Integer, String, Double> data = boa.getResultTable("run");
 
       // ACT
-      final String actual = BigOReports.createDataReport(resultTable);
+      final String actual = BigOReports.createDataReport(data);
 
       // ASSERT
       final String expected = "N1\tN2\tN3\tTIME".concat(NL).concat("8\t4\t5\t12345").concat(NL);

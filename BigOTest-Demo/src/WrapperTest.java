@@ -47,9 +47,9 @@ public class WrapperTest {
    private static void traceReport(final BigOAnalyser boa, String method) {
       System.out.println("----------------------------------------");
       System.out.println("WrapperTest");
-      final Table<Integer, String, Double> resultTable = boa.getResultTableChecked(method);
-      System.out.println(BigOReports.caclulateBestFunctionsTable(resultTable));
-      System.out.println(BigOReports.createDataReport(resultTable));
+      final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
+      System.out.println(BigOReports.caclulateBestFunctionsTable(data));
+      System.out.println(BigOReports.createDataReport(data));
    }
 
 }

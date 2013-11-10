@@ -181,10 +181,10 @@ public class BigOAnalyserTest {
          result.setNanoTime(n * n * n * 134 + n * n * +n + 11);
          result.setCalls(1);
       }
-      final Table<Integer, String, Double> report = boa.getResultTable("runLinear");
+      final Table<Integer, String, Double> data = boa.getResultTable("runLinear");
 
       // ACT
-      final long result = Math.round(BigOAnalyser.estimatePolynomialDegree(report));
+      final long result = Math.round(BigOAnalyser.estimatePolynomialDegree(data));
 
       // ASSERT
       Assert.assertEquals(3L, result);
@@ -201,10 +201,10 @@ public class BigOAnalyserTest {
          result.setNanoTime(n * 134 + 11);
          result.setCalls(1);
       }
-      final Table<Integer, String, Double> report = boa.getResultTable("runLinear");
+      final Table<Integer, String, Double> data = boa.getResultTable("runLinear");
 
       // ACT
-      final long result = Math.round(BigOAnalyser.estimatePolynomialDegree(report));
+      final long result = Math.round(BigOAnalyser.estimatePolynomialDegree(data));
 
       // ASSERT
       Assert.assertEquals(1L, result);
@@ -221,10 +221,10 @@ public class BigOAnalyserTest {
          result.setNanoTime(n * n * 123 + n + 1);
          result.setCalls(1);
       }
-      final Table<Integer, String, Double> report = boa.getResultTable("runQuadratic");
+      final Table<Integer, String, Double> data = boa.getResultTable("runQuadratic");
 
       // ACT
-      final long result = Math.round(BigOAnalyser.estimatePolynomialDegree(report));
+      final long result = Math.round(BigOAnalyser.estimatePolynomialDegree(data));
 
       // ASSERT
       Assert.assertEquals(2L, result);
@@ -237,10 +237,10 @@ public class BigOAnalyserTest {
       for (int n = 1; n <= 128; n *= 2) {
          sut.runConstant(n);
       }
-      final Table<Integer, String, Double> report = boa.getResultTable("runConstant");
+      final Table<Integer, String, Double> data = boa.getResultTable("runConstant");
 
       // ACT
-      final long result = Math.round(BigOAnalyser.estimatePolynomialDegree(report));
+      final long result = Math.round(BigOAnalyser.estimatePolynomialDegree(data));
 
       // ASSERT
       Assert.assertEquals(0L, result);
@@ -268,11 +268,11 @@ public class BigOAnalyserTest {
       result2.setCalls(1);
 
       // ACT
-      final String actual = boa.getResultTable("run").toString();
+      final String data = boa.getResultTable("run").toString();
 
       // ASSERT
       final String expected = "{1={N1=8.0, N2=4.0, N3=5.0, TIME=12345.0}, 2={N1=6.0, N2=8.0, N3=0.0, TIME=23456.0}}";
-      Assert.assertEquals(expected, actual);
+      Assert.assertEquals(expected, data);
    }
 
    @Test
@@ -306,22 +306,22 @@ public class BigOAnalyserTest {
       result4.setCalls(1);
 
       // ACT
-      final Table<Integer, String, Double> resultTableRun = boa.getResultTable("run");
-      final Table<Integer, String, Double> resultTableLinear = boa.getResultTable("runLinear");
+      final Table<Integer, String, Double> dataRun = boa.getResultTable("run");
+      final Table<Integer, String, Double> dataLinear = boa.getResultTable("runLinear");
 
       // ASSERT
       final StringBuilder expected = new StringBuilder();
       expected.append("N1\tN2\tN3\tTIME".concat(NL));
       expected.append("6\t8\t0\t23456".concat(NL));
       expected.append("8\t4\t5\t12345".concat(NL));
-      final String actualRun = BigOReports.createDataReport(resultTableRun);
+      final String actualRun = BigOReports.createDataReport(dataRun);
       Assert.assertEquals(expected.toString(), actualRun);
 
       final StringBuilder expected2 = new StringBuilder();
       expected2.append("N1\tTIME".concat(NL));
       expected2.append("100\t1000".concat(NL));
       expected2.append("1000\t2000".concat(NL));
-      final String actualRunLinear = BigOReports.createDataReport(resultTableLinear);
+      final String actualRunLinear = BigOReports.createDataReport(dataLinear);
       Assert.assertEquals(expected2.toString(), actualRunLinear);
    }
 
@@ -351,10 +351,10 @@ public class BigOAnalyserTest {
       result4.setCalls(2);
 
       // ACT
-      final Table<Integer, String, Double> resultTable = boa.getResultTable("runLinear");
+      final Table<Integer, String, Double> data = boa.getResultTable("runLinear");
 
       // ASSERT
-      final String actual = BigOReports.createDataReport(resultTable);
+      final String actual = BigOReports.createDataReport(data);
       final StringBuilder expected = new StringBuilder();
       expected.append("N1\tTIME".concat(NL));
       expected.append("10\t123".concat(NL));
