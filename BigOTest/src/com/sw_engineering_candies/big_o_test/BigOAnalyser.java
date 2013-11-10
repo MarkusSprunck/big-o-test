@@ -136,6 +136,23 @@ public class BigOAnalyser {
    }
 
    /**
+    * Get measured data for one method - with some internal checks.
+    */
+   public static Table<Integer, String, Double> getResultTableChecked(BigOAnalyser bom, String method) {
+      // check preconditions
+      Preconditions.checkNotNull(bom);
+      Preconditions.checkNotNull(method);
+      Preconditions.checkArgument(!method.isEmpty());
+      // fetch data table
+      final Table<Integer, String, Double> resultTable = bom.getResultTable(method);
+      // check size of data point table
+      final boolean isNumberOfDataPointsSufficient = resultTable.column("TIME").size() >= 4;
+      final String message = "minimum 4 data points are needed for a reliable analysis";
+      Preconditions.checkState(isNumberOfDataPointsSufficient, message);
+      return resultTable;
+   }
+
+   /**
     * Helper function to find the best fitting function. The approach is based on the estimation of
     * the polynomial degree of the measured data.
     */

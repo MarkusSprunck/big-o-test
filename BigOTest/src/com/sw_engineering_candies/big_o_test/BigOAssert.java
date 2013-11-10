@@ -46,7 +46,7 @@ public class BigOAssert {
 
    public static void assertConstant(BigOAnalyser bom, String methodName) {
       // fetch measured data
-      final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
+      final Table<Integer, String, Double> resultTable = BigOAnalyser.getResultTableChecked(bom, methodName);
       // constant functions should have a polynomial degree of 0.0
       assertPolynomialDegree(bom, methodName, 0.0, DEGREE_ALLOWED_DELTA);
       // find the best fit function
@@ -60,7 +60,7 @@ public class BigOAssert {
 
    public static void assertLinear(BigOAnalyser bom, String methodName) {
       // fetch measured data
-      final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
+      final Table<Integer, String, Double> resultTable = BigOAnalyser.getResultTableChecked(bom, methodName);
       // linear functions should have a polynomial degree of 1.0
       assertPolynomialDegree(bom, methodName, 1.0, DEGREE_ALLOWED_DELTA);
       // find the best fit function
@@ -74,7 +74,7 @@ public class BigOAssert {
 
    public static void assertLogLinearOrPowerLaw(BigOAnalyser bom, String methodName) {
       // fetch measured data
-      final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
+      final Table<Integer, String, Double> resultTable = BigOAnalyser.getResultTableChecked(bom, methodName);
       // log-linear functions should have a polynomial degree of 1.1
       assertPolynomialDegree(bom, methodName, 1.1, DEGREE_ALLOWED_DELTA);
       // find the best fit function
@@ -88,7 +88,7 @@ public class BigOAssert {
 
    public static void assertQuadratic(BigOAnalyser bom, String methodName) {
       // fetch measured data
-      final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
+      final Table<Integer, String, Double> resultTable = BigOAnalyser.getResultTableChecked(bom, methodName);
       // quadratic functions should have a polynomial degree of 2.0
       assertPolynomialDegree(bom, methodName, 2.0, DEGREE_ALLOWED_DELTA);
       // find the best fit function
@@ -102,7 +102,7 @@ public class BigOAssert {
 
    public static void assertPowerLaw(BigOAnalyser bom, String methodName) {
       // fetch measured data
-      final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, methodName);
+      final Table<Integer, String, Double> resultTable = BigOAnalyser.getResultTableChecked(bom, methodName);
       // find the best fit function
       final String details = BigOReports.calculateBestFunction(resultTable);
       if (!details.startsWith("PowerLaw")) {
@@ -135,7 +135,7 @@ public class BigOAssert {
 
    public static void assertPolynomialDegree(BigOAnalyser bom, String method, double expected, double range) {
       // fetch measured data
-      final Table<Integer, String, Double> resultTable = getDataTableChecked(bom, method);
+      final Table<Integer, String, Double> resultTable = BigOAnalyser.getResultTableChecked(bom, method);
       // estimate polynomial degree
       final double estimate = estimatePolynomialDegree(resultTable);
       // assert that degree is in expected range
@@ -146,20 +146,6 @@ public class BigOAssert {
          message.append(NL).append("\tPolynomial degree actual   = ").append(estimate);
          throw new BigOAssertWarningError(message.toString());
       }
-   }
-
-   private static Table<Integer, String, Double> getDataTableChecked(BigOAnalyser bom, String method) {
-      // check preconditions
-      Preconditions.checkNotNull(bom);
-      Preconditions.checkNotNull(method);
-      Preconditions.checkArgument(!method.isEmpty());
-      // fetch data table
-      final Table<Integer, String, Double> resultTable = bom.getResultTable(method);
-      // check size of data point table
-      final boolean isNumberOfDataPointsSufficient = resultTable.column("TIME").size() >= 4;
-      final String message = "minimum 4 data points are needed for a reliable analysis";
-      Preconditions.checkState(isNumberOfDataPointsSufficient, message);
-      return resultTable;
    }
 
 }
