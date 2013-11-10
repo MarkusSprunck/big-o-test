@@ -15,7 +15,7 @@ public class WrapperTest {
    }
 
    @Test
-   public void simpleSortWrapper_RunJavaCollections_DetectPowerLaw() {
+   public void sortWrapper_RunJavaCollectionsSort_DetectPolynomialDegree() {
 
       // ARRANGE
       final BigOAnalyser boa = new BigOAnalyser();
