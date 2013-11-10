@@ -43,10 +43,10 @@ public class BigOAssert {
     * Expected polynomial degrees
     */
    private static final double DEGREE_EXPECTED_QUADRATIC = 2.0;
-   private static final double DEGREE_EXPECTED_LOGLINEAR = 1.1;
+   private static final double DEGREE_EXPECTED_LOGLINEAR = 1.2;
    private static final double DEGREE_EXPECTED_LINEAR = 1.0;
    private static final double DEGREE_EXPECTED_CONSTANT = 0.0;
-   private static final double DEGREE_EXPECTED_DELTA = 0.2;
+   private static final double DEGREE_EXPECTED_DELTA = 0.1;
 
    /**
     * Use the platform independent line separator
@@ -114,7 +114,7 @@ public class BigOAssert {
 
       // find the best fit function and check type
       final String function = BigOReports.calculateBestFunction(data);
-      if (!(function.startsWith("Linear") || function.startsWith("PowerLaw"))) {
+      if (!function.startsWith("Linear")) {
          final StringBuilder message = new StringBuilder(100);
          message.append("BigOAssertException - assertLinear failed:");
          message.append(NL);
@@ -160,7 +160,7 @@ public class BigOAssert {
 
       // find the best fit function and check type
       final String function = BigOReports.calculateBestFunction(data);
-      if (!(function.startsWith("Quadratic") || function.startsWith("PowerLaw"))) {
+      if (!function.startsWith("Quadratic")) {
          final StringBuilder message = new StringBuilder(100);
          message.append("BigOAssertException - assertQuadratic failed:");
          message.append(NL);

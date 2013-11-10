@@ -4,11 +4,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.google.common.collect.Table;
 import com.sw_engineering_candies.big_o_test.BigOAnalyser;
 import com.sw_engineering_candies.big_o_test.BigOAssert;
 import com.sw_engineering_candies.big_o_test.BigOParameter;
-import com.sw_engineering_candies.big_o_test.BigOReports;
 
 public class WrapperTest {
 
@@ -23,17 +21,16 @@ public class WrapperTest {
       final BigOAnalyser boa = new BigOAnalyser();
       final WrapperTest sut = (WrapperTest) boa.createProxy(WrapperTest.class);
       boa.deactivate();                              // measurement is deactivated
-      sut.sortWrapper(createSortInput(32 * 1024));     // give JIT compiler the chance to optimize
+      sut.sortWrapper(createSortInput(32 * 1024));   // give JIT compiler the chance to optimize
       boa.activate();                                // measurement is active
 
       // ACT
-      for (int x = 32 * 1024; x >= 128; x /= 2) {
+      for (int x = (32 * 1024); x >= 64; x /= 2) {
          sut.sortWrapper(createSortInput(x));
       }
-      traceReport(boa, "sortWrapper");
 
       // ASSERT
-      BigOAssert.assertPolynomialDegree(boa, "sortWrapper", 1.3, 0.15);
+      BigOAssert.assertPolynomialDegree(boa, "sortWrapper", 1.25, 0.5);
    }
 
    private static List<Long> createSortInput(int size) {
@@ -42,14 +39,6 @@ public class WrapperTest {
          result.add(Math.round(Long.MAX_VALUE * Math.random()));
       }
       return result;
-   }
-
-   private static void traceReport(final BigOAnalyser boa, String method) {
-      System.out.println("--- WrapperTest ------------------------");
-      System.out.println();
-      final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
-      System.out.println(BigOReports.caclulateBestFunctionsTable(data));
-      System.out.println(BigOReports.createDataReport(data));
    }
 
 }

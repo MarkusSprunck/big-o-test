@@ -249,6 +249,8 @@ public class BigOAssertTest {
       sut.runLinear(300000);
       sut.runLinear(100000);
       sut.runLinear(30000);
+      sut.runLinear(10000);
+      sut.runLinear(3000);
 
       // ACT
       boolean exceptionHappened = false;
@@ -299,13 +301,15 @@ public class BigOAssertTest {
       sut.runNLogN(4096);
       sut.runNLogN(2048);
       sut.runNLogN(1024);
+      sut.runNLogN(512);
 
       // ACT
       boolean exceptionHappened = false;
       try {
          BigOAssert.assertLogLinearOrPowerLaw(boa, "runNLogN");
       } catch (final BigOAssertWarningError ex) {
-         System.err.println(ex.getMessage());
+         System.out.println("assertLogLinear_RunNLogN_DetectLogLinearOk:");
+         System.out.println(ex.getMessage());
          exceptionHappened = true;
       }
 

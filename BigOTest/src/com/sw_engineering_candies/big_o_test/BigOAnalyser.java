@@ -202,39 +202,50 @@ public class BigOAnalyser {
 
       final RankedFittingFunctions result = new RankedFittingFunctions();
 
-      // first Polynomial Function
-      final FitterPolynomial fitterPolymomial = new FitterPolynomial();
       final double degree = estimatePolynomialDegree(input);
-      fitterPolymomial.init(input.column("N1"), input.column("TIME"), (int) Math.round(degree));
-      result.put(fitterPolymomial.getRSquareAdjusted(), fitterPolymomial.toString());
 
-      // ensure that it is not a constant function, because of problems in some fit functions
-      if (degree > 0.1) {
-         // second Exponential Function
-         final FitterExponential fitterExponential = new FitterExponential();
-         fitterExponential.init(input.column("N1"), input.column("TIME"));
-         result.put(fitterExponential.getRSquareAdjusted(), fitterExponential.toString());
-
-         // third Logarithmic Function
-         final FitterLogarithmic fitterLogarithmic = new FitterLogarithmic();
-         fitterLogarithmic.init(input.column("N1"), input.column("TIME"));
-         result.put(fitterLogarithmic.getRSquareAdjusted(), fitterLogarithmic.toString());
-
-         if (degree > 1.05 && degree < 1.15) {
-            // likely a LogLinear -> sixth LogLinear Function
+      if (isProbablyPolynomial(degree)) {
+         // fit polynomial Function
+         final FitterPolynomial fitterPolymomial = new FitterPolynomial();
+         fitterPolymomial.init(input.column("N1"), input.column("TIME"), (int) Math.round(degree));
+         result.put(fitterPolymomial.getRSquareAdjusted(), fitterPolymomial.toString());
+      } else {
+         if (isProbablyLogLinear(degree)) {
+            // LogLinear Function
             final FitterLogLinear fitterLogLinear = new FitterLogLinear();
             fitterLogLinear.init(input.column("N1"), input.column("TIME"));
             result.put(fitterLogLinear.getRSquareAdjusted(), fitterLogLinear.toString());
-         }
-         if (degree < 1.95 || degree > 2.05) {
-            // likely not a Quadratic Function -> fourth PowerLaw Function
+         } else {
+            // PowerLaw Function
             final FitterPowerLaw fitterPowerLaw = new FitterPowerLaw();
             fitterPowerLaw.init(input.column("N1"), input.column("TIME"));
             result.put(fitterPowerLaw.getRSquareAdjusted(), fitterPowerLaw.toString());
          }
       }
+
+      // ensure that it is not a constant function, because of problems in some fit functions
+      if (degree > 0.1) {
+         // Exponential Function
+         final FitterExponential fitterExponential = new FitterExponential();
+         fitterExponential.init(input.column("N1"), input.column("TIME"));
+         result.put(fitterExponential.getRSquareAdjusted(), fitterExponential.toString());
+
+         // Logarithmic Function
+         final FitterLogarithmic fitterLogarithmic = new FitterLogarithmic();
+         fitterLogarithmic.init(input.column("N1"), input.column("TIME"));
+         result.put(fitterLogarithmic.getRSquareAdjusted(), fitterLogarithmic.toString());
+      }
       return result;
    }
+
+   private static boolean isProbablyPolynomial(double degree) {
+      final double rest = degree - Math.floor(degree);
+      return ((rest < 0.1) || (rest > 0.9));
+   };
+
+   private static boolean isProbablyLogLinear(double degree) {
+      return ((degree < 1.15) || (degree > 1.05));
+   };
 
    private MethodHandler createMethodHandler() {
 
