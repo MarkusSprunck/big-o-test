@@ -115,7 +115,7 @@ public class BigOAnalyser {
    /**
     * Get measured data for one method.
     */
-   public Table<Integer, String, Double> getResultTable(String methodName) {
+   protected Table<Integer, String, Double> getResultTable(String methodName) {
       final TreeBasedTable<Integer, String, Double> result = TreeBasedTable.create();
       int rowIndex = 0;
       for (final String key : getKeys()) {
@@ -127,7 +127,7 @@ public class BigOAnalyser {
                result.put(rowIndex, "N" + i, cell);
             }
             final Item lastCall = getValue(key);
-            final double cell = lastCall.getTime() / lastCall.getCalls();
+            final double cell = (double) lastCall.getTime() / (double) lastCall.getCalls();
             result.put(rowIndex, "TIME", cell);
          }
       }
@@ -138,13 +138,12 @@ public class BigOAnalyser {
    /**
     * Get measured data for one method - with some internal checks.
     */
-   public static Table<Integer, String, Double> getResultTableChecked(BigOAnalyser bom, String method) {
+   public Table<Integer, String, Double> getResultTableChecked(String method) {
       // check preconditions
-      Preconditions.checkNotNull(bom);
       Preconditions.checkNotNull(method);
       Preconditions.checkArgument(!method.isEmpty());
       // fetch data table
-      final Table<Integer, String, Double> resultTable = bom.getResultTable(method);
+      final Table<Integer, String, Double> resultTable = getResultTable(method);
       // check size of data point table
       final boolean isNumberOfDataPointsSufficient = resultTable.column("TIME").size() >= 4;
       final String message = "minimum 4 data points are needed for a reliable analysis";

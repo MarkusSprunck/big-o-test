@@ -235,12 +235,9 @@ public class BigOAnalyserTest {
       // ARRANGE
       final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
       for (int n = 1; n <= 128; n *= 2) {
-         sut.runQuadratic((n));
-         // replace measured results
-         final Item result = bom.getValue("runQuadratic#" + n);
-         result.setNanoTime(100);
+         sut.runConstant(n);
       }
-      final Table<Integer, String, Double> report = bom.getResultTable("runQuadratic");
+      final Table<Integer, String, Double> report = bom.getResultTable("runConstant");
 
       // ACT
       final long result = Math.round(BigOAssert.estimatePolynomialDegree(report));
