@@ -65,14 +65,14 @@ public class BigOAssert {
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
 
       // estimate polynomial degree
-      final double estimate = BigOAnalyser.estimatePolynomialDegree(data);
+      final double actual = BigOAnalyser.estimatePolynomialDegree(data);
 
       // assert that degree is in expected range
-      if (estimate < expected - delta || estimate > expected + delta) {
+      if (actual < expected - delta || actual > expected + delta) {
          final StringBuilder message = new StringBuilder(100);
          message.append("BigOAssertException - assertPolynomialDegree failed:");
          message.append(NL).append("\tPolynomial degree expected = ").append(expected);
-         message.append(NL).append("\tPolynomial degree actual   = ").append(estimate);
+         message.append(NL).append("\tPolynomial degree actual   = ").append(actual);
          throw new BigOAssertWarningError(message.toString());
       }
    }
@@ -86,7 +86,7 @@ public class BigOAssert {
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
 
-      // constant functions should have a polynomial degree of 0.0
+      // constant functions should have a polynomial degree of DEGREE_EXPECTED_CONSTANT
       assertPolynomialDegree(boa, method, DEGREE_EXPECTED_CONSTANT, DEGREE_EXPECTED_DELTA);
 
       // find the best fit function and check type
@@ -109,7 +109,7 @@ public class BigOAssert {
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
 
-      // linear functions should have a polynomial degree of 1.0
+      // linear functions should have a polynomial degree of DEGREE_EXPECTED_LINEAR
       assertPolynomialDegree(boa, method, DEGREE_EXPECTED_LINEAR, DEGREE_EXPECTED_DELTA);
 
       // find the best fit function and check type
@@ -132,7 +132,7 @@ public class BigOAssert {
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
 
-      // log-linear functions should have a polynomial degree of 1.1
+      // log-linear functions should have a polynomial degree of DEGREE_EXPECTED_LOGLINEAR
       assertPolynomialDegree(boa, method, DEGREE_EXPECTED_LOGLINEAR, DEGREE_EXPECTED_DELTA);
 
       // find the best fit function and check type
@@ -155,7 +155,7 @@ public class BigOAssert {
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
 
-      // quadratic functions should have a polynomial degree of 2.0
+      // quadratic functions should have a polynomial degree of DEGREE_EXPECTED_QUADRATIC
       assertPolynomialDegree(boa, method, DEGREE_EXPECTED_QUADRATIC, DEGREE_EXPECTED_DELTA);
 
       // find the best fit function and check type
