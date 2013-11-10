@@ -82,7 +82,7 @@ public class BigOAssert {
       Preconditions.checkNotNull(boa);
       Preconditions.checkNotNull(method);
       Preconditions.checkArgument(boa.isAnalysed(method), "here we need a analysed method name");
-      
+
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
 
@@ -105,7 +105,7 @@ public class BigOAssert {
       Preconditions.checkNotNull(boa);
       Preconditions.checkNotNull(method);
       Preconditions.checkArgument(boa.isAnalysed(method), "here we need a analysed method name");
-      
+
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
 
@@ -128,7 +128,7 @@ public class BigOAssert {
       Preconditions.checkNotNull(boa);
       Preconditions.checkNotNull(method);
       Preconditions.checkArgument(boa.isAnalysed(method), "here we need a analysed method name");
-      
+
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
 
@@ -151,7 +151,7 @@ public class BigOAssert {
       Preconditions.checkNotNull(boa);
       Preconditions.checkNotNull(method);
       Preconditions.checkArgument(boa.isAnalysed(method), "here we need a analysed method name");
-      
+
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
 
@@ -160,7 +160,7 @@ public class BigOAssert {
 
       // find the best fit function and check type
       final String function = BigOReports.calculateBestFunction(data);
-      if (!function.startsWith("Quadratic")) {
+      if (!(function.startsWith("Quadratic") || function.startsWith("PowerLaw"))) {
          final StringBuilder message = new StringBuilder(100);
          message.append("BigOAssertException - assertQuadratic failed:");
          message.append(NL);
@@ -174,7 +174,7 @@ public class BigOAssert {
       Preconditions.checkNotNull(boa);
       Preconditions.checkNotNull(method);
       Preconditions.checkArgument(boa.isAnalysed(method), "here we need a analysed method name");
-      
+
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
 

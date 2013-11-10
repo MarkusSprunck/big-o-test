@@ -22,18 +22,18 @@ public class WrapperTest {
       // ARRANGE
       final BigOAnalyser boa = new BigOAnalyser();
       final WrapperTest sut = (WrapperTest) boa.createProxy(WrapperTest.class);
-      boa.deactivate();                                                                                         // measurement is deactivated
-      sut.sortWrapper(createSortInput(1024));        // give JIT compiler the chance to optimize
-      boa.activate();                                                                                                // measurement is active
+      boa.deactivate();                              // measurement is deactivated
+      sut.sortWrapper(createSortInput(32 * 1024));     // give JIT compiler the chance to optimize
+      boa.activate();                                // measurement is active
 
       // ACT
-      for (int x = 256 * 1024; x >= 256; x /= 2) {
+      for (int x = 32 * 1024; x >= 128; x /= 2) {
          sut.sortWrapper(createSortInput(x));
       }
       traceReport(boa, "sortWrapper");
 
       // ASSERT
-      BigOAssert.assertPowerLaw(boa, "sortWrapper");
+      BigOAssert.assertPolynomialDegree(boa, "sortWrapper", 1.3, 0.1);
    }
 
    private static List<Long> createSortInput(int size) {

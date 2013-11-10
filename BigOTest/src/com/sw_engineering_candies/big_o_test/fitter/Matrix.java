@@ -67,7 +67,7 @@ public final class Matrix {
    public double getValue(int row, int col) {
       return matrix[row][col];
    }
-  
+
    // swap rows i and j
    void swap(int i, int j) {
       final double[] temp = matrix[i];

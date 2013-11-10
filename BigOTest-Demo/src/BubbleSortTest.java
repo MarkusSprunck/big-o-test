@@ -17,9 +17,9 @@ public class BubbleSortTest {
       // ARRANGE
       final BigOAnalyser boa = new BigOAnalyser();
       final BubbleSort sut = (BubbleSort) boa.createProxy(BubbleSort.class);
-      boa.deactivate();                                                                                         // measurement is deactivated
+      boa.deactivate();                       // measurement is deactivated
       sut.sort(createSortInput(1024));        // give JIT compiler the chance to optimize
-      boa.activate();                                                                                                // measurement is active
+      boa.activate();                         // measurement is active
 
       // ACT
       for (int x = 1024; x >= 16; x /= 2) {

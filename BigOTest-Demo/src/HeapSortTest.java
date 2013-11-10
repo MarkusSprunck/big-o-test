@@ -16,9 +16,9 @@ public class HeapSortTest {
       // ARRANGE
       final BigOAnalyser boa = new BigOAnalyser();
       final HeapSort sut = (HeapSort) boa.createProxy(HeapSort.class);
-      boa.deactivate();                                                                                         // measurement is deactivated
+      boa.deactivate();                       // measurement is deactivated
       sut.sort(createSortInput(1024));        // give JIT compiler the chance to optimize
-      boa.activate();                                                                                                // measurement is active
+      boa.activate();                         // measurement is active
 
       // ACT
       for (int x = (4 * 1024); x >= 16; x /= 2) {
