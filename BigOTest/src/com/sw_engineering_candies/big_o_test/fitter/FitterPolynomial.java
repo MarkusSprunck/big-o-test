@@ -111,7 +111,25 @@ public class FitterPolynomial extends FitterAbstractBase {
             result.append(" * x^").append(index).append(" + ");
          }
       }
-      return String.format("Polynomial\t%.4f  \ty = ", getRSquareAdjusted()) + result.toString();
+      String type;
+      switch (coefficients.size()) {
+      case 1: {
+         type = "Constant  ";
+         break;
+      }
+      case 2: {
+         type = "Linear    ";
+         break;
+      }
+      case 3: {
+         type = "Quadratic ";
+         break;
+      }
+      default: {
+         type = "Polynomial";
+      }
+      }
+      return type.concat(String.format("\t%.4f        \ty = ", getRSquareAdjusted()) + result.toString());
    }
 
 }

@@ -15,20 +15,20 @@ public class BubbleSortTest {
    public void assertQuadratic_RunBubbleSort_DetectQuadratic() {
 
       // ARRANGE
-      final BigOAnalyser bom = new BigOAnalyser();
-      final BubbleSort sut = (BubbleSort) bom.createProxy(BubbleSort.class);
-      bom.deactivate();                                                                                         // measurement is deactivated
+      final BigOAnalyser boa = new BigOAnalyser();
+      final BubbleSort sut = (BubbleSort) boa.createProxy(BubbleSort.class);
+      boa.deactivate();                                                                                         // measurement is deactivated
       sut.sort(createSortInput(1024));        // give JIT compiler the chance to optimize
-      bom.activate();                                                                                                // measurement is active
+      boa.activate();                                                                                                // measurement is active
 
       // ACT
       for (int x = 1024; x >= 16; x /= 2) {
          sut.sort(createSortInput(x));
       }
-      traceReport(bom, "sort");
+      traceReport(boa, "sort");
 
       // ASSERT
-      BigOAssert.assertQuadratic(bom, "sort");
+      BigOAssert.assertQuadratic(boa, "sort");
    }
 
    private static List<Long> createSortInput(int size) {
@@ -39,10 +39,10 @@ public class BubbleSortTest {
       return result;
    }
 
-   private static void traceReport(final BigOAnalyser bom, String method) {
+   private static void traceReport(final BigOAnalyser boa, String method) {
       System.out.println("----------------------------------------");
       System.out.println("BubbleSortTest");
-      final Table<Integer, String, Double> resultTable = bom.getResultTableChecked(method);
+      final Table<Integer, String, Double> resultTable = boa.getResultTableChecked(method);
       System.out.println(BigOReports.caclulateBestFunctionsTable(resultTable));
       System.out.println(BigOReports.createDataReport(resultTable));
    }

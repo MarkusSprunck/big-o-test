@@ -20,20 +20,20 @@ public class WrapperTest {
    public void simpleSortWrapper_RunJavaCollections_DetectPowerLaw() {
 
       // ARRANGE
-      final BigOAnalyser bom = new BigOAnalyser();
-      final WrapperTest sut = (WrapperTest) bom.createProxy(WrapperTest.class);
-      bom.deactivate();                                                                                         // measurement is deactivated
+      final BigOAnalyser boa = new BigOAnalyser();
+      final WrapperTest sut = (WrapperTest) boa.createProxy(WrapperTest.class);
+      boa.deactivate();                                                                                         // measurement is deactivated
       sut.sortWrapper(createSortInput(1024));        // give JIT compiler the chance to optimize
-      bom.activate();                                                                                                // measurement is active
+      boa.activate();                                                                                                // measurement is active
 
       // ACT
       for (int x = 256 * 1024; x >= 256; x /= 2) {
          sut.sortWrapper(createSortInput(x));
       }
-      traceReport(bom, "sortWrapper");
+      traceReport(boa, "sortWrapper");
 
       // ASSERT
-      BigOAssert.assertPowerLaw(bom, "sortWrapper");
+      BigOAssert.assertPowerLaw(boa, "sortWrapper");
    }
 
    private static List<Long> createSortInput(int size) {
@@ -44,10 +44,10 @@ public class WrapperTest {
       return result;
    }
 
-   private static void traceReport(final BigOAnalyser bom, String method) {
+   private static void traceReport(final BigOAnalyser boa, String method) {
       System.out.println("----------------------------------------");
       System.out.println("WrapperTest");
-      final Table<Integer, String, Double> resultTable = bom.getResultTableChecked(method);
+      final Table<Integer, String, Double> resultTable = boa.getResultTableChecked(method);
       System.out.println(BigOReports.caclulateBestFunctionsTable(resultTable));
       System.out.println(BigOReports.createDataReport(resultTable));
    }

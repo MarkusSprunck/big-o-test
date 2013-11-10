@@ -63,7 +63,8 @@ public class FitterPolynomialTest {
       polynom.init(input.column("N1"), input.column("TIME"), 2);
 
       // ASSERT
-      final String expected = "Polynomial	1,0000  	y = 3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00";
+      final String expected = "Quadratic ".concat(String.format("\t%.4f        \ty = ", 1.0)
+            + "3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00");
       Assert.assertEquals(expected, polynom.toString());
    }
 

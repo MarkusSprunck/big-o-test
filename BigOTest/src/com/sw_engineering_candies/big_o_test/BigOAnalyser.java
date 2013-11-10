@@ -120,7 +120,7 @@ public class BigOAnalyser {
       int rowIndex = 0;
       for (final String key : getKeys()) {
          final String[] splitedKey = key.split("#");
-         if (splitedKey[0].equalsIgnoreCase(methodName)) {
+         if (splitedKey[0].equals(methodName)) {
             rowIndex++;
             for (int i = 1; i < splitedKey.length; i++) {
                final double cell = Long.parseLong(splitedKey[i]);
@@ -142,13 +142,55 @@ public class BigOAnalyser {
       // check preconditions
       Preconditions.checkNotNull(method);
       Preconditions.checkArgument(!method.isEmpty());
+
       // fetch data table
       final Table<Integer, String, Double> resultTable = getResultTable(method);
+
       // check size of data point table
       final boolean isNumberOfDataPointsSufficient = resultTable.column("TIME").size() >= 4;
       final String message = "minimum 4 data points are needed for a reliable analysis";
       Preconditions.checkState(isNumberOfDataPointsSufficient, message);
       return resultTable;
+   }
+
+   public static Double estimatePolynomialDegree(Table<Integer, String, Double> resultTable) {
+      // calculate logarithms of both axis
+      final Map<Integer, Double> xValues = new TreeMap<Integer, Double>();
+      final Map<Integer, Double> yValues = new TreeMap<Integer, Double>();
+      for (int index = 1; index <= resultTable.column("N1").size(); index++) {
+         xValues.put(index, Math.log10(resultTable.column("N1").get(index)));
+         yValues.put(index, Math.log10(resultTable.column("TIME").get(index)));
+      }
+
+      // fit polynomial of first degree (a0 + a1 * x)
+      final FitterPolynomial polynom = new FitterPolynomial();
+      polynom.init(xValues, yValues, 1);
+
+      // coefficient of the linear term a1 it what we need
+      final double result = polynom.getCoefficient(1);
+
+      // check the quality of the fit in cases the function is not constant
+      if (result > 0.8) {
+         final double coefficientOfDetermination = polynom.getRSquareAdjusted();
+         Preconditions.checkState(coefficientOfDetermination > 0.8, "R^2=" + coefficientOfDetermination);
+      }
+      return result;
+   }
+
+   /**
+    * This method should return true, in the case you have measured data. This will be not the case
+    * if not you may forgot to: use the annotation @BigOParameter in your method to be tested, the
+    * data type is not yet implemented (see appendParameterInformation), the measurement was
+    * deactivated, the method was static and/or you used the wrong method name.
+    */
+   public boolean isAnalysed(String method) {
+      for (final String key : getKeys()) {
+         final String[] splitedKey = key.split("#");
+         if (splitedKey[0].equals(method)) {
+            return true;
+         }
+      }
+      return false;
    }
 
    /**
@@ -159,7 +201,7 @@ public class BigOAnalyser {
 
       // first Polynomial Function
       final FitterPolynomial fitterPolymomial = new FitterPolynomial();
-      final double degree = BigOAssert.estimatePolynomialDegree(input);
+      final double degree = estimatePolynomialDegree(input);
       fitterPolymomial.init(input.column("N1"), input.column("TIME"), (int) Math.round(degree));
       final TreeMap<Double, String> result = new TreeMap<Double, String>();
       result.put(fitterPolymomial.getRSquareAdjusted(), fitterPolymomial.toString());

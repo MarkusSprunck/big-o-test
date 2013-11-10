@@ -14,20 +14,20 @@ public class HeapSortTest {
    public void assertLogLinear_RunHeapSort_DetectLogLinear() {
 
       // ARRANGE
-      final BigOAnalyser bom = new BigOAnalyser();
-      final HeapSort sut = (HeapSort) bom.createProxy(HeapSort.class);
-      bom.deactivate();                                                                                         // measurement is deactivated
+      final BigOAnalyser boa = new BigOAnalyser();
+      final HeapSort sut = (HeapSort) boa.createProxy(HeapSort.class);
+      boa.deactivate();                                                                                         // measurement is deactivated
       sut.sort(createSortInput(1024));        // give JIT compiler the chance to optimize
-      bom.activate();                                                                                                // measurement is active
+      boa.activate();                                                                                                // measurement is active
 
       // ACT
       for (int x = (4 * 1024); x >= 16; x /= 2) {
          sut.sort(createSortInput(x));
       }
-      traceReport(bom, "sort");
+      traceReport(boa, "sort");
 
       // ASSERT
-      BigOAssert.assertLogLinearOrPowerLaw(bom, "sort");
+      BigOAssert.assertLogLinearOrPowerLaw(boa, "sort");
 
    }
 
@@ -39,10 +39,10 @@ public class HeapSortTest {
       return result;
    }
 
-   private static void traceReport(final BigOAnalyser bom, String method) {
+   private static void traceReport(final BigOAnalyser boa, String method) {
       System.out.println("----------------------------------------");
       System.out.println("HeapSortTest");
-      final Table<Integer, String, Double> resultTable = bom.getResultTableChecked(method);
+      final Table<Integer, String, Double> resultTable = boa.getResultTableChecked(method);
       System.out.println(BigOReports.caclulateBestFunctionsTable(resultTable));
       System.out.println(BigOReports.createDataReport(resultTable));
    }

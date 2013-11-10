@@ -46,18 +46,18 @@ public class BigOReportsTest {
 
    private static final String NL = System.getProperty("line.separator");
 
-   final BigOAnalyser bom = new BigOAnalyser();
+   final BigOAnalyser boa = new BigOAnalyser();
 
    @Test
    public void createDataReport_MoreCallsOfOneFunction_GetCorrectReport() {
       // ARRANGE
-      final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+      final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
       final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
       final int[] n_input = { 11, 22, 33, 44 };
       final float[] k_input = { 11.4f, 2.1f, 2.23f, 4.2f, 8.2f };
       sut.run(m_input, true, n_input, k_input);
-      final Item result = bom.getValue("run#8#4#5");
+      final Item result = boa.getValue("run#8#4#5");
       result.setNanoTime(12345);
       result.setCalls(1);
 
@@ -65,10 +65,10 @@ public class BigOReportsTest {
       final int[] n_input2 = { 11, 22, 33, 44, 55, 66, 77, 88 };
       final float[] k_input2 = {};
       sut.run(m_input2, true, n_input2, k_input2);
-      final Item result2 = bom.getValue("run#6#8#0");
+      final Item result2 = boa.getValue("run#6#8#0");
       result2.setNanoTime(23456);
       result2.setCalls(1);
-      final Table<Integer, String, Double> resultTable = bom.getResultTable("run");
+      final Table<Integer, String, Double> resultTable = boa.getResultTable("run");
 
       // ACT
       final String actual = BigOReports.createDataReport(resultTable);
@@ -84,12 +84,12 @@ public class BigOReportsTest {
    @Test
    public void createDataReport_OneCallOfRunLinear_GetReport() {
       // ARRANGE
-      final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+      final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
       sut.runLinear(10);
-      final Item result = bom.getValue("runLinear#10");
+      final Item result = boa.getValue("runLinear#10");
       result.setNanoTime(123);
       result.setCalls(1);
-      final Table<Integer, String, Double> resultTable = bom.getResultTable("runLinear");
+      final Table<Integer, String, Double> resultTable = boa.getResultTable("runLinear");
 
       // ACT
       final String actual = BigOReports.createDataReport(resultTable);
@@ -101,29 +101,29 @@ public class BigOReportsTest {
    @Test
    public void createDataReport_FourCallsOfrunLinear_GetReport() {
       // ARRANGE
-      final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+      final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
       sut.runLinear(10);
-      final Item result = bom.getValue("runLinear#10");
+      final Item result = boa.getValue("runLinear#10");
       result.setNanoTime(123);
       result.setCalls(1);
 
       sut.runLinear(100);
-      final Item result2 = bom.getValue("runLinear#100");
+      final Item result2 = boa.getValue("runLinear#100");
       result2.setNanoTime(345);
       result2.setCalls(1);
 
       sut.runLinear(100);
-      final Item result4 = bom.getValue("runLinear#100");
+      final Item result4 = boa.getValue("runLinear#100");
       result4.setNanoTime(1000);
       result4.setCalls(2);
 
       sut.runLinear(1000);
-      final Item result3 = bom.getValue("runLinear#1000");
+      final Item result3 = boa.getValue("runLinear#1000");
       result3.setNanoTime(567);
       result3.setCalls(1);
 
-      final Table<Integer, String, Double> resultTable = bom.getResultTable("runLinear");
+      final Table<Integer, String, Double> resultTable = boa.getResultTable("runLinear");
 
       // ACT
       final String actual = BigOReports.createDataReport(resultTable);
@@ -140,16 +140,16 @@ public class BigOReportsTest {
    @Test
    public void createDataReport_OneCall_GetCorrectReport() {
       // ARRANGE
-      final Algorithms sut = (Algorithms) bom.createProxy(Algorithms.class);
+      final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
       final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
       final int[] n_input = { 11, 22, 33, 44 };
       final float[] k_input = { 11.4f, 2.1f, 2.23f, 4.2f, 8.2f };
       sut.run(m_input, true, n_input, k_input);
-      final Item result = bom.getValue("run#8#4#5");
+      final Item result = boa.getValue("run#8#4#5");
       result.setNanoTime(12345);
       result.setCalls(1);
-      final Table<Integer, String, Double> resultTable = bom.getResultTable("run");
+      final Table<Integer, String, Double> resultTable = boa.getResultTable("run");
 
       // ACT
       final String actual = BigOReports.createDataReport(resultTable);
