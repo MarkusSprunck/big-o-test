@@ -40,8 +40,8 @@ public class BubbleSortTest {
    }
 
    private static void traceReport(final BigOAnalyser boa, String method) {
-      System.out.println("----------------------------------------");
-      System.out.println("BubbleSortTest");
+      System.out.println("--- BubbleSortTest ---------------------");
+      System.out.println();
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
       System.out.println(BigOReports.caclulateBestFunctionsTable(data));
       System.out.println(BigOReports.createDataReport(data));

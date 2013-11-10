@@ -44,6 +44,9 @@ import com.sw_engineering_candies.big_o_test.utils.Algorithms;
 
 public class BigOReportsTest {
 
+   /**
+    * Use the platform independent line separator
+    */
    private static final String NL = System.getProperty("line.separator");
 
    final BigOAnalyser boa = new BigOAnalyser();

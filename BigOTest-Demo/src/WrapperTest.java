@@ -33,7 +33,7 @@ public class WrapperTest {
       traceReport(boa, "sortWrapper");
 
       // ASSERT
-      BigOAssert.assertPolynomialDegree(boa, "sortWrapper", 1.3, 0.1);
+      BigOAssert.assertPolynomialDegree(boa, "sortWrapper", 1.3, 0.15);
    }
 
    private static List<Long> createSortInput(int size) {
@@ -45,8 +45,8 @@ public class WrapperTest {
    }
 
    private static void traceReport(final BigOAnalyser boa, String method) {
-      System.out.println("----------------------------------------");
-      System.out.println("WrapperTest");
+      System.out.println("--- WrapperTest ------------------------");
+      System.out.println();
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
       System.out.println(BigOReports.caclulateBestFunctionsTable(data));
       System.out.println(BigOReports.createDataReport(data));

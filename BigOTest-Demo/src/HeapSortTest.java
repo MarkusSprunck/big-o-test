@@ -40,8 +40,8 @@ public class HeapSortTest {
    }
 
    private static void traceReport(final BigOAnalyser boa, String method) {
-      System.out.println("----------------------------------------");
-      System.out.println("HeapSortTest");
+      System.out.println("--- HeapSortTest -----------------------");
+      System.out.println();
       final Table<Integer, String, Double> data = boa.getResultTableChecked(method);
       System.out.println(BigOReports.caclulateBestFunctionsTable(data));
       System.out.println(BigOReports.createDataReport(data));

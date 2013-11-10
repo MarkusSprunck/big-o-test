@@ -52,6 +52,7 @@ import com.sw_engineering_candies.big_o_test.fitter.FitterLogarithmic;
 import com.sw_engineering_candies.big_o_test.fitter.FitterPolynomial;
 import com.sw_engineering_candies.big_o_test.fitter.FitterPowerLaw;
 import com.sw_engineering_candies.big_o_test.fitter.Item;
+import com.sw_engineering_candies.big_o_test.fitter.RankedFittingFunctions;
 
 public class BigOAnalyser {
 
@@ -115,12 +116,12 @@ public class BigOAnalyser {
    /**
     * Get measured data for one method.
     */
-   protected Table<Integer, String, Double> getResultTable(String methodName) {
+   protected Table<Integer, String, Double> getResultTable(String method) {
       final TreeBasedTable<Integer, String, Double> result = TreeBasedTable.create();
       int rowIndex = 0;
       for (final String key : getKeys()) {
          final String[] splitedKey = key.split("#");
-         if (splitedKey[0].equals(methodName)) {
+         if (splitedKey[0].equals(method)) {
             rowIndex++;
             for (int i = 1; i < splitedKey.length; i++) {
                final double cell = Long.parseLong(splitedKey[i]);
@@ -131,7 +132,7 @@ public class BigOAnalyser {
             result.put(rowIndex, "TIME", cell);
          }
       }
-      Preconditions.checkState(!result.isEmpty(), "No data for method name '" + methodName + "'");
+      Preconditions.checkState(!result.isEmpty(), "No data for method name '" + method + "'");
       return result;
    }
 
@@ -197,13 +198,14 @@ public class BigOAnalyser {
     * Helper function to find the best fitting function. The approach is based on the estimation of
     * the polynomial degree of the measured data.
     */
-   protected static TreeMap<Double, String> calculateBestFittingFunctions(final Table<Integer, String, Double> input) {
+   protected static RankedFittingFunctions calculateBestFittingFunctions(final Table<Integer, String, Double> input) {
+
+      final RankedFittingFunctions result = new RankedFittingFunctions();
 
       // first Polynomial Function
       final FitterPolynomial fitterPolymomial = new FitterPolynomial();
       final double degree = estimatePolynomialDegree(input);
       fitterPolymomial.init(input.column("N1"), input.column("TIME"), (int) Math.round(degree));
-      final TreeMap<Double, String> result = new TreeMap<Double, String>();
       result.put(fitterPolymomial.getRSquareAdjusted(), fitterPolymomial.toString());
 
       // ensure that it is not a constant function, because of problems in some fit functions

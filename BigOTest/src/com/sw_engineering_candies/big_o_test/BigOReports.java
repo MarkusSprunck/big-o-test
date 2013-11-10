@@ -33,14 +33,39 @@ package com.sw_engineering_candies.big_o_test;
 
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import com.google.common.collect.Table;
+import com.sw_engineering_candies.big_o_test.fitter.RankedFittingFunctions;
 
 public class BigOReports {
 
+   /**
+    * Use the platform independent line separator
+    */
    private static final String NL = System.getProperty("line.separator");
+
+   public static String calculateBestFunction(final Table<Integer, String, Double> input) {
+      // try to find all the fits
+      final RankedFittingFunctions functions = BigOAnalyser.calculateBestFittingFunctions(input);
+
+      // return best fit
+      return functions.get(functions.descendingKeySet().first());
+   }
+
+   public static String caclulateBestFunctionsTable(final Table<Integer, String, Double> input) {
+      // try to find best fits
+      final RankedFittingFunctions functions = BigOAnalyser.calculateBestFittingFunctions(input);
+
+      // add the function ordered by the R^2 value of the fits
+      final StringBuilder result = new StringBuilder(1000);
+      result.append("TYPE      \tR^2 (adjusted)\tFUNCTION").append(NL);
+      for (final Double key : functions.descendingKeySet()) {
+         result.append(functions.get(key)).append(NL);
+      }
+      result.append(NL);
+      return result.toString();
+   }
 
    public static String createDataReport(Table<Integer, String, Double> input) {
       final StringBuilder result = new StringBuilder(1000);
@@ -68,26 +93,6 @@ public class BigOReports {
          }
          result.append(String.format("%.0f", input.get(row, "TIME"))).append(NL);
       }
-      return result.toString();
-   }
-
-   public static String calculateBestFunction(final Table<Integer, String, Double> input) {
-      // try to find all the fits
-      final TreeMap<Double, String> result = BigOAnalyser.calculateBestFittingFunctions(input);
-      // return best fit
-      return result.get(result.descendingKeySet().first());
-   }
-
-   public static String caclulateBestFunctionsTable(final Table<Integer, String, Double> input) {
-      // try to find best fits
-      final TreeMap<Double, String> resultMap = BigOAnalyser.calculateBestFittingFunctions(input);
-      // add the function ordered by the R^2 value of the fits
-      final StringBuilder result = new StringBuilder(1000);
-      result.append("TYPE      \tR^2 (adjusted)\tFUNCTION").append(NL);
-      for (final Double key : resultMap.descendingKeySet()) {
-         result.append(resultMap.get(key)).append(NL);
-      }
-      result.append(NL);
       return result.toString();
    }
 
