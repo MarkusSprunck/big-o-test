@@ -108,9 +108,9 @@ public class MatrixTest {
       final Matrix result = A.solve(b);
 
       // ASSERT
-      final double[] expected = new double[] { 1.8942743159231679, 1.8132651038133907, -0.44164664000338555,
-            0.030260423355553609 };
-      Assert.assertArrayEquals(expected, result.transpose().getData()[0], 1.0E-10);
+      Assert.assertEquals(1.8942743159231679, result.getValue(0, 0), 1.0E-10);
+      Assert.assertEquals(1.8132651038133907, result.getValue(1, 0), 1.0E-10);
+      Assert.assertEquals(-0.44164664000338555, result.getValue(2, 0), 1.0E-10);
    }
 
    @Test
@@ -149,8 +149,10 @@ public class MatrixTest {
       final Matrix result = A.solve(b);
 
       // ASSERT
-      final double[] expected = new double[] { 1.6484391286220554, 0.99555711903272903, -0.085717636022514102 };
-      Assert.assertArrayEquals(expected, result.transpose().getData()[0], 1.0E-10);
+      Assert.assertEquals(1.6484391286220554, result.getValue(0, 0), 1.0E-10);
+      Assert.assertEquals(0.99555711903272903, result.getValue(1, 0), 1.0E-10);
+      Assert.assertEquals(-0.085717636022514102, result.getValue(2, 0), 1.0E-10);
+
    }
 
    @Test
@@ -163,8 +165,9 @@ public class MatrixTest {
       final Matrix result = A.solve(b);
 
       // ASSERT
-      final double[] expected = new double[] { 0.09090909090909091, 0.6363636363636364 };
-      Assert.assertArrayEquals(expected, result.transpose().getData()[0], 1.0E-10);
+      Assert.assertEquals(0.09090909090909091, result.getValue(0, 0), 1.0E-10);
+      Assert.assertEquals(0.6363636363636364, result.getValue(1, 0), 1.0E-10);
+
    }
 
 }
