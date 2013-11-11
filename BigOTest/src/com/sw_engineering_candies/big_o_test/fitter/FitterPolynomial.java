@@ -54,12 +54,12 @@ public class FitterPolynomial extends FitterAbstractBase {
    public void init(Map<Integer, Double> xValues, Map<Integer, Double> yValues, int degree) {
       // check preconditions
       Preconditions.checkNotNull(yValues);
-      Preconditions.checkArgument(xValues.size() >= degree,
+      Preconditions.checkArgument(xValues.size() >= degree + 1,
             "number of data points to do the fit is dependent from degree");
 
       super.xValues = xValues;
       super.yValues = yValues;
-      super.k = degree + 1;
+      super.numberOfParameters = degree + 1;
 
       calculateCoefficients(degree);
       calculateCoefficientOfDeterminationOriginalData();

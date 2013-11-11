@@ -45,7 +45,7 @@ public abstract class FitterAbstractBase {
    /**
     * Number of parameters of fit
     */
-   protected int k = 1;
+   protected int numberOfParameters = 1;
 
    /**
     * Coefficients of the fitted Polynomial starting with a0=coefficients[0], a1=coefficients[1],
@@ -118,7 +118,7 @@ public abstract class FitterAbstractBase {
             SS_res += Math.pow(y - Math.log(fit), 2);
          }
       }
-      coefficientOfDetermination = 1.0 - (SS_res / (number - k)) / (SS_tot / (number - 1));
+      coefficientOfDetermination = 1.0 - (SS_res / (number - numberOfParameters)) / (SS_tot / (number - 1));
    }
 
    protected void calculateCoefficientOfDeterminationOriginalData() {
@@ -143,7 +143,7 @@ public abstract class FitterAbstractBase {
          SS_tot += Math.pow(y - yMean, 2);
          SS_res += Math.pow(y - fit, 2);
       }
-      coefficientOfDetermination = 1.0 - (SS_res / (number - k)) / (SS_tot / (number - 1));
+      coefficientOfDetermination = 1.0 - (SS_res / (number - numberOfParameters)) / (SS_tot / (number - 1));
    }
 
 }

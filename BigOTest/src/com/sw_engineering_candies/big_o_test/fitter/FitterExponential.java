@@ -55,7 +55,7 @@ public class FitterExponential extends FitterAbstractBase {
 
       super.xValues = xValues;
       super.yValues = yValues;
-      super.k = 2;
+      super.numberOfParameters = 2;
 
       calculateCoefficients();
       calculateCoefficientOfDeterminationLogarithmicData();
