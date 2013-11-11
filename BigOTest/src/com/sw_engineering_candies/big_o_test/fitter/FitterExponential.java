@@ -33,6 +33,12 @@ package com.sw_engineering_candies.big_o_test.fitter;
 
 import java.util.Map;
 
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.DecompositionSolver;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.RealVector;
+
 public class FitterExponential extends FitterAbstractBase {
 
    /**
@@ -63,21 +69,23 @@ public class FitterExponential extends FitterAbstractBase {
    }
 
    private void calculateCoefficients() {
-      final Matrix A = new Matrix(2, 2);
-      final Matrix b = new Matrix(2, 1);
+      final Array2DRowRealMatrix A = new Array2DRowRealMatrix(2, 2);
+      final ArrayRealVector b = new ArrayRealVector(2);
       for (int pointIndex = 1; pointIndex <= super.xValues.size(); pointIndex++) {
          final double x = super.xValues.get(pointIndex);
          final double y = super.yValues.get(pointIndex);
-         A.setValue(0, 0, A.getValue(0, 0) + y);
-         A.setValue(0, 1, A.getValue(0, 1) + x * y);
-         A.setValue(1, 0, A.getValue(1, 0) + x * y);
-         A.setValue(1, 1, A.getValue(1, 1) + x * x * y);
-         b.setValue(0, 0, b.getValue(0, 0) + y * Math.log(y));
-         b.setValue(1, 0, b.getValue(1, 0) + x * y * Math.log(y));
+         A.addToEntry(0, 0, y);
+         A.addToEntry(0, 1, x * y);
+         A.addToEntry(1, 0, x * y);
+         A.addToEntry(1, 1, x * x * y);
+         b.addToEntry(0, y * Math.log(y));
+         b.addToEntry(1, x * y * Math.log(y));
       }
-      final Matrix result = A.solve(b);
-      super.coefficients.add(0, Math.exp(result.getValue(0, 0)));
-      super.coefficients.add(1, result.getValue(1, 0));
+      final DecompositionSolver solver = new LUDecomposition(A).getSolver();
+      final RealVector solution = solver.solve(b);
+
+      super.coefficients.add(0, Math.exp(solution.getEntry(0)));
+      super.coefficients.add(1, solution.getEntry(1));
    }
 
    @Override

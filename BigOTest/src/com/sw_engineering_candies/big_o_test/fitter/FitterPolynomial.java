@@ -33,6 +33,12 @@ package com.sw_engineering_candies.big_o_test.fitter;
 
 import java.util.Map;
 
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.DecompositionSolver;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.RealVector;
+
 /**
  * The polynomial fitter has no performance optimizations to better understand and maintain the
  * implementation. A degree polynomial has (degree+1) coefficients.
@@ -78,23 +84,24 @@ public class FitterPolynomial extends FitterAbstractBase {
    private void calculateCoefficients(int degree) {
       final int numberOfPoints = super.xValues.size();
       final int equations = degree + 1;
-      final Matrix A = new Matrix(equations, equations);
-      final Matrix b = new Matrix(equations, 1);
+      final Array2DRowRealMatrix A = new Array2DRowRealMatrix(equations, equations);
+      final ArrayRealVector b = new ArrayRealVector(equations);
       for (int pointIndex = 1; pointIndex <= numberOfPoints; pointIndex++) {
          final double x = super.xValues.get(pointIndex);
          final double y = super.yValues.get(pointIndex);
          for (int row = 0; row < equations; row++) {
             for (int col = 0; col < equations; col++) {
-               A.setValue(row, col, A.getValue(row, col) + Math.pow(x, row + col));
+               A.addToEntry(row, col, Math.pow(x, row + col));
             }
-            b.setValue(row, 0, b.getValue(row, 0) + Math.pow(x, row) * y);
+            b.addToEntry(row, Math.pow(x, row) * y);
          }
       }
-      final Matrix result = A.solve(b);
+      final DecompositionSolver solver = new LUDecomposition(A).getSolver();
+      final RealVector solution = solver.solve(b);
 
       coefficients.clear();
       for (int i = 0; i <= degree; i++) {
-         coefficients.add(i, result.getValue(i, 0));
+         coefficients.add(i, solution.getEntry(i));
       }
    }
 
