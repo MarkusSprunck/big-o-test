@@ -44,7 +44,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
-import com.sw_engineering_candies.big_o_test.fitter.Item;
 import com.sw_engineering_candies.big_o_test.interfaces.BigOParameter;
 import com.sw_engineering_candies.big_o_test.utils.Algorithms;
 
@@ -102,7 +101,7 @@ public class BigOAnalyserTest {
       sut.run(m_input, true, n_input, k_input);
 
       // ACT
-      final Item result = boa.getValue("run#8#4#5");
+      final BigODataPoint result = boa.getValue("run#8#4#5");
       final long actual = result.getTime();
 
       // ASSERT
@@ -119,7 +118,7 @@ public class BigOAnalyserTest {
       sut.run(m_input, true, n_input, k_input);
 
       // ACT
-      final Item result = boa.getValue("run#8#4#5");
+      final BigODataPoint result = boa.getValue("run#8#4#5");
       result.setCalls(1);
 
       // ASSERT
@@ -136,7 +135,7 @@ public class BigOAnalyserTest {
       sut.run(m_input, true, n_input, k_input);
 
       // ACT
-      final Item result = boa.getValue("ThisIsWrongKey#8#4#5");
+      final BigODataPoint result = boa.getValue("ThisIsWrongKey#8#4#5");
 
       // ASSERT
       Assert.assertNull(result);
@@ -181,7 +180,7 @@ public class BigOAnalyserTest {
       for (int n = 1; n <= 128; n *= 2) {
          sut.runLinear((n));
          // replace measured results
-         final Item result = boa.getValue("runLinear#" + n);
+         final BigODataPoint result = boa.getValue("runLinear#" + n);
          result.setNanoTime(n * n * n * 134 + n * n * +n + 11);
          result.setCalls(1);
       }
@@ -201,7 +200,7 @@ public class BigOAnalyserTest {
       for (int n = 1; n <= 128; n *= 2) {
          sut.runLinear((n));
          // replace measured results
-         final Item result = boa.getValue("runLinear#" + n);
+         final BigODataPoint result = boa.getValue("runLinear#" + n);
          result.setNanoTime(n * 134 + 11);
          result.setCalls(1);
       }
@@ -221,7 +220,7 @@ public class BigOAnalyserTest {
       for (int n = 1; n <= 128; n *= 2) {
          sut.runQuadratic((n));
          // replace measured results
-         final Item result = boa.getValue("runQuadratic#" + n);
+         final BigODataPoint result = boa.getValue("runQuadratic#" + n);
          result.setNanoTime(n * n * 123 + n + 1);
          result.setCalls(1);
       }
@@ -259,7 +258,7 @@ public class BigOAnalyserTest {
       final int[] n_input = { 11, 22, 33, 44 };
       final float[] k_input = { 11.4f, 2.1f, 2.23f, 4.2f, 8.2f };
       sut.run(m_input, true, n_input, k_input);
-      final Item result = boa.getValue("run#8#4#5");
+      final BigODataPoint result = boa.getValue("run#8#4#5");
       result.setNanoTime(12345);
       result.setCalls(1);
 
@@ -267,7 +266,7 @@ public class BigOAnalyserTest {
       final int[] n_input2 = { 11, 22, 33, 44, 55, 66, 77, 88 };
       final float[] k_input2 = {};
       sut.run(m_input2, true, n_input2, k_input2);
-      final Item result2 = boa.getValue("run#6#8#0");
+      final BigODataPoint result2 = boa.getValue("run#6#8#0");
       result2.setNanoTime(23456);
       result2.setCalls(1);
 
@@ -287,7 +286,7 @@ public class BigOAnalyserTest {
       final int[] n_input = { 11, 22, 33, 44 };
       final float[] k_input = { 11.4f, 2.1f, 2.23f, 4.2f, 8.2f };
       sut.run(m_input, true, n_input, k_input);
-      final Item result = boa.getValue("run#8#4#5");
+      final BigODataPoint result = boa.getValue("run#8#4#5");
       result.setNanoTime(12345);
       result.setCalls(1);
 
@@ -295,17 +294,17 @@ public class BigOAnalyserTest {
       final int[] n_input2 = { 11, 22, 33, 44, 55, 66, 77, 88 };
       final float[] k_input2 = {};
       sut.run(m_input2, true, n_input2, k_input2);
-      final Item result2 = boa.getValue("run#6#8#0");
+      final BigODataPoint result2 = boa.getValue("run#6#8#0");
       result2.setNanoTime(23456);
       result2.setCalls(1);
 
       sut.runLinear(1000);
-      final Item result3 = boa.getValue("runLinear#1000");
+      final BigODataPoint result3 = boa.getValue("runLinear#1000");
       result3.setNanoTime(2000);
       result3.setCalls(1);
 
       sut.runLinear(100);
-      final Item result4 = boa.getValue("runLinear#100");
+      final BigODataPoint result4 = boa.getValue("runLinear#100");
       result4.setNanoTime(1000);
       result4.setCalls(1);
 
@@ -335,22 +334,22 @@ public class BigOAnalyserTest {
       final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
       sut.runLinear(10);
-      final Item result = boa.getValue("runLinear#10");
+      final BigODataPoint result = boa.getValue("runLinear#10");
       result.setNanoTime(123);
       result.setCalls(1);
 
       sut.runLinear(100);
-      final Item result2 = boa.getValue("runLinear#100");
+      final BigODataPoint result2 = boa.getValue("runLinear#100");
       result2.setNanoTime(345);
       result2.setCalls(1);
 
       sut.runLinear(1000);
-      final Item result3 = boa.getValue("runLinear#1000");
+      final BigODataPoint result3 = boa.getValue("runLinear#1000");
       result3.setNanoTime(2000);
       result3.setCalls(1);
 
       sut.runLinear(100);
-      final Item result4 = boa.getValue("runLinear#100");
+      final BigODataPoint result4 = boa.getValue("runLinear#100");
       result4.setNanoTime(1000);
       result4.setCalls(2);
 
@@ -370,7 +369,7 @@ public class BigOAnalyserTest {
    @Test
    public void setNanoTime_SetNewValue_OldSumIsOverwritten() {
       // ARRANG
-      final Item bigOProbe = new Item();
+      final BigODataPoint bigOProbe = new BigODataPoint();
       bigOProbe.addTime(123);
       bigOProbe.addTime(234);
 
@@ -384,7 +383,7 @@ public class BigOAnalyserTest {
    @Test
    public void addNanoTime_TwoValues_SumIsCorrect() {
       // ARRANG
-      final Item bigOProbe = new Item();
+      final BigODataPoint bigOProbe = new BigODataPoint();
 
       // ACT
       bigOProbe.addTime(123);
@@ -397,7 +396,7 @@ public class BigOAnalyserTest {
    @Test
    public void addNanoTime_OneValue_SumIsCorrect() {
       // ARRANG
-      final Item bigOProbe = new Item();
+      final BigODataPoint bigOProbe = new BigODataPoint();
 
       // ACT
       bigOProbe.addTime(123);
@@ -409,7 +408,7 @@ public class BigOAnalyserTest {
    @Test
    public void addNanoTime_OneValue_CallsAsExpectedTwo() {
       // ARRANG
-      final Item bigOProbe = new Item();
+      final BigODataPoint bigOProbe = new BigODataPoint();
 
       // ACT
       bigOProbe.addTime(123);
@@ -422,7 +421,7 @@ public class BigOAnalyserTest {
    @Test
    public void addNanoTime_OneValue_CallsAsExpectedOne() {
       // ARRANG
-      final Item bigOProbe = new Item();
+      final BigODataPoint bigOProbe = new BigODataPoint();
 
       // ACT
       bigOProbe.addTime(123);

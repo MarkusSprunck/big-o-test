@@ -28,12 +28,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.sw_engineering_candies.big_o_test.fitter;
+package com.sw_engineering_candies.big_o_test;
 
 /**
  * Class to store measured results.
  */
-public class Item {
+public class BigODataPoint {
 
    private long calls = 0L;
 

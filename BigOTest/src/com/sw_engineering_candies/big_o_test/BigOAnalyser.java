@@ -51,7 +51,6 @@ import com.sw_engineering_candies.big_o_test.fitter.FitterLogLinear;
 import com.sw_engineering_candies.big_o_test.fitter.FitterLogarithmic;
 import com.sw_engineering_candies.big_o_test.fitter.FitterPolynomial;
 import com.sw_engineering_candies.big_o_test.fitter.FitterPowerLaw;
-import com.sw_engineering_candies.big_o_test.fitter.Item;
 import com.sw_engineering_candies.big_o_test.fitter.RankedFittingFunctions;
 import com.sw_engineering_candies.big_o_test.interfaces.BigOParameter;
 
@@ -66,7 +65,7 @@ public class BigOAnalyser {
     * Stores all measured results in <b>Item</b> objects. The <b>keys</b> of the hash map follow the
     * convention: <i>[method name]#[first size]#[second size]...#[last size]</i>
     */
-   private final Map<String, Item> values = new HashMap<String, Item>(1000);
+   private final Map<String, BigODataPoint> values = new HashMap<String, BigODataPoint>(1000);
 
    /**
     * This flag is used to deactivate measurement during execution. This is needed, because the
@@ -128,7 +127,7 @@ public class BigOAnalyser {
                final double cell = Long.parseLong(splitedKey[i]);
                result.put(rowIndex, "N" + i, cell);
             }
-            final Item lastCall = getValue(key);
+            final BigODataPoint lastCall = getValue(key);
             final double cell = (double) lastCall.getTime() / (double) lastCall.getCalls();
             result.put(rowIndex, "TIME", cell);
          }
@@ -280,11 +279,11 @@ public class BigOAnalyser {
 
          private void storeTimeMeasurement(String currentKey, long deltaTime, long calls) {
             if (values.containsKey(currentKey)) {
-               final Item bigOProbe = values.get(currentKey);
+               final BigODataPoint bigOProbe = values.get(currentKey);
                bigOProbe.addTime(deltaTime);
                bigOProbe.setCalls(calls);
             } else {
-               final Item bigOProbe = new Item();
+               final BigODataPoint bigOProbe = new BigODataPoint();
                bigOProbe.addTime(deltaTime);
                bigOProbe.setCalls(calls);
                values.put(currentKey, bigOProbe);
@@ -345,7 +344,7 @@ public class BigOAnalyser {
       return handler;
    }
 
-   protected Item getValue(String key) {
+   protected BigODataPoint getValue(String key) {
       return values.get(key);
    }
 
