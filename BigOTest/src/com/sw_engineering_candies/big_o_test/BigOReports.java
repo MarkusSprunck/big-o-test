@@ -36,7 +36,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import com.google.common.collect.Table;
-import com.sw_engineering_candies.big_o_test.fitter.RankedFittingFunctions;
 
 public class BigOReports {
 
@@ -58,7 +57,7 @@ public class BigOReports {
 
    public static String getBestFunction(final Table<Integer, String, Double> input) {
       // try to find all the fits
-      final RankedFittingFunctions functions = BigOAnalyser.calculateBestFittingFunctions(input);
+      final BigOFittingResults functions = BigOAnalyser.calculateBestFittingFunctions(input);
 
       // return best fit
       return functions.get(functions.descendingKeySet().first());
@@ -66,7 +65,7 @@ public class BigOReports {
 
    public static String getBestFunctionsReport(final Table<Integer, String, Double> input) {
       // try to find best fits
-      final RankedFittingFunctions functions = BigOAnalyser.calculateBestFittingFunctions(input);
+      final BigOFittingResults functions = BigOAnalyser.calculateBestFittingFunctions(input);
 
       // add the function ordered by the R^2 value of the fits
       final StringBuilder result = new StringBuilder(1000);

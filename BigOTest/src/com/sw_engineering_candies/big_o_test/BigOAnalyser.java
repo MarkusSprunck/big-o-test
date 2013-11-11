@@ -51,7 +51,6 @@ import com.sw_engineering_candies.big_o_test.fitter.FitterLogLinear;
 import com.sw_engineering_candies.big_o_test.fitter.FitterLogarithmic;
 import com.sw_engineering_candies.big_o_test.fitter.FitterPolynomial;
 import com.sw_engineering_candies.big_o_test.fitter.FitterPowerLaw;
-import com.sw_engineering_candies.big_o_test.fitter.RankedFittingFunctions;
 import com.sw_engineering_candies.big_o_test.interfaces.BigOParameter;
 
 public class BigOAnalyser {
@@ -198,9 +197,9 @@ public class BigOAnalyser {
     * Helper function to find the best fitting function. The approach is based on the estimation of
     * the polynomial degree of the measured data.
     */
-   protected static RankedFittingFunctions calculateBestFittingFunctions(final Table<Integer, String, Double> input) {
+   protected static BigOFittingResults calculateBestFittingFunctions(final Table<Integer, String, Double> input) {
 
-      final RankedFittingFunctions result = new RankedFittingFunctions();
+      final BigOFittingResults result = new BigOFittingResults();
 
       final double degree = estimatePolynomialDegree(input);
 

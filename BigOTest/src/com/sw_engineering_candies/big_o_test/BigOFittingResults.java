@@ -29,15 +29,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.sw_engineering_candies.big_o_test.fitter;
+package com.sw_engineering_candies.big_o_test;
 
 import java.util.TreeMap;
 
-public class RankedFittingFunctions extends TreeMap<Double, String> {
+public class BigOFittingResults extends TreeMap<Double, String> {
 
    private static final long serialVersionUID = -801766552112481514L;
 
-   public RankedFittingFunctions() {
+   public BigOFittingResults() {
       super();
    }
 }
