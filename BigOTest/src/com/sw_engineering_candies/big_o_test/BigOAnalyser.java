@@ -53,12 +53,15 @@ import com.sw_engineering_candies.big_o_test.math.FitterLogarithmic;
 import com.sw_engineering_candies.big_o_test.math.FitterPolynomial;
 import com.sw_engineering_candies.big_o_test.math.FitterPowerLaw;
 
+/**
+ * This class measures the Big-O time efficiency with a proxy of the system under test.
+ */
 public class BigOAnalyser {
 
    /**
     * Measurement interval in nanoseconds
     */
-   private static final long MEASUREMENT_INTERVAL = 50 * 1000 * 1000L;
+   private static final long MINIMAL_MEASUREMENT_INTERVAL = 100 * 1000 * 1000L;
 
    /**
     * Stores all measured results in <b>Item</b> objects. The <b>keys</b> of the hash map follow the
@@ -99,15 +102,15 @@ public class BigOAnalyser {
          final MethodHandler methodHandler = createMethodHandler();
          proxy = pf.create(new Class<?>[0], new Object[0], methodHandler);
       } catch (final NoSuchMethodException e) {
-         Preconditions.checkState(false, "ERROR #1 in createproxy -> " + e.getMessage());
+         Preconditions.checkState(false, "ERROR in createproxy -> " + e.getMessage());
       } catch (final InstantiationException e) {
-         Preconditions.checkState(false, "ERROR #2 in createproxy -> " + e.getMessage());
+         Preconditions.checkState(false, "ERROR in createproxy -> " + e.getMessage());
       } catch (final IllegalArgumentException e) {
-         Preconditions.checkState(false, "ERROR #3 in createproxy -> " + e.getMessage());
+         Preconditions.checkState(false, "ERROR in createproxy -> " + e.getMessage());
       } catch (final IllegalAccessException e) {
-         Preconditions.checkState(false, "ERROR #4 in createproxy -> " + e.getMessage());
+         Preconditions.checkState(false, "ERROR in createproxy -> " + e.getMessage());
       } catch (final InvocationTargetException e) {
-         Preconditions.checkState(false, "ERROR #5 in createproxy -> " + e.getMessage());
+         Preconditions.checkState(false, "ERROR in createproxy -> " + e.getMessage());
       }
       return proxy;
    }
@@ -262,13 +265,13 @@ public class BigOAnalyser {
                   result = proceed.invoke(self, args);
                   calls++;
                   endTime = System.nanoTime();
-               } while ((endTime - startTime) < MEASUREMENT_INTERVAL);
+               } while ((endTime - startTime) < MINIMAL_MEASUREMENT_INTERVAL);
             } catch (final IllegalArgumentException e) {
-               Preconditions.checkState(false, "ERROR #6 in invoke -> " + e.getMessage());
+               Preconditions.checkState(false, "ERROR in invoke -> " + e.getMessage());
             } catch (final IllegalAccessException e) {
-               Preconditions.checkState(false, "ERROR #7 in invoke -> " + e.getMessage());
+               Preconditions.checkState(false, "ERROR in invoke -> " + e.getMessage());
             } catch (final InvocationTargetException e) {
-               Preconditions.checkState(false, "ERROR #8 in invoke -> " + e.getCause());
+               Preconditions.checkState(false, "ERROR in invoke -> " + e.getCause());
             }
             if (active) {
                storeTimeMeasurement(Key, endTime - startTime, calls);
@@ -333,7 +336,7 @@ public class BigOAnalyser {
                final StringBuilder message = new StringBuilder(100);
                message.append("Not supported data type '");
                message.append(parameterType);
-               message.append("' for BigOAnalysis in method ");
+               message.append("' for method ");
                message.append((result.toString().split("#"))[0]);
                Preconditions.checkState(false, message);
             }

@@ -38,7 +38,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * This annotation marks the parameter to be investigated
+ * This annotation is used to mark the parameter to be investigated during measurement.
  */
 @Target({ PARAMETER })
 @Retention(RUNTIME)

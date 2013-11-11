@@ -35,12 +35,15 @@ import java.util.Map;
 
 import com.google.common.base.Preconditions;
 
-public class FitterLogarithmic extends FitterAbstractBase {
+/**
+ * This class fits logarithmic function: Y = a0 + a1 * log ( x )
+ * 
+ * See: http://mathworld.wolfram.com/LeastSquaresFittingLogarithmic.html
+ */
+public class FitterLogarithmic extends FitterBase {
 
    /**
-    * Fit exponential function: Y = a0 + a1 * log ( x )
-    * 
-    * see http://mathworld.wolfram.com/LeastSquaresFittingLogarithmic.html
+    * Set all the input data and execute fit
     */
    public void init(Map<Integer, Double> xValues, Map<Integer, Double> yValues) {
       // check preconditions
@@ -56,7 +59,7 @@ public class FitterLogarithmic extends FitterAbstractBase {
    }
 
    /**
-    * Calculates the fitted polynomial for point x
+    * Calculates the fitted function for point x
     */
    @Override
    public double getY(final double x) {

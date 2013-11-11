@@ -42,11 +42,10 @@ import org.apache.commons.math3.linear.RealVector;
 import com.google.common.base.Preconditions;
 
 /**
- * The polynomial fitter has no performance optimizations to better understand and maintain the
- * implementation. A degree polynomial has (degree+1) coefficients.
- * 
+ * This class fits Polynomial function: Y = a0 + a1 * x + ... + aN * x^N. A degree polynomial has
+ * (degree+1) coefficients.
  */
-public class FitterPolynomial extends FitterAbstractBase {
+public class FitterPolynomial extends FitterBase {
 
    /**
     * Set all the input data and execute fit
@@ -66,7 +65,7 @@ public class FitterPolynomial extends FitterAbstractBase {
    }
 
    /**
-    * Calculates the fitted polynomial for point x
+    * Calculates the fitted function for point x
     */
    @Override
    public double getY(final double x) {

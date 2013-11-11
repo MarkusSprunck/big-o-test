@@ -35,7 +35,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class FitterAbstractBase {
+/**
+ * This class is the base for all fitter implementations. It provides common functionality for all
+ * fitters.
+ */
+public abstract class FitterBase {
 
    /**
     * Coefficient of Determination for the fitted polynomial and the underlying data points

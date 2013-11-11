@@ -41,12 +41,15 @@ import org.apache.commons.math3.linear.RealVector;
 
 import com.google.common.base.Preconditions;
 
-public class FitterExponential extends FitterAbstractBase {
+/**
+ * This class fits exponential function: Y = a0 * exp ( a1 * x ).
+ * 
+ * See http://mathworld.wolfram.com/LeastSquaresFittingExponential.html
+ */
+public class FitterExponential extends FitterBase {
 
    /**
-    * Fit exponential function: Y = a0 * exp ( a1 * x )
-    * 
-    * see http://mathworld.wolfram.com/LeastSquaresFittingExponential.html
+    * Set all the input data and execute fit
     */
    public void init(Map<Integer, Double> xValues, Map<Integer, Double> yValues) {
       // check preconditions
@@ -62,7 +65,7 @@ public class FitterExponential extends FitterAbstractBase {
    }
 
    /**
-    * Calculates the fitted polynomial for point x
+    * Calculates the fitted function for point x
     */
    @Override
    public double getY(final double x) {

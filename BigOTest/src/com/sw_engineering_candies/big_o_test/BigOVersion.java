@@ -31,10 +31,13 @@
 
 package com.sw_engineering_candies.big_o_test;
 
+/**
+ * This class is a dummy - because a main function is needed for the runnable jar file.
+ */
 public class BigOVersion {
 
    public static void main(String[] args) {
-      System.out.print("BigOTest.jar v0.4");
+      System.out.print("BigOTest.jar v0.5");
    }
 
 }

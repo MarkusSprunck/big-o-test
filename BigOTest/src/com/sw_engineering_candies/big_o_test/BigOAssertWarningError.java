@@ -31,6 +31,9 @@
 
 package com.sw_engineering_candies.big_o_test;
 
+/**
+ * This class is used as a standard exception in all assert methods.
+ */
 @SuppressWarnings("serial")
 public class BigOAssertWarningError extends AssertionError {
 

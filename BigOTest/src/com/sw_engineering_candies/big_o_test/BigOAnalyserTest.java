@@ -475,7 +475,7 @@ public class BigOAnalyserTest {
 
       // ACT
       String actual = "";
-      final String expected = "Not supported data type 'class java.io.File' for BigOAnalysis in method runNotSupportedParameter";
+      final String expected = "Not supported data type 'class java.io.File' for method runNotSupportedParameter";
       try {
          sut.runNotSupportedParameter(null);
       } catch (final IllegalStateException ex) {
@@ -518,7 +518,7 @@ public class BigOAnalyserTest {
 
       // ACT
       String actual = "";
-      final String expected = "ERROR #8 in invoke -> java.lang.ArithmeticException: / by zero";
+      final String expected = "ERROR in invoke -> java.lang.ArithmeticException: / by zero";
       try {
          sut.runRaiseException(0);
       } catch (final IllegalStateException ex) {

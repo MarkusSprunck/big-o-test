@@ -39,10 +39,13 @@ import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquar
 
 import com.google.common.base.Preconditions;
 
-public class FitterLogLinear extends FitterAbstractBase {
+/**
+ * This class fits log-linear function: Y = a0 *x * log ( a1 * x )
+ */
+public class FitterLogLinear extends FitterBase {
 
    /**
-    * Fit linear log function: Y = a0 *x * log ( a1 * x )
+    * Set all the input data and execute fit
     */
    public void init(Map<Integer, Double> xValues, Map<Integer, Double> yValues) {
       // check preconditions
@@ -58,7 +61,7 @@ public class FitterLogLinear extends FitterAbstractBase {
    }
 
    /**
-    * Calculates the fitted polynomial for point x
+    * Calculates the fitted function for point x
     */
    @Override
    public double getY(final double x) {

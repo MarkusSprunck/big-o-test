@@ -37,6 +37,9 @@ import java.util.TreeSet;
 
 import com.google.common.collect.Table;
 
+/**
+ * This class is used to print the results of fitting and measured data.
+ */
 public class BigOReports {
 
    /**

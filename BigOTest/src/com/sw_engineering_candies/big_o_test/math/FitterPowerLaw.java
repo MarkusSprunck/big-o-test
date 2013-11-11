@@ -35,12 +35,15 @@ import java.util.Map;
 
 import com.google.common.base.Preconditions;
 
-public class FitterPowerLaw extends FitterAbstractBase {
+/**
+ * Fit power-law function: Y = a0 * x ^ a1
+ * 
+ * See http://mathworld.wolfram.com/LeastSquaresFittingPowerLaw.html
+ */
+public class FitterPowerLaw extends FitterBase {
 
    /**
-    * Fit exponential function: Y = a0 * x ^ a1
-    * 
-    * see http://mathworld.wolfram.com/LeastSquaresFittingPowerLaw.html
+    * Set all the input data and execute fit
     */
    public void init(Map<Integer, Double> xValues, Map<Integer, Double> yValues) {
       // check preconditions
@@ -56,7 +59,7 @@ public class FitterPowerLaw extends FitterAbstractBase {
    }
 
    /**
-    * Calculates the fitted polynomial for point x
+    * Calculates the fitted function for point x
     */
    @Override
    public double getY(final double x) {

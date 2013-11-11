@@ -67,7 +67,7 @@ public class FitterPolynomialTest {
             + "3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00");
       Assert.assertEquals(expected, polynom.toString());
    }
-   
+
    @Test
    public void init_PolynomialRegressionDataThirdDegree_CorrectPolynom() {
       // ARRANGE

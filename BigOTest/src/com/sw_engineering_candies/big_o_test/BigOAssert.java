@@ -57,7 +57,7 @@ public class BigOAssert {
       // check preconditions
       Preconditions.checkNotNull(boa);
       Preconditions.checkNotNull(method);
-      Preconditions.checkArgument(boa.isAnalysed(method), "here we need a analysed method name");
+      Preconditions.checkArgument(boa.isAnalysed(method), "here we need an analysed method name");
       Preconditions.checkArgument(0.0 <= expected);
       Preconditions.checkArgument(0.0 <= delta);
 
@@ -81,7 +81,7 @@ public class BigOAssert {
       // check preconditions
       Preconditions.checkNotNull(boa);
       Preconditions.checkNotNull(method);
-      Preconditions.checkArgument(boa.isAnalysed(method), "here we need a analysed method name");
+      Preconditions.checkArgument(boa.isAnalysed(method), "here we need an analysed method name");
 
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getDataChecked(method);
@@ -104,7 +104,7 @@ public class BigOAssert {
       // check preconditions
       Preconditions.checkNotNull(boa);
       Preconditions.checkNotNull(method);
-      Preconditions.checkArgument(boa.isAnalysed(method), "here we need a analysed method name");
+      Preconditions.checkArgument(boa.isAnalysed(method), "here we need an analysed method name");
 
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getDataChecked(method);
@@ -127,7 +127,7 @@ public class BigOAssert {
       // check preconditions
       Preconditions.checkNotNull(boa);
       Preconditions.checkNotNull(method);
-      Preconditions.checkArgument(boa.isAnalysed(method), "here we need a analysed method name");
+      Preconditions.checkArgument(boa.isAnalysed(method), "here we need an analysed method name");
 
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getDataChecked(method);
@@ -150,7 +150,7 @@ public class BigOAssert {
       // check preconditions
       Preconditions.checkNotNull(boa);
       Preconditions.checkNotNull(method);
-      Preconditions.checkArgument(boa.isAnalysed(method), "here we need a analysed method name");
+      Preconditions.checkArgument(boa.isAnalysed(method), "here we need an analysed method name");
 
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getDataChecked(method);
@@ -173,7 +173,7 @@ public class BigOAssert {
       // check preconditions
       Preconditions.checkNotNull(boa);
       Preconditions.checkNotNull(method);
-      Preconditions.checkArgument(boa.isAnalysed(method), "here we need a analysed method name");
+      Preconditions.checkArgument(boa.isAnalysed(method), "here we need an analysed method name");
 
       // fetch measured data
       final Table<Integer, String, Double> data = boa.getDataChecked(method);
