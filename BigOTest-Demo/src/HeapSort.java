@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sw_engineering_candies.big_o_test.BigOParameter;
+import com.sw_engineering_candies.big_o_test.interfaces.BigOParameter;
 
 public class HeapSort {
 

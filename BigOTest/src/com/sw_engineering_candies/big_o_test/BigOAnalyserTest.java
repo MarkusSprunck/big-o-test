@@ -45,6 +45,7 @@ import org.junit.Test;
 
 import com.google.common.collect.Table;
 import com.sw_engineering_candies.big_o_test.fitter.Item;
+import com.sw_engineering_candies.big_o_test.interfaces.BigOParameter;
 import com.sw_engineering_candies.big_o_test.utils.Algorithms;
 
 public class BigOAnalyserTest {

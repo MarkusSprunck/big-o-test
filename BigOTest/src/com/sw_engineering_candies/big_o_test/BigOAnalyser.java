@@ -53,6 +53,7 @@ import com.sw_engineering_candies.big_o_test.fitter.FitterPolynomial;
 import com.sw_engineering_candies.big_o_test.fitter.FitterPowerLaw;
 import com.sw_engineering_candies.big_o_test.fitter.Item;
 import com.sw_engineering_candies.big_o_test.fitter.RankedFittingFunctions;
+import com.sw_engineering_candies.big_o_test.interfaces.BigOParameter;
 
 public class BigOAnalyser {
 
