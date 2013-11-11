@@ -110,14 +110,22 @@ public class FitterPolynomial extends FitterAbstractBase {
     */
    @Override
    public String toString() {
-      final StringBuilder result = new StringBuilder(100);
+      final StringBuilder equation = new StringBuilder(100);
       final int maxIndex = coefficients.size() - 1;
       for (int index = maxIndex; index >= 0; index--) {
-         result.append(String.format("%.2E", coefficients.get(index)));
+         equation.append(String.format("%.2E", coefficients.get(index)));
          if (index > 0) {
-            result.append(" * x^").append(index).append(" + ");
+            equation.append(" * x^").append(index).append(" + ");
          }
       }
+      StringBuilder result = new StringBuilder();
+      result.append(getPolynomialType());
+      result.append(String.format("\t%.4f        \ty = ", getRSquareAdjusted()) );
+      result.append(equation.toString());
+      return result.toString();
+   }
+
+   private String getPolynomialType() {
       String type;
       switch (coefficients.size()) {
       case 1: {
@@ -136,7 +144,7 @@ public class FitterPolynomial extends FitterAbstractBase {
          type = "Polynomial";
       }
       }
-      return type.concat(String.format("\t%.4f        \ty = ", getRSquareAdjusted()) + result.toString());
+      return type;
    }
 
 }
