@@ -33,6 +33,9 @@ package com.sw_engineering_candies.big_o_test;
 
 import java.util.TreeMap;
 
+/**
+ * This class is used to store all fitting results sorted by R^2 value (best fit is first).
+ */
 public class BigOFittingResults extends TreeMap<Double, String> {
 
    private static final long serialVersionUID = -801766552112481514L;

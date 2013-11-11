@@ -31,7 +31,7 @@
 package com.sw_engineering_candies.big_o_test;
 
 /**
- * This class is used as to store measured results.
+ * This class is used to store measured results.
  */
 public class BigODataPoint {
 
