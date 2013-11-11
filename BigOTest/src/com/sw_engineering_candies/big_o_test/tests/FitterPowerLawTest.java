@@ -29,13 +29,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.sw_engineering_candies.big_o_test.math;
+package com.sw_engineering_candies.big_o_test.tests;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
+import com.sw_engineering_candies.big_o_test.math.FitterPowerLaw;
 
 public class FitterPowerLawTest {
 

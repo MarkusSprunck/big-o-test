@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.sw_engineering_candies.big_o_test;
+package com.sw_engineering_candies.big_o_test.tests;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +39,9 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
-import com.sw_engineering_candies.big_o_test.utils.Algorithms;
+import com.sw_engineering_candies.big_o_test.BigOAnalyser;
+import com.sw_engineering_candies.big_o_test.BigODataPoint;
+import com.sw_engineering_candies.big_o_test.BigOReports;
 
 public class BigOReportsTest {
 

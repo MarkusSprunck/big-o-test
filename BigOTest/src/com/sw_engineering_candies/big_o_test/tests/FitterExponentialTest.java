@@ -29,55 +29,43 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.sw_engineering_candies.big_o_test.math;
+package com.sw_engineering_candies.big_o_test.tests;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
+import com.sw_engineering_candies.big_o_test.math.FitterExponential;
 
-public class FitterLogLinearTest {
+public class FitterExponentialTest {
 
    @Test
-   public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
+   public void getRSquareAdjusted_TenDataPoints_GetCorrectCoefficiantOfDetermination() {
       // ARRANGE
-      final Table<Integer, String, Double> input = createTestFunction();
-      final FitterLogLinear fitter = new FitterLogLinear();
-      fitter.init(input.column("N1"), input.column("TIME"));
+      final Table<Integer, String, Double> input = createTenPoints();
+      final FitterExponential polynom = new FitterExponential();
+      polynom.init(input.column("N1"), input.column("TIME"));
 
       // ACT
-      final double result = fitter.getRSquareAdjusted();
+      final double result = polynom.getRSquareAdjusted();
 
       // ASSERT
       Assert.assertEquals(1.0, result, 0.000000000000001);
    }
 
    @Test
-   public void init_PowerLawWithoutNoise_CorrectFunction() {
+   public void init_ExponentalFunctionWithoutNoise_CorrectFunction() {
       // ARRANGE
-      final Table<Integer, String, Double> input = createTestFunction();
-      final FitterLogLinear fitter = new FitterLogLinear();
+      final Table<Integer, String, Double> input = createTenPoints();
+      final FitterExponential exponentialFunction = new FitterExponential();
 
       // ACT
-      fitter.init(input.column("N1"), input.column("TIME"));
+      exponentialFunction.init(input.column("N1"), input.column("TIME"));
 
       // ASSERT
-      final String expected = "LogLinear	1,0000  	y = 5.00E+00 * x * log( 3.00E+00 * x )";
-      Assert.assertEquals(expected, fitter.toString());
-   }
-
-   private Table<Integer, String, Double> createTestFunction() {
-      final Table<Integer, String, Double> input;
-      input = TreeBasedTable.create();
-      int index = 1;
-      for (int i = 1; i <= 100; i *= 2) {
-         final double x = i;
-         input.put(index, "N1", x);
-         input.put(index, "TIME", (5 * x * Math.log(3.0 * x)));
-         index++;
-      }
-      return input;
+      final String expected = "Exponential	1,0000  	y = 1.00E+02 * exp ( 5.00E-01 * x )";
+      Assert.assertEquals(expected, exponentialFunction.toString());
    }
 
    @Test
@@ -86,19 +74,29 @@ public class FitterLogLinearTest {
       final Table<Integer, String, Double> input = TreeBasedTable.create();
       input.put(1, "N1", 0.0);
       input.put(1, "TIME", 10.0);
-      final FitterLogLinear function = new FitterLogLinear();
+      final FitterExponential exponentialFunction = new FitterExponential();
 
       // ACT
       String actual = "";
       final String expected = "need minimum 2 data points to do the fit";
       try {
-         function.init(input.column("N1"), input.column("TIME"));
+         exponentialFunction.init(input.column("N1"), input.column("TIME"));
       } catch (final IllegalArgumentException ex) {
          actual = ex.getMessage();
       }
 
       // ASSERT
       Assert.assertEquals(expected, actual);
+   }
+
+   private Table<Integer, String, Double> createTenPoints() {
+      final Table<Integer, String, Double> input;
+      input = TreeBasedTable.create();
+      for (int i = 1; i <= 10; i++) {
+         input.put(i, "N1", (double) i);
+         input.put(i, "TIME", (100.0 * Math.exp(0.5 * i)));
+      }
+      return input;
    }
 
 }

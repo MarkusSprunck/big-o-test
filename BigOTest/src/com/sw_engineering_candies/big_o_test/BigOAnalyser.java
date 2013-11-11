@@ -118,7 +118,7 @@ public class BigOAnalyser {
    /**
     * Get measured data for one method.
     */
-   protected Table<Integer, String, Double> getData(String method) {
+   public Table<Integer, String, Double> getData(String method) {
       final TreeBasedTable<Integer, String, Double> result = TreeBasedTable.create();
       int rowIndex = 0;
       for (final String key : getKeys()) {
@@ -346,11 +346,11 @@ public class BigOAnalyser {
       return handler;
    }
 
-   protected BigODataPoint getValue(String key) {
+   public BigODataPoint getValue(String key) {
       return values.get(key);
    }
 
-   protected Set<String> getKeys() {
+   public Set<String> getKeys() {
       return values.keySet();
    }
 

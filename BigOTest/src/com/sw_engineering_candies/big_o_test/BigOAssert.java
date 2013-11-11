@@ -46,7 +46,7 @@ public class BigOAssert {
    private static final double DEGREE_EXPECTED_LOGLINEAR = 1.1;
    private static final double DEGREE_EXPECTED_LINEAR = 1.0;
    private static final double DEGREE_EXPECTED_CONSTANT = 0.0;
-   private static final double DEGREE_EXPECTED_DELTA = 0.1;
+   private static final double DEGREE_EXPECTED_DELTA = 0.15;
 
    /**
     * Use the platform independent line separator

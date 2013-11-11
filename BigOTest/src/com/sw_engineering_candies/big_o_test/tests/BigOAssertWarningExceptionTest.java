@@ -29,11 +29,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.sw_engineering_candies.big_o_test;
+package com.sw_engineering_candies.big_o_test.tests;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
+
+import com.sw_engineering_candies.big_o_test.BigOAssertWarningError;
 
 public class BigOAssertWarningExceptionTest {
 
