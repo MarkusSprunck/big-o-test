@@ -257,9 +257,9 @@ public class BigOAssertTest {
       try {
          BigOAssert.assertLinear(boa, "runLinear");
       } catch (final BigOAssertWarningError ex) {
-         final Table<Integer, String, Double> data = boa.getResultTable("runLinear");
+         final Table<Integer, String, Double> data = boa.getData("runLinear");
          System.err.println(ex.getMessage());
-         System.out.println(BigOReports.caclulateBestFunctionsTable(data));
+         System.out.println(BigOReports.getBestFunctionsReport(data));
          exceptionHappened = true;
       }
 

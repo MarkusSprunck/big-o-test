@@ -116,7 +116,7 @@ public class BigOAnalyser {
    /**
     * Get measured data for one method.
     */
-   protected Table<Integer, String, Double> getResultTable(String method) {
+   protected Table<Integer, String, Double> getData(String method) {
       final TreeBasedTable<Integer, String, Double> result = TreeBasedTable.create();
       int rowIndex = 0;
       for (final String key : getKeys()) {
@@ -139,13 +139,13 @@ public class BigOAnalyser {
    /**
     * Get measured data for one method - with some internal checks.
     */
-   public Table<Integer, String, Double> getResultTableChecked(String method) {
+   public Table<Integer, String, Double> getDataChecked(String method) {
       // check preconditions
       Preconditions.checkNotNull(method);
       Preconditions.checkArgument(!method.isEmpty());
 
       // fetch data table
-      final Table<Integer, String, Double> data = getResultTable(method);
+      final Table<Integer, String, Double> data = getData(method);
 
       // check size of data point table
       final boolean isNumberOfDataPointsSufficient = data.column("TIME").size() >= 4;

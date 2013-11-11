@@ -45,7 +45,18 @@ public class BigOReports {
     */
    private static final String NL = System.getProperty("line.separator");
 
-   public static String calculateBestFunction(final Table<Integer, String, Double> input) {
+   public static String getPolynomialDegree(final Table<Integer, String, Double> input) {
+      // try to find all the fits
+      final Double degree = BigOAnalyser.estimatePolynomialDegree(input);
+
+      // print result
+      final StringBuilder result = new StringBuilder(100);
+      result.append("ESTIMATED-POLYNOMIAL-DEGREE").append(NL);
+      result.append(String.format("%.4f", degree)).append(NL);
+      return result.toString();
+   }
+
+   public static String getBestFunction(final Table<Integer, String, Double> input) {
       // try to find all the fits
       final RankedFittingFunctions functions = BigOAnalyser.calculateBestFittingFunctions(input);
 
@@ -53,7 +64,7 @@ public class BigOReports {
       return functions.get(functions.descendingKeySet().first());
    }
 
-   public static String caclulateBestFunctionsTable(final Table<Integer, String, Double> input) {
+   public static String getBestFunctionsReport(final Table<Integer, String, Double> input) {
       // try to find best fits
       final RankedFittingFunctions functions = BigOAnalyser.calculateBestFittingFunctions(input);
 
@@ -67,7 +78,7 @@ public class BigOReports {
       return result.toString();
    }
 
-   public static String createDataReport(Table<Integer, String, Double> input) {
+   public static String getDataReport(Table<Integer, String, Double> input) {
       final StringBuilder result = new StringBuilder(1000);
 
       // header of the table

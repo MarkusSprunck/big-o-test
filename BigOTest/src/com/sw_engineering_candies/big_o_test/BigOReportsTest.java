@@ -52,7 +52,7 @@ public class BigOReportsTest {
    final BigOAnalyser boa = new BigOAnalyser();
 
    @Test
-   public void createDataReport_MoreCallsOfOneFunction_GetCorrectReport() {
+   public void getDataReport_MoreCallsOfOneFunction_GetCorrectReport() {
       // ARRANGE
       final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -71,10 +71,10 @@ public class BigOReportsTest {
       final Item result2 = boa.getValue("run#6#8#0");
       result2.setNanoTime(23456);
       result2.setCalls(1);
-      final Table<Integer, String, Double> data = boa.getResultTable("run");
+      final Table<Integer, String, Double> data = boa.getData("run");
 
       // ACT
-      final String actual = BigOReports.createDataReport(data);
+      final String actual = BigOReports.getDataReport(data);
 
       // ASSERT
       final StringBuilder expected = new StringBuilder(100);
@@ -85,24 +85,24 @@ public class BigOReportsTest {
    }
 
    @Test
-   public void createDataReport_OneCallOfRunLinear_GetReport() {
+   public void getDataReport_OneCallOfRunLinear_GetReport() {
       // ARRANGE
       final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
       sut.runLinear(10);
       final Item result = boa.getValue("runLinear#10");
       result.setNanoTime(123);
       result.setCalls(1);
-      final Table<Integer, String, Double> data = boa.getResultTable("runLinear");
+      final Table<Integer, String, Double> data = boa.getData("runLinear");
 
       // ACT
-      final String actual = BigOReports.createDataReport(data);
+      final String actual = BigOReports.getDataReport(data);
 
       // ASSERT
       Assert.assertEquals("N1\tTIME".concat(NL).concat("10\t123").concat(NL), actual);
    }
 
    @Test
-   public void createDataReport_FourCallsOfrunLinear_GetReport() {
+   public void getDataReport_FourCallsOfrunLinear_GetReport() {
       // ARRANGE
       final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -126,10 +126,10 @@ public class BigOReportsTest {
       result3.setNanoTime(567);
       result3.setCalls(1);
 
-      final Table<Integer, String, Double> data = boa.getResultTable("runLinear");
+      final Table<Integer, String, Double> data = boa.getData("runLinear");
 
       // ACT
-      final String actual = BigOReports.createDataReport(data);
+      final String actual = BigOReports.getDataReport(data);
 
       // ASSERT
       final StringBuilder expected = new StringBuilder(100);
@@ -141,7 +141,7 @@ public class BigOReportsTest {
    }
 
    @Test
-   public void createDataReport_OneCall_GetCorrectReport() {
+   public void getDataReport_OneCall_GetCorrectReport() {
       // ARRANGE
       final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -152,10 +152,10 @@ public class BigOReportsTest {
       final Item result = boa.getValue("run#8#4#5");
       result.setNanoTime(12345);
       result.setCalls(1);
-      final Table<Integer, String, Double> data = boa.getResultTable("run");
+      final Table<Integer, String, Double> data = boa.getData("run");
 
       // ACT
-      final String actual = BigOReports.createDataReport(data);
+      final String actual = BigOReports.getDataReport(data);
 
       // ASSERT
       final String expected = "N1\tN2\tN3\tTIME".concat(NL).concat("8\t4\t5\t12345").concat(NL);
