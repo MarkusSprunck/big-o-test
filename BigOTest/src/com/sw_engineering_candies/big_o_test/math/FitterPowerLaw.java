@@ -29,18 +29,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.sw_engineering_candies.big_o_test.fitter;
+package com.sw_engineering_candies.big_o_test.math;
 
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
 
-public class FitterLogarithmic extends FitterAbstractBase {
+public class FitterPowerLaw extends FitterAbstractBase {
 
    /**
-    * Fit exponential function: Y = a0 + a1 * log ( x )
+    * Fit exponential function: Y = a0 * x ^ a1
     * 
-    * see http://mathworld.wolfram.com/LeastSquaresFittingLogarithmic.html
+    * see http://mathworld.wolfram.com/LeastSquaresFittingPowerLaw.html
     */
    public void init(Map<Integer, Double> xValues, Map<Integer, Double> yValues) {
       // check preconditions
@@ -60,7 +60,7 @@ public class FitterLogarithmic extends FitterAbstractBase {
     */
    @Override
    public double getY(final double x) {
-      return coefficients.get(0) + coefficients.get(1) * Math.log(x);
+      return coefficients.get(0) * Math.pow(x, coefficients.get(1));
    }
 
    private void calculateCoefficients() {
@@ -72,13 +72,13 @@ public class FitterLogarithmic extends FitterAbstractBase {
       for (int pointIndex = 1; pointIndex <= n; pointIndex++) {
          final double x = super.xValues.get(pointIndex);
          final double y = super.yValues.get(pointIndex);
-         sum1 += y * Math.log(x);
-         sum2 += y;
-         sum3 += Math.log(x);
+         sum1 += Math.log(y) * Math.log(x);
+         sum2 += Math.log(x);
+         sum3 += Math.log(y);
          sum4 += Math.log(x) * Math.log(x);
       }
-      final double b = (n * sum1 - sum2 * sum3) / (n * sum4 - sum3 * sum3);
-      final double a = (sum2 - b * sum3) / (n);
+      final double b = (n * sum1 - sum2 * sum3) / (n * sum4 - sum2 * sum2);
+      final double a = Math.exp((sum3 - b * sum2) / n);
       super.coefficients.add(0, a);
       super.coefficients.add(1, b);
    }
@@ -86,11 +86,10 @@ public class FitterLogarithmic extends FitterAbstractBase {
    @Override
    public String toString() {
       final StringBuilder result = new StringBuilder(100);
-      result.append(String.format("Logarithmic\t%.4f  \ty = ", getRSquareAdjusted()));
+      result.append(String.format("PowerLaw\t%.4f  \ty = ", getRSquareAdjusted()));
       result.append(String.format("%.2E", coefficients.get(0)));
-      result.append(" + ");
+      result.append(" * x^");
       result.append(String.format("%.2E", coefficients.get(1)));
-      result.append(" * log ( x )");
       return result.toString();
    }
 

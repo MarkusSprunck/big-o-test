@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.sw_engineering_candies.big_o_test.fitter;
+package com.sw_engineering_candies.big_o_test.math;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -46,12 +46,12 @@ import javassist.util.proxy.MethodHandler;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import com.sw_engineering_candies.big_o_test.fitter.FitterExponential;
-import com.sw_engineering_candies.big_o_test.fitter.FitterLogLinear;
-import com.sw_engineering_candies.big_o_test.fitter.FitterLogarithmic;
-import com.sw_engineering_candies.big_o_test.fitter.FitterPolynomial;
-import com.sw_engineering_candies.big_o_test.fitter.FitterPowerLaw;
 import com.sw_engineering_candies.big_o_test.interfaces.BigOParameter;
+import com.sw_engineering_candies.big_o_test.math.FitterExponential;
+import com.sw_engineering_candies.big_o_test.math.FitterLogLinear;
+import com.sw_engineering_candies.big_o_test.math.FitterLogarithmic;
+import com.sw_engineering_candies.big_o_test.math.FitterPolynomial;
+import com.sw_engineering_candies.big_o_test.math.FitterPowerLaw;
 
 public class BigOAnalyser {
 

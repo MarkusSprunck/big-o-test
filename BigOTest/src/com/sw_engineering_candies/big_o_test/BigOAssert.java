@@ -43,7 +43,7 @@ public class BigOAssert {
     * Expected polynomial degrees
     */
    private static final double DEGREE_EXPECTED_QUADRATIC = 2.0;
-   private static final double DEGREE_EXPECTED_LOGLINEAR = 1.2;
+   private static final double DEGREE_EXPECTED_LOGLINEAR = 1.1;
    private static final double DEGREE_EXPECTED_LINEAR = 1.0;
    private static final double DEGREE_EXPECTED_CONSTANT = 0.0;
    private static final double DEGREE_EXPECTED_DELTA = 0.1;

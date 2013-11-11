@@ -29,24 +29,20 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.sw_engineering_candies.big_o_test.fitter;
+package com.sw_engineering_candies.big_o_test.math;
 
 import java.util.Map;
 
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.DecompositionSolver;
-import org.apache.commons.math3.linear.LUDecomposition;
-import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math3.fitting.CurveFitter;
+import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
 
 import com.google.common.base.Preconditions;
 
-public class FitterExponential extends FitterAbstractBase {
+public class FitterLogLinear extends FitterAbstractBase {
 
    /**
-    * Fit exponential function: Y = a0 * exp ( a1 * x )
-    * 
-    * see http://mathworld.wolfram.com/LeastSquaresFittingExponential.html
+    * Fit linear log function: Y = a0 *x * log ( a1 * x )
     */
    public void init(Map<Integer, Double> xValues, Map<Integer, Double> yValues) {
       // check preconditions
@@ -66,35 +62,60 @@ public class FitterExponential extends FitterAbstractBase {
     */
    @Override
    public double getY(final double x) {
-      return coefficients.get(0) * Math.exp(coefficients.get(1) * x);
+      return coefficients.get(0) * x * Math.log(coefficients.get(1) * x);
    }
 
    private void calculateCoefficients() {
-      final Array2DRowRealMatrix A = new Array2DRowRealMatrix(2, 2);
-      final ArrayRealVector b = new ArrayRealVector(2);
+      final LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
+      final CurveFitter<ParametricUnivariateFunction> curveFitter = new CurveFitter<ParametricUnivariateFunction>(
+            optimizer);
+
       for (int pointIndex = 1; pointIndex <= super.xValues.size(); pointIndex++) {
          final double x = super.xValues.get(pointIndex);
          final double y = super.yValues.get(pointIndex);
-         A.addToEntry(0, 0, y);
-         A.addToEntry(0, 1, x * y);
-         A.addToEntry(1, 0, x * y);
-         A.addToEntry(1, 1, x * x * y);
-         b.addToEntry(0, y * Math.log(y));
-         b.addToEntry(1, x * y * Math.log(y));
+         curveFitter.addObservedPoint(x, y);
       }
-      final DecompositionSolver solver = new LUDecomposition(A).getSolver();
-      final RealVector solution = solver.solve(b);
 
-      super.coefficients.add(0, Math.exp(solution.getEntry(0)));
-      super.coefficients.add(1, solution.getEntry(1));
+      final ParametricUnivariateFunction f = new ParametricUnivariateFunction() {
+
+         @Override
+         public double value(double x, double... parameters) {
+            final double a = parameters[0];
+            final double b = parameters[1];
+            return a * x * Math.log(b * x);
+         }
+
+         @Override
+         public double[] gradient(double x, double... parameters) {
+
+            final double a = parameters[0];
+            final double b = parameters[1];
+            final double[] gradients = new double[2];
+
+            // derivative with respect to a
+            gradients[0] = x * Math.log(b * x);
+
+            // derivative with respect to b
+            gradients[1] = a * x / b;
+
+            return gradients;
+
+         }
+      };
+
+      final double[] initialGuess = new double[] { 2.0, 0.5 };
+      final double[] estimatedParameters = curveFitter.fit(f, initialGuess);
+
+      super.coefficients.add(0, estimatedParameters[0]);
+      super.coefficients.add(1, estimatedParameters[1]);
    }
 
    @Override
    public String toString() {
       final StringBuilder result = new StringBuilder(100);
-      result.append(String.format("Exponential\t%.4f  \ty = ", getRSquareAdjusted()));
+      result.append(String.format("LogLinear\t%.4f  \ty = ", getRSquareAdjusted()));
       result.append(String.format("%.2E", coefficients.get(0)));
-      result.append(" * exp ( ");
+      result.append(" * x * log( ");
       result.append(String.format("%.2E", coefficients.get(1)));
       result.append(" * x )");
       return result.toString();
