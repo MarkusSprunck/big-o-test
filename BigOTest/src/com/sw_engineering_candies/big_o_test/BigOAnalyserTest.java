@@ -486,4 +486,61 @@ public class BigOAnalyserTest {
       Assert.assertEquals(expected, actual);
    }
 
+   @Test
+   public void run_NotStaticMethod_CorrectResult() {
+      // ARRANGE
+      final SutClass sut = (SutClass) boa.createProxy(SutClass.class);
+
+      // ACT
+      sut.run(100);
+
+      // ASSERT
+      Assert.assertEquals("[run#100]", boa.getKeys().toString());
+   }
+
+   @SuppressWarnings("static-access")
+   @Test
+   public void run_StaticMethod_EmptyResult() {
+      // ARRANGE
+      final SutClass sut = (SutClass) boa.createProxy(SutClass.class);
+
+      // ACT
+      sut.staticRun(100);
+
+      // ASSERT
+      Assert.assertEquals("[]", boa.getKeys().toString());
+   }
+
+   @Test
+   public void run_RaiseExceptionMethod_IllegalStateException() {
+      // ARRANGE
+      final SutClass sut = (SutClass) boa.createProxy(SutClass.class);
+
+      // ACT
+      String actual = "";
+      final String expected = "ERROR #8 in invoke -> java.lang.ArithmeticException: / by zero";
+      try {
+         sut.runRaiseException(0);
+      } catch (final IllegalStateException ex) {
+         actual = ex.getMessage();
+      }
+
+      // ASSERT
+      Assert.assertEquals(expected, actual);
+   }
+
+}
+
+class SutClass {
+   public static double staticRun(@BigOParameter int b) {
+      return 1.234;
+   }
+
+   public double run(@BigOParameter int b) {
+      return 1.234;
+   }
+
+   public double runRaiseException(@BigOParameter int b) {
+      return 1 / b;
+   }
 }

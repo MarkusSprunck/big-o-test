@@ -100,15 +100,15 @@ public class BigOAnalyser {
          final MethodHandler methodHandler = createMethodHandler();
          proxy = pf.create(new Class<?>[0], new Object[0], methodHandler);
       } catch (final NoSuchMethodException e) {
-         System.err.println("ERROR #2  in createproxy -> " + e.getMessage());
+         Preconditions.checkState(false, "ERROR #1 in createproxy -> " + e.getMessage());
       } catch (final InstantiationException e) {
-         System.err.println("ERROR #3  in createproxy -> " + e.getMessage());
+         Preconditions.checkState(false, "ERROR #2 in createproxy -> " + e.getMessage());
       } catch (final IllegalArgumentException e) {
-         System.err.println("ERROR #1 in createproxy -> " + e.getMessage());
+         Preconditions.checkState(false, "ERROR #3 in createproxy -> " + e.getMessage());
       } catch (final IllegalAccessException e) {
-         System.err.println("ERROR #4  in createproxy -> " + e.getMessage());
+         Preconditions.checkState(false, "ERROR #4 in createproxy -> " + e.getMessage());
       } catch (final InvocationTargetException e) {
-         System.err.println("ERROR #5  in createproxy -> " + e.getMessage());
+         Preconditions.checkState(false, "ERROR #5 in createproxy -> " + e.getMessage());
       }
       return proxy;
    }
@@ -265,11 +265,11 @@ public class BigOAnalyser {
                   endTime = System.nanoTime();
                } while ((endTime - startTime) < MEASUREMENT_INTERVAL);
             } catch (final IllegalArgumentException e) {
-               System.err.println("ERROR #6 in MethodHandler -> " + e.getMessage());
+               Preconditions.checkState(false, "ERROR #6 in invoke -> " + e.getMessage());
             } catch (final IllegalAccessException e) {
-               System.err.println("ERROR #6  in MethodHandler -> " + e.getMessage());
+               Preconditions.checkState(false, "ERROR #7 in invoke -> " + e.getMessage());
             } catch (final InvocationTargetException e) {
-               System.err.println("ERROR #7  in MethodHandler -> " + e.getMessage());
+               Preconditions.checkState(false, "ERROR #8 in invoke -> " + e.getCause());
             }
             if (active) {
                storeTimeMeasurement(Key, endTime - startTime, calls);
