@@ -39,6 +39,8 @@ import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.RealVector;
 
+import com.google.common.base.Preconditions;
+
 public class FitterExponential extends FitterAbstractBase {
 
    /**
@@ -46,14 +48,13 @@ public class FitterExponential extends FitterAbstractBase {
     * 
     * see http://mathworld.wolfram.com/LeastSquaresFittingExponential.html
     */
-   public void init(Map<Integer, Double> xValues_in, Map<Integer, Double> yValues_in) {
+   public void init(Map<Integer, Double> xValues, Map<Integer, Double> yValues) {
+      // check preconditions
+      Preconditions.checkNotNull(yValues);
+      Preconditions.checkArgument(xValues.size() >= 2, "need minimum 2 data points to do the fit");
 
-      if (xValues_in.size() <= 3) {
-         return;
-      }
-
-      super.xValues = xValues_in;
-      super.yValues = yValues_in;
+      super.xValues = xValues;
+      super.yValues = yValues;
       super.k = 2;
 
       calculateCoefficients();

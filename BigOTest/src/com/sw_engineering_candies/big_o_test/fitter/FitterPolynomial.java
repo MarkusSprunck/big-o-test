@@ -39,6 +39,8 @@ import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.RealVector;
 
+import com.google.common.base.Preconditions;
+
 /**
  * The polynomial fitter has no performance optimizations to better understand and maintain the
  * implementation. A degree polynomial has (degree+1) coefficients.
@@ -49,12 +51,14 @@ public class FitterPolynomial extends FitterAbstractBase {
    /**
     * Set all the input data and execute fit
     */
-   public void init(Map<Integer, Double> xValues_in, Map<Integer, Double> yValues_in, int degree) {
-      if (xValues_in.size() <= degree) {
-         return;
-      }
-      super.xValues = xValues_in;
-      super.yValues = yValues_in;
+   public void init(Map<Integer, Double> xValues, Map<Integer, Double> yValues, int degree) {
+      // check preconditions
+      Preconditions.checkNotNull(yValues);
+      Preconditions.checkArgument(xValues.size() >= degree,
+            "number of data points to do the fit is dependent from degree");
+
+      super.xValues = xValues;
+      super.yValues = yValues;
       super.k = degree + 1;
 
       calculateCoefficients(degree);
@@ -118,9 +122,9 @@ public class FitterPolynomial extends FitterAbstractBase {
             equation.append(" * x^").append(index).append(" + ");
          }
       }
-      StringBuilder result = new StringBuilder();
+      final StringBuilder result = new StringBuilder();
       result.append(getPolynomialType());
-      result.append(String.format("\t%.4f        \ty = ", getRSquareAdjusted()) );
+      result.append(String.format("\t%.4f        \ty = ", getRSquareAdjusted()));
       result.append(equation.toString());
       return result.toString();
    }

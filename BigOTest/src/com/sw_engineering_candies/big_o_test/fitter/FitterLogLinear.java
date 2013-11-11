@@ -37,19 +37,20 @@ import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math3.fitting.CurveFitter;
 import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
 
+import com.google.common.base.Preconditions;
+
 public class FitterLogLinear extends FitterAbstractBase {
 
    /**
     * Fit linear log function: Y = a0 *x * log ( a1 * x )
     */
-   public void init(Map<Integer, Double> xValues_in, Map<Integer, Double> yValues_in) {
+   public void init(Map<Integer, Double> xValues, Map<Integer, Double> yValues) {
+      // check preconditions
+      Preconditions.checkNotNull(yValues);
+      Preconditions.checkArgument(xValues.size() >= 2, "need minimum 2 data points to do the fit");
 
-      if (xValues_in.size() <= 3) {
-         return;
-      }
-
-      super.xValues = xValues_in;
-      super.yValues = yValues_in;
+      super.xValues = xValues;
+      super.yValues = yValues;
       super.k = 2;
 
       calculateCoefficients();

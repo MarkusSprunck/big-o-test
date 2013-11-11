@@ -67,6 +67,27 @@ public class FitterExponentialTest {
       Assert.assertEquals(expected, exponentialFunction.toString());
    }
 
+   @Test
+   public void init_OneDataPoints_Exception() {
+      // ARRANGE
+      final Table<Integer, String, Double> input = TreeBasedTable.create();
+      input.put(1, "N1", 0.0);
+      input.put(1, "TIME", 10.0);
+      final FitterExponential exponentialFunction = new FitterExponential();
+
+      // ACT
+      String actual = "";
+      final String expected = "need minimum 2 data points to do the fit";
+      try {
+         exponentialFunction.init(input.column("N1"), input.column("TIME"));
+      } catch (final IllegalArgumentException ex) {
+         actual = ex.getMessage();
+      }
+
+      // ASSERT
+      Assert.assertEquals(expected, actual);
+   }
+
    private Table<Integer, String, Double> createTenPoints() {
       final Table<Integer, String, Double> input;
       input = TreeBasedTable.create();
