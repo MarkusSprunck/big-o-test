@@ -15,10 +15,7 @@ The goal is to support unit-test in the following form:
 	      // ARRANGE
 	      final BigOAnalyser boa = new BigOAnalyser();
 	      final HeapSort sut = (HeapSort) boa.createProxy(HeapSort.class);
-	      boa.deactivate();                       // measurement is deactivated
-	      sut.sort(createSortInput(16 * 1024));   // give JIT compiler the chance to optimize
-	      boa.activate();                         // measurement is active
-	
+
 	      // ACT
 	      for (int x = (16 * 1024); x >= 1024; x /= 2) {
 	         sut.sort(createSortInput(x));
@@ -55,25 +52,13 @@ With the system under test (sut):
 	public class HeapSort {
 	
 	   public Long[] sort(@BigOParameter List<Long> unsorted) {
-	
-		   final Long[] sorted = new Long[unsorted.size()];
-		
-		      // Insert each number in the list into the heap
-		      for (final long element : unsorted) {
-		         insert(element);
-		      }
-		
-		      // Remove the smallest value from the heap until the heap is empty
-		      for (int i = 0; i < unsorted.size(); i++) {
-		         sorted[i] = pop();
-		      }
-		
-		      return sorted;
+			
+			...		
+			
 		   }
 		   
-		   .
-		   .
-		   .
+		   ....
+		   
 	   }
 
 	
@@ -99,10 +84,6 @@ The expected output looks like:
 	16384	22943745
 
 
-#### First Steps
+#### Read More
+http://www.sw-engineering-candies.com/blog-1/bigotest-jar-a-library-to-empirically-estimate-big-o-time-efficiency-and-check-results-of-analysis-in-junit-tests
 
-The best starting point are the unit test in the sub-project BigOTest-Demo. 
-
-#### Status 
-
-This work is a prove of concept and in an early stage. 
