@@ -1,4 +1,4 @@
-## BigOTest.jar is a Library to Empirically Estimate Big-O Time Efficiency and Check Results of Analysis in JUnit Tests
+### BigOTest.jar is a Library to Empirically Estimate Big-O Time Efficiency and Check Results of Analysis in JUnit Tests
 
 This library supports the need to check time efficiency of algorithms during development. 
 
