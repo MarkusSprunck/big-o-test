@@ -46,6 +46,7 @@ import javassist.util.proxy.MethodHandler;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import com.google.common.collect.Table;
+import com.google.common.collect.Tables;
 import com.google.common.collect.TreeBasedTable;
 import com.sw_engineering_candies.big_o_test.interfaces.BigOParameter;
 import com.sw_engineering_candies.big_o_test.math.FitterExponential;
@@ -136,7 +137,8 @@ public class BigOAnalyser {
          }
       }
       Preconditions.checkState(!result.isEmpty(), "No data for method name '" + method + "'");
-      return result;
+    
+      return Tables.unmodifiableTable(result);
    }
 
    /**
@@ -148,13 +150,14 @@ public class BigOAnalyser {
       Preconditions.checkArgument(!method.isEmpty());
 
       // fetch data table
-      final Table<Integer, String, Double> data = getData(method);
+      final Table<Integer, String, Double> result = getData(method);
 
       // check size of data point table
-      final boolean isNumberOfDataPointsSufficient = data.column("TIME").size() >= 4;
+      final boolean isNumberOfDataPointsSufficient = result.column("TIME").size() >= 4;
       final String message = "minimum 4 data points are needed for a reliable analysis";
       Preconditions.checkState(isNumberOfDataPointsSufficient, message);
-      return data;
+
+      return Tables.unmodifiableTable(result);
    }
 
    public static Double estimatePolynomialDegree(Table<Integer, String, Double> data) {

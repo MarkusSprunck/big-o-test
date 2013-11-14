@@ -141,6 +141,50 @@ public class BigOAnalyserTest {
       // ASSERT
       Assert.assertNull(result);
    }
+   
+   @Test
+   public void put_TryToChangeValueOnGetDataChecked_GetUnsupportedOperationException() {
+      // ARRANGE
+      final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
+      sut.runLinear(1);
+      sut.runLinear(10);
+      sut.runLinear(100);
+      sut.runLinear(1000);
+      final Table<Integer, String, Double> result = boa.getDataChecked("runLinear");
+
+      // ACT
+      String actual = "";
+      try {
+      result.put(1, "N1", 1234.5);
+      } catch (UnsupportedOperationException ex) {
+         actual = ex.toString();
+      }
+      
+      // ASSERT
+      Assert.assertEquals("java.lang.UnsupportedOperationException", actual);
+   }
+   
+   @Test
+   public void put_TryToChangeValueOnGetData_GetUnsupportedOperationException() {
+      // ARRANGE
+      final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
+      sut.runLinear(1);
+      sut.runLinear(10);
+      sut.runLinear(100);
+      sut.runLinear(1000);
+      final Table<Integer, String, Double> result = boa.getData("runLinear");
+
+      // ACT
+      String actual = "";
+      try {
+      result.put(1, "N1", 1234.5);
+      } catch (UnsupportedOperationException ex) {
+         actual = ex.toString();
+      }
+      
+      // ASSERT
+      Assert.assertEquals("java.lang.UnsupportedOperationException", actual);
+   }
 
    @Test
    public void getKeys_ThreeCallsWithDifferentValues_GetCorrectKeys() {
