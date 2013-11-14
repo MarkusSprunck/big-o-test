@@ -246,7 +246,7 @@ public class BigOAnalyser {
    };
 
    private static boolean isProbablyLogLinear(double degree) {
-      return ((degree < 1.15) || (degree > 1.05));
+      return ((degree > 1.05) && (degree < 1.15));
    };
 
    private MethodHandler createMethodHandler() {

@@ -226,11 +226,10 @@ public class BigOReportsTest {
 
       // ASSERT
       final StringBuilder expected = new StringBuilder(100);
-      expected.append(String.format("LogLinear\t%.4f  \ty = ", 0.9807));
-      expected.append(String.format("%.2E", 12.4));
-      expected.append(" * x * log( ");
-      expected.append(String.format("%.2E", 0.869));
-      expected.append(" * x )");
+      expected.append(String.format("PowerLaw\t%.4f  \ty = ", 0.9977));
+      expected.append(String.format("%.2E", 5.56));
+      expected.append(" * x^");
+      expected.append(String.format("%.2E", 1.70));
       Assert.assertEquals(expected.toString(), actual);
    }
 
@@ -241,15 +240,13 @@ public class BigOReportsTest {
 
       // ACT
       final String actual = BigOReports.getBestFunctionsReport(input);
-
       // ASSERT
       final StringBuilder expected = new StringBuilder(100);
       expected.append("TYPE      \tR^2 (adjusted)\tFUNCTION").append(NL);
-      expected.append(String.format("LogLinear\t%.4f  \ty = ", 0.9807));
-      expected.append(String.format("%.2E", 12.4));
-      expected.append(" * x * log( ");
-      expected.append(String.format("%.2E", 0.869));
-      expected.append(" * x )");
+      expected.append(String.format("PowerLaw\t%.4f  \ty = ", 0.9977));
+      expected.append(String.format("%.2E", 5.56));
+      expected.append(" * x^");
+      expected.append(String.format("%.2E", 1.70));
       expected.append(NL);
       expected.append(String.format("Exponential\t%.4f  \ty = ", 0.8941));
       expected.append(String.format("%.2E", 9.34));

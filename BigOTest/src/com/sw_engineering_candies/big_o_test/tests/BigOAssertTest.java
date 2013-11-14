@@ -415,7 +415,7 @@ public class BigOAssertTest {
          final double range = 0.2;
          BigOAssert.assertPolynomialDegree(boa, "runLinear", expected, range);
       } catch (final BigOAssertWarningError ex) {
-         System.err.println(ex.getMessage());
+         System.err.println("assertPolynomialDegree_RunLinear_CheckPolynomialDegreeIsOk");
          exceptionHappened = true;
       }
 
@@ -549,6 +549,24 @@ public class BigOAssertTest {
 
       // ASSERT
       Assert.assertTrue(exceptionHappened);
+   }
+
+   @Test
+   public void assertPolynomialDegree_RunPowerLaw_DetectOK() {
+
+      // ARRANGE
+      final BigOAnalyser boa = new BigOAnalyser();
+      final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
+      sut.runPowerLaw(3000);
+      sut.runPowerLaw(1000);
+      sut.runPowerLaw(300);
+      sut.runPowerLaw(100);
+
+      // ACT
+      BigOAssert.assertPolynomialDegree(boa, "runPowerLaw", 1.5, 0.1);
+      BigOAssert.assertPowerLaw(boa, "runPowerLaw");
+        
+      // ASSERT   
    }
 
    @Test

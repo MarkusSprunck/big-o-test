@@ -88,6 +88,15 @@ public class Algorithms {
       }
       return result;
    }
+   
+   public double runPowerLaw(@BigOParameter int m) {
+      double result = 0;
+      final long count = Math.round(Math.pow(m, 1.5));
+      for (int index = 0; index < count; index++) {      
+            result += Math.sin(index);
+      }
+      return result;
+   }
 
    public double runAllParameter(@BigOParameter int[] in01, @BigOParameter long[] in02, @BigOParameter float[] in03,
          @BigOParameter double[] in04, @BigOParameter byte[] in05, @BigOParameter String in06,
