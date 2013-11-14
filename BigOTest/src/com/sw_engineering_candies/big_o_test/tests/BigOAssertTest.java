@@ -304,6 +304,25 @@ public class BigOAssertTest {
    }
 
    @Test
+   public void assertLogLinear_RunNLogN2_DetectLogLinearOk() {
+      // ARRANGE
+      final BigOAnalyser boa = new BigOAnalyser();
+      final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
+
+      boa.deactivate();                         // measurement is deactivated
+      sut.runNLogN(16 * 1024);                  // give JIT compiler the chance to optimize
+      boa.activate();                           // measurement is active
+
+      // ACT
+      for (int x = (16 * 1024); x >= 1024; x /= 2) {
+            sut.runNLogN(x);
+      }
+
+      // ASSERT
+      BigOAssert.assertLogLinearOrPowerLaw(boa, "runNLogN");
+   }
+   
+   @Test
    public void assertLogLinear_RunNLogN_DetectLogLinearOk() {
       // ARRANGE
       final BigOAnalyser boa = new BigOAnalyser();
@@ -320,6 +339,7 @@ public class BigOAssertTest {
       // ASSERT
       BigOAssert.assertLogLinearOrPowerLaw(boa, "sort");
    }
+
 
    @Test
    public void assertLogLinear_RunQuadratic_DetectLinearFailedAsExpected() {

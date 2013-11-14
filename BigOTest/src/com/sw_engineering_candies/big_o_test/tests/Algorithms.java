@@ -80,11 +80,9 @@ public class Algorithms {
 
    public double runNLogN(@BigOParameter int m) {
       double result = 0;
-      final long logN = Math.round(Math.log(m));
-      for (int index = 0; index < m; index++) {
-         for (long index2 = 0; index2 < logN; index2++) {
-            result += index + index2;
-         }
+      final long count = Math.round(Math.pow(m, 1.1));
+      for (int index = 0; index < count; index++) {      
+            result += Math.sin(index);
       }
       return result;
    }
