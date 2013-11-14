@@ -31,8 +31,10 @@
 
 package com.sw_engineering_candies.big_o_test.tests;
 
-import junit.framework.Assert;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
@@ -293,31 +295,30 @@ public class BigOAssertTest {
       Assert.assertTrue(exceptionHappened);
    }
 
+   private static List<Long> createSortInput(int size) {
+      final List<Long> result = new ArrayList<Long>(size);
+      for (int i = 0; i < size; i++) {
+         result.add(Math.round(Long.MAX_VALUE * Math.random()));
+      }
+      return result;
+   }
+
    @Test
    public void assertLogLinear_RunNLogN_DetectLogLinearOk() {
-
       // ARRANGE
       final BigOAnalyser boa = new BigOAnalyser();
-      final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
-      sut.runNLogN(16384);
-      sut.runNLogN(8192);
-      sut.runNLogN(4096);
-      sut.runNLogN(2048);
-      sut.runNLogN(1024);
-      sut.runNLogN(512);
+      final HeapSort sut = (HeapSort) boa.createProxy(HeapSort.class);
+      boa.deactivate();                       // measurement is deactivated
+      sut.sort(createSortInput(16 * 1024));   // give JIT compiler the chance to optimize
+      boa.activate();                         // measurement is active
 
       // ACT
-      boolean exceptionHappened = false;
-      try {
-         BigOAssert.assertLogLinearOrPowerLaw(boa, "runNLogN");
-      } catch (final BigOAssertWarningError ex) {
-         System.out.println("assertLogLinear_RunNLogN_DetectLogLinearOk:");
-         System.out.println(ex.getMessage());
-         exceptionHappened = true;
+      for (int x = (16 * 1024); x >= 1024; x /= 2) {
+         sut.sort(createSortInput(x));
       }
 
       // ASSERT
-      Assert.assertFalse(exceptionHappened);
+      BigOAssert.assertLogLinearOrPowerLaw(boa, "sort");
    }
 
    @Test

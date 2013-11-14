@@ -64,8 +64,12 @@ public class FitterPowerLawTest {
       fitter.init(input.column("N1"), input.column("TIME"));
 
       // ASSERT
-      final String expected = "PowerLaw	1,0000  	y = 1.00E+01 * x^1.10E+00";
-      Assert.assertEquals(expected, fitter.toString());
+      final StringBuilder expected = new StringBuilder(100);
+      expected.append(String.format("PowerLaw\t%.4f  \ty = ", 1.0));
+      expected.append(String.format("%.2E", 10.0));
+      expected.append(" * x^");
+      expected.append(String.format("%.2E", 1.1));
+      Assert.assertEquals(expected.toString(), fitter.toString());
    }
 
    private Table<Integer, String, Double> createTenPoints() {

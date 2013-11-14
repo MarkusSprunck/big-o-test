@@ -64,8 +64,13 @@ public class FitterExponentialTest {
       exponentialFunction.init(input.column("N1"), input.column("TIME"));
 
       // ASSERT
-      final String expected = "Exponential	1,0000  	y = 1.00E+02 * exp ( 5.00E-01 * x )";
-      Assert.assertEquals(expected, exponentialFunction.toString());
+      final StringBuilder expected = new StringBuilder(100);
+      expected.append(String.format("Exponential\t%.4f  \ty = ", 1.0));
+      expected.append(String.format("%.2E", 100.0));
+      expected.append(" * exp ( ");
+      expected.append(String.format("%.2E", 0.5));
+      expected.append(" * x )");
+      Assert.assertEquals(expected.toString(), exponentialFunction.toString());
    }
 
    @Test

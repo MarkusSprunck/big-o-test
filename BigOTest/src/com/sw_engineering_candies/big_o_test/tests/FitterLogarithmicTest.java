@@ -64,8 +64,13 @@ public class FitterLogarithmicTest {
       fitter.init(input.column("N1"), input.column("TIME"));
 
       // ASSERT
-      final String expected = "Logarithmic	1,0000  	y = 1.00E+02 + 1.05E+01 * log ( x )";
-      Assert.assertEquals(expected, fitter.toString());
+      final StringBuilder expected = new StringBuilder(100);
+      expected.append(String.format("Logarithmic\t%.4f  \ty = ", 1.0));
+      expected.append(String.format("%.2E", 100.));
+      expected.append(" + ");
+      expected.append(String.format("%.2E", 10.5));
+      expected.append(" * log ( x )");
+      Assert.assertEquals(expected.toString(), fitter.toString());
    }
 
    @Test

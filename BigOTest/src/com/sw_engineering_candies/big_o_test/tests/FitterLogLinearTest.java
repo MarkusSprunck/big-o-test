@@ -64,8 +64,13 @@ public class FitterLogLinearTest {
       fitter.init(input.column("N1"), input.column("TIME"));
 
       // ASSERT
-      final String expected = "LogLinear	1,0000  	y = 5.00E+00 * x * log( 3.00E+00 * x )";
-      Assert.assertEquals(expected, fitter.toString());
+      final StringBuilder expected = new StringBuilder(100);
+      expected.append(String.format("LogLinear\t%.4f  \ty = ", 1.0));
+      expected.append(String.format("%.2E", 5.0));
+      expected.append(" * x * log( ");
+      expected.append(String.format("%.2E", 3.0));
+      expected.append(" * x )");
+      Assert.assertEquals(expected.toString(), fitter.toString());
    }
 
    private Table<Integer, String, Double> createTestFunction() {

@@ -39,8 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
@@ -89,7 +88,7 @@ public class BigOAnalyserTest {
       final double result = sut.run(m_input, true, n_input, k_input);
 
       // ASSERT
-      Assert.assertEquals(117583.3969669342, result);
+      Assert.assertEquals(117583.3969669342, result, 0.00001);
    }
 
    @Test
@@ -500,14 +499,14 @@ public class BigOAnalyserTest {
       Assert.assertEquals("[run#100]", boa.getKeys().toString());
    }
 
-   @SuppressWarnings("static-access")
    @Test
    public void run_StaticMethod_EmptyResult() {
       // ARRANGE
+      @SuppressWarnings("unused")
       final SutClass sut = (SutClass) boa.createProxy(SutClass.class);
 
       // ACT
-      sut.staticRun(100);
+      SutClass.staticRun(100);
 
       // ASSERT
       Assert.assertEquals("[]", boa.getKeys().toString());
