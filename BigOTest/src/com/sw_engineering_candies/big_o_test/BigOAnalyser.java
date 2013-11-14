@@ -44,6 +44,7 @@ import java.util.TreeMap;
 import javassist.util.proxy.MethodHandler;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Range;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.sw_engineering_candies.big_o_test.interfaces.BigOParameter;
@@ -242,11 +243,13 @@ public class BigOAnalyser {
 
    private static boolean isProbablyPolynomial(double degree) {
       final double rest = degree - Math.floor(degree);
-      return ((rest < 0.1) || (rest > 0.9));
+      Range<Double> invalidRange = Range.closed(0.1, 0.9);
+      return !invalidRange.contains(rest);
    };
 
    private static boolean isProbablyLogLinear(double degree) {
-      return ((degree > 1.05) && (degree < 1.15));
+      Range<Double> validRange = Range.closed(1.05, 1.15);
+      return validRange.contains(degree);
    };
 
    private MethodHandler createMethodHandler() {

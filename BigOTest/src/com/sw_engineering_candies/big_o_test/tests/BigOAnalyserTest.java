@@ -530,6 +530,23 @@ public class BigOAnalyserTest {
       Assert.assertEquals(expected, actual);
    }
 
+   @Test
+   public void getDataChecked_CallNull_GetIllegalArgumentException() {
+      // ARRANGE
+      String actual = "";
+      final String expected = "java.lang.IllegalArgumentException";
+
+      // ACT
+      try {
+         boa.getDataChecked("");
+      } catch (final IllegalArgumentException ex) {
+         actual = ex.toString();
+      }
+
+      // ASSERT
+      Assert.assertEquals(expected, actual);
+   }
+
 }
 
 class SutClass {
