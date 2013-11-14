@@ -35,6 +35,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Table;
 
 /**
@@ -81,9 +82,12 @@ public class BigOReports {
    }
 
    public static String getDataReport(Table<Integer, String, Double> input) {
-      final StringBuilder result = new StringBuilder(1000);
+      // check preconditions
+      Preconditions.checkNotNull(input);
+      Preconditions.checkArgument(input.column("N1").size() > 0, "expect a column N1 with data");
 
       // header of the table
+      final StringBuilder result = new StringBuilder(1000);
       final Set<String> cols = input.columnKeySet();
       for (int i = 1; i < cols.size(); i++) {
          result.append("N" + i + "\t");
@@ -94,6 +98,7 @@ public class BigOReports {
       final SortedSet<Double> rows = new TreeSet<Double>();
       rows.addAll(input.column("N1").values());
       for (final Double value : rows) {
+         // find row for the value (sorted by the value of N1)
          Integer row = 0;
          for (final Integer index : input.column("N1").keySet()) {
             if (value.equals(input.get(index, "N1"))) {
@@ -101,6 +106,7 @@ public class BigOReports {
                break;
             }
          }
+         // add values to result
          for (int col = 1; col < cols.size(); col++) {
             result.append(String.format("%.0f", input.get(row, "N" + col)) + "\t");
          }

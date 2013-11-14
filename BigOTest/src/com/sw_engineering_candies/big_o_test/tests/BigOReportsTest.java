@@ -38,6 +38,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.Table;
+import com.google.common.collect.TreeBasedTable;
 import com.sw_engineering_candies.big_o_test.BigOAnalyser;
 import com.sw_engineering_candies.big_o_test.BigODataPoint;
 import com.sw_engineering_candies.big_o_test.BigOReports;
@@ -160,6 +161,141 @@ public class BigOReportsTest {
       // ASSERT
       final String expected = "N1\tN2\tN3\tTIME".concat(NL).concat("8\t4\t5\t12345").concat(NL);
       Assert.assertEquals(expected, actual);
+   }
+
+   private Table<Integer, String, Double> createSevenPoints() {
+      final Table<Integer, String, Double> input;
+      input = TreeBasedTable.create();
+      input.put(2, "N1", 2.0);
+      input.put(2, "TIME", 17.0);
+      input.put(3, "N1", 3.0);
+      input.put(3, "TIME", 34.0);
+      input.put(4, "N1", 4.0);
+      input.put(4, "TIME", 57.0);
+      input.put(5, "N1", 5.0);
+      input.put(5, "TIME", 86.0);
+      input.put(6, "N1", 6.0);
+      input.put(6, "TIME", 121.0);
+      input.put(7, "N1", 7.0);
+      input.put(7, "TIME", 162.0);
+      input.put(1, "N1", 1.0);
+      input.put(1, "TIME", 6.0);
+      return input;
+   }
+
+   private Table<Integer, String, Double> createSevenPointsMissingN1() {
+      final Table<Integer, String, Double> input;
+      input = TreeBasedTable.create();
+      input.put(2, "N2", 2.0);
+      input.put(2, "TIME", 17.0);
+      input.put(3, "N2", 3.0);
+      input.put(3, "TIME", 34.0);
+      input.put(4, "N2", 4.0);
+      input.put(4, "TIME", 57.0);
+      input.put(5, "N2", 5.0);
+      input.put(5, "TIME", 86.0);
+      input.put(6, "N2", 6.0);
+      input.put(6, "TIME", 121.0);
+      input.put(7, "N2", 7.0);
+      input.put(7, "TIME", 162.0);
+      input.put(1, "N2", 1.0);
+      input.put(1, "TIME", 6.0);
+      return input;
+   }
+
+   @Test
+   public void getPolynomialDegree_CreateSevenPoints_GetReport() {
+      // ARRANGE
+      final Table<Integer, String, Double> input = createSevenPoints();
+
+      // ACT
+      final String actual = BigOReports.getPolynomialDegree(input);
+
+      // ASSERT
+      final String expected = "ESTIMATED-POLYNOMIAL-DEGREE".concat(NL).concat("1.7029").concat(NL);
+      Assert.assertEquals(expected, actual);
+   }
+
+   @Test
+   public void getBestFunction_CreateSevenPoints_GetReport() {
+      // ARRANGE
+      final Table<Integer, String, Double> input = createSevenPoints();
+
+      // ACT
+      final String actual = BigOReports.getBestFunction(input);
+
+      // ASSERT
+      final StringBuilder expected = new StringBuilder(100);
+      expected.append(String.format("LogLinear\t%.4f  \ty = ", 0.9807));
+      expected.append(String.format("%.2E", 12.4));
+      expected.append(" * x * log( ");
+      expected.append(String.format("%.2E", 0.869));
+      expected.append(" * x )");
+      Assert.assertEquals(expected.toString(), actual);
+   }
+
+   @Test
+   public void getBestFunctionsreport_CreateSevenPoints_GetReport() {
+      // ARRANGE
+      final Table<Integer, String, Double> input = createSevenPoints();
+
+      // ACT
+      final String actual = BigOReports.getBestFunctionsReport(input);
+
+      // ASSERT
+      final StringBuilder expected = new StringBuilder(100);
+      expected.append("TYPE      \tR^2 (adjusted)\tFUNCTION").append(NL);
+      expected.append(String.format("LogLinear\t%.4f  \ty = ", 0.9807));
+      expected.append(String.format("%.2E", 12.4));
+      expected.append(" * x * log( ");
+      expected.append(String.format("%.2E", 0.869));
+      expected.append(" * x )");
+      expected.append(NL);
+      expected.append(String.format("Exponential\t%.4f  \ty = ", 0.8941));
+      expected.append(String.format("%.2E", 9.34));
+      expected.append(" * exp ( ");
+      expected.append(String.format("%.2E", 0.42));
+      expected.append(" * x )");
+      expected.append(NL);
+      expected.append(String.format("Logarithmic\t%.4f  \ty = ", 0.723));
+      expected.append(String.format("%.2E", -22.1));
+      expected.append(" + ");
+      expected.append(String.format("%.2E", 74.8));
+      expected.append(" * log ( x )");
+      expected.append(NL);
+      expected.append(NL);
+      Assert.assertEquals(expected.toString(), actual);
+   }
+
+   @Test
+   public void getDataReport_createSevenPointsMissingN1_GetIllegalArgumentException() {
+      // ARRANGE
+      final Table<Integer, String, Double> input = createSevenPointsMissingN1();
+
+      // ACT
+      String actual = "";
+      try {
+         BigOReports.getDataReport(input);
+      } catch (IllegalArgumentException ex) {
+         actual = ex.getMessage();
+      }
+      // ASSERT
+      Assert.assertEquals("expect a column N1 with data", actual);
+   }
+   
+   @Test
+   public void getDataReport_SetNULL_GetNullPointerException() {
+      // ARRANGE
+  
+      // ACT
+      String actual = "";
+      try {
+         BigOReports.getDataReport(null);
+      } catch (NullPointerException ex) {
+         actual = ex.toString();
+      }
+      // ASSERT
+      Assert.assertEquals("java.lang.NullPointerException", actual);
    }
 
 }
