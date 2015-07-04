@@ -31,6 +31,7 @@
 
 package com.sw_engineering_candies.big_o_test.math;
 
+import java.util.Locale;
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
@@ -89,10 +90,10 @@ public class FitterPowerLaw extends FitterBase {
    @Override
    public String toString() {
       final StringBuilder result = new StringBuilder(100);
-      result.append(String.format("PowerLaw\t%.4f  \ty = ", getRSquareAdjusted()));
-      result.append(String.format("%.2E", coefficients.get(0)));
+      result.append(String.format(Locale.US,"PowerLaw\t%.4f  \ty = ", getRSquareAdjusted()));
+      result.append(String.format(Locale.US,"%.2E", coefficients.get(0)));
       result.append(" * x^");
-      result.append(String.format("%.2E", coefficients.get(1)));
+      result.append(String.format(Locale.US,"%.2E", coefficients.get(1)));
       return result.toString();
    }
 

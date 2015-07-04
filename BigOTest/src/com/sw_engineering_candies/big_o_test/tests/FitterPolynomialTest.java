@@ -31,6 +31,8 @@
 
 package com.sw_engineering_candies.big_o_test.tests;
 
+import java.util.Locale;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -64,7 +66,7 @@ public class FitterPolynomialTest {
       polynom.init(input.column("N1"), input.column("TIME"), 2);
 
       // ASSERT
-      final String expected = "Quadratic ".concat(String.format("\t%.4f        \ty = ", 1.0)
+      final String expected = "Quadratic ".concat(String.format(Locale.US,"\t%.4f        \ty = ", 1.0)
             + "3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00");
       Assert.assertEquals(expected, polynom.toString());
    }
@@ -79,7 +81,7 @@ public class FitterPolynomialTest {
       polynom.init(input.column("N1"), input.column("TIME"), 3);
 
       // ASSERT
-      final String expected = "Polynomial".concat(String.format("\t%.4f        \ty = ", 1.0)
+      final String expected = "Polynomial".concat(String.format(Locale.US,"\t%.4f        \ty = ", 1.0)
             + "1.08E-14 * x^3 + 3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00");
       Assert.assertEquals(expected, polynom.toString());
    }

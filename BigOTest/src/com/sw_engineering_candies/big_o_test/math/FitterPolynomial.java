@@ -31,6 +31,7 @@
 
 package com.sw_engineering_candies.big_o_test.math;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -116,14 +117,14 @@ public class FitterPolynomial extends FitterBase {
       final StringBuilder equation = new StringBuilder(100);
       final int maxIndex = coefficients.size() - 1;
       for (int index = maxIndex; index >= 0; index--) {
-         equation.append(String.format("%.2E", coefficients.get(index)));
+         equation.append(String.format(Locale.US,"%.2E", coefficients.get(index)));
          if (index > 0) {
             equation.append(" * x^").append(index).append(" + ");
          }
       }
       final StringBuilder result = new StringBuilder();
       result.append(getPolynomialType());
-      result.append(String.format("\t%.4f        \ty = ", getRSquareAdjusted()));
+      result.append(String.format(Locale.US, "\t%.4f        \ty = ", getRSquareAdjusted()));
       result.append(equation.toString());
       return result.toString();
    }

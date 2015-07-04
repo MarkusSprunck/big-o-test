@@ -33,6 +33,7 @@ package com.sw_engineering_candies.big_o_test.tests;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -226,10 +227,10 @@ public class BigOReportsTest {
 
       // ASSERT
       final StringBuilder expected = new StringBuilder(100);
-      expected.append(String.format("PowerLaw\t%.4f  \ty = ", 0.9977));
-      expected.append(String.format("%.2E", 5.56));
+      expected.append(String.format(Locale.US,"PowerLaw\t%.4f  \ty = ", 0.9977));
+      expected.append(String.format(Locale.US,"%.2E", 5.56));
       expected.append(" * x^");
-      expected.append(String.format("%.2E", 1.70));
+      expected.append(String.format(Locale.US,"%.2E", 1.70));
       Assert.assertEquals(expected.toString(), actual);
    }
 
@@ -243,21 +244,21 @@ public class BigOReportsTest {
       // ASSERT
       final StringBuilder expected = new StringBuilder(100);
       expected.append("TYPE      \tR^2 (adjusted)\tFUNCTION").append(NL);
-      expected.append(String.format("PowerLaw\t%.4f  \ty = ", 0.9977));
-      expected.append(String.format("%.2E", 5.56));
+      expected.append(String.format(Locale.US,"PowerLaw\t%.4f  \ty = ", 0.9977));
+      expected.append(String.format(Locale.US,"%.2E", 5.56));
       expected.append(" * x^");
-      expected.append(String.format("%.2E", 1.70));
+      expected.append(String.format(Locale.US,"%.2E", 1.70));
       expected.append(NL);
-      expected.append(String.format("Exponential\t%.4f  \ty = ", 0.8941));
-      expected.append(String.format("%.2E", 9.34));
+      expected.append(String.format(Locale.US,"Exponential\t%.4f  \ty = ", 0.8941));
+      expected.append(String.format(Locale.US,"%.2E", 9.34));
       expected.append(" * exp ( ");
-      expected.append(String.format("%.2E", 0.42));
+      expected.append(String.format(Locale.US,"%.2E", 0.42));
       expected.append(" * x )");
       expected.append(NL);
-      expected.append(String.format("Logarithmic\t%.4f  \ty = ", 0.723));
-      expected.append(String.format("%.2E", -22.1));
+      expected.append(String.format(Locale.US,"Logarithmic\t%.4f  \ty = ", 0.723));
+      expected.append(String.format(Locale.US,"%.2E", -22.1));
       expected.append(" + ");
-      expected.append(String.format("%.2E", 74.8));
+      expected.append(String.format(Locale.US,"%.2E", 74.8));
       expected.append(" * log ( x )");
       expected.append(NL);
       expected.append(NL);

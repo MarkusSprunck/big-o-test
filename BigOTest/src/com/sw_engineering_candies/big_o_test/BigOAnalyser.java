@@ -137,7 +137,7 @@ public class BigOAnalyser {
          }
       }
       Preconditions.checkState(!result.isEmpty(), "No data for method name '" + method + "'");
-    
+
       return Tables.unmodifiableTable(result);
    }
 
@@ -259,8 +259,7 @@ public class BigOAnalyser {
 
       final MethodHandler handler = new MethodHandler() {
 
-         @Override
-         public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) {
+          public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) {
             final String Key = getCurrentKey(thisMethod, args);
             long endTime = 0;
             long calls = 0;
@@ -313,10 +312,30 @@ public class BigOAnalyser {
             return key.toString();
          }
 
+         /**
+          * Java VM Type Signatures (see
+          * http://docs.oracle.com/javase/1.5.0/docs/guide/jni/spec/types.html#wp276)
+          */
          @SuppressWarnings("rawtypes")
          private void appendParameterInformation(final StringBuilder result, final Type parameterType,
                Object parameterArgument) {
-            if (parameterType.toString().equals("int[]")) {
+            if (parameterType.toString().equals("class [I")) {
+               result.append('#').append(((int[]) parameterArgument).length);
+            } else if (parameterType.toString().equals("class [F")) {
+               result.append('#').append(((float[]) parameterArgument).length);
+            } else if (parameterType.toString().equals("class [Z")) {
+               result.append('#').append(((boolean[]) parameterArgument).length);
+            } else if (parameterType.toString().equals("class [S")) {
+               result.append('#').append(((short[]) parameterArgument).length);
+            } else if (parameterType.toString().equals("class [C")) {
+               result.append('#').append(((char[]) parameterArgument).length);
+            } else if (parameterType.toString().equals("class [J")) {
+               result.append('#').append(((long[]) parameterArgument).length);
+            } else if (parameterType.toString().equals("class [D")) {
+               result.append('#').append(((double[]) parameterArgument).length);
+            } else if (parameterType.toString().equals("class [B")) {
+               result.append('#').append(((byte[]) parameterArgument).length);
+            } else if (parameterType.toString().equals("int[]")) {
                result.append('#').append(((int[]) parameterArgument).length);
             } else if (parameterType.toString().equals("long[]")) {
                result.append('#').append(((long[]) parameterArgument).length);

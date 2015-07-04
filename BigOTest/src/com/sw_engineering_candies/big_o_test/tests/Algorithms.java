@@ -54,7 +54,7 @@ public class Algorithms {
 
    public double runConstant(@BigOParameter int m) {
       double result = 0;
-      for (int index = 0; index < 10; index++) {
+      for (int index = 0; index < 100; index++) {
          result += index;
       }
       return result;

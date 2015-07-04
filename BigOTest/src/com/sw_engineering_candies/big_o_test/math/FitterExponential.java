@@ -31,6 +31,7 @@
 
 package com.sw_engineering_candies.big_o_test.math;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -95,10 +96,10 @@ public class FitterExponential extends FitterBase {
    @Override
    public String toString() {
       final StringBuilder result = new StringBuilder(100);
-      result.append(String.format("Exponential\t%.4f  \ty = ", getRSquareAdjusted()));
-      result.append(String.format("%.2E", coefficients.get(0)));
+      result.append(String.format(Locale.US,"Exponential\t%.4f  \ty = ", getRSquareAdjusted()));
+      result.append(String.format(Locale.US,"%.2E", coefficients.get(0)));
       result.append(" * exp ( ");
-      result.append(String.format("%.2E", coefficients.get(1)));
+      result.append(String.format(Locale.US,"%.2E", coefficients.get(1)));
       result.append(" * x )");
       return result.toString();
    }

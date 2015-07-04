@@ -31,6 +31,7 @@
 
 package com.sw_engineering_candies.big_o_test;
 
+import java.util.Locale;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -55,7 +56,7 @@ public class BigOReports {
       // print result
       final StringBuilder result = new StringBuilder(100);
       result.append("ESTIMATED-POLYNOMIAL-DEGREE").append(NL);
-      result.append(String.format("%.4f", degree)).append(NL);
+      result.append(String.format(Locale.US,"%.4f", degree)).append(NL);
       return result.toString();
    }
 
@@ -108,9 +109,9 @@ public class BigOReports {
          }
          // add values to result
          for (int col = 1; col < cols.size(); col++) {
-            result.append(String.format("%.0f", input.get(row, "N" + col)) + "\t");
+            result.append(String.format(Locale.US,"%.0f", input.get(row, "N" + col)) + "\t");
          }
-         result.append(String.format("%.0f", input.get(row, "TIME"))).append(NL);
+         result.append(String.format(Locale.US,"%.0f", input.get(row, "TIME"))).append(NL);
       }
       return result.toString();
    }

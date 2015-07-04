@@ -31,6 +31,8 @@
 
 package com.sw_engineering_candies.big_o_test.tests;
 
+import java.util.Locale;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -65,10 +67,10 @@ public class FitterLogarithmicTest {
 
       // ASSERT
       final StringBuilder expected = new StringBuilder(100);
-      expected.append(String.format("Logarithmic\t%.4f  \ty = ", 1.0));
-      expected.append(String.format("%.2E", 100.));
+      expected.append(String.format(Locale.US,"Logarithmic\t%.4f  \ty = ", 1.0));
+      expected.append(String.format(Locale.US,"%.2E", 100.));
       expected.append(" + ");
-      expected.append(String.format("%.2E", 10.5));
+      expected.append(String.format(Locale.US,"%.2E", 10.5));
       expected.append(" * log ( x )");
       Assert.assertEquals(expected.toString(), fitter.toString());
    }

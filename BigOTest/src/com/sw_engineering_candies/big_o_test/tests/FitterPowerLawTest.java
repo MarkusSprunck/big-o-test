@@ -31,6 +31,8 @@
 
 package com.sw_engineering_candies.big_o_test.tests;
 
+import java.util.Locale;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -65,10 +67,10 @@ public class FitterPowerLawTest {
 
       // ASSERT
       final StringBuilder expected = new StringBuilder(100);
-      expected.append(String.format("PowerLaw\t%.4f  \ty = ", 1.0));
-      expected.append(String.format("%.2E", 10.0));
+      expected.append(String.format(Locale.US,"PowerLaw\t%.4f  \ty = ", 1.0));
+      expected.append(String.format(Locale.US,"%.2E", 10.0));
       expected.append(" * x^");
-      expected.append(String.format("%.2E", 1.1));
+      expected.append(String.format(Locale.US,"%.2E", 1.1));
       Assert.assertEquals(expected.toString(), fitter.toString());
    }
 

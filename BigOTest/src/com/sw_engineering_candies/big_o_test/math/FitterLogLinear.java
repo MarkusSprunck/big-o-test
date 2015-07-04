@@ -31,6 +31,7 @@
 
 package com.sw_engineering_candies.big_o_test.math;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
@@ -81,14 +82,12 @@ public class FitterLogLinear extends FitterBase {
 
       final ParametricUnivariateFunction f = new ParametricUnivariateFunction() {
 
-         @Override
          public double value(double x, double... parameters) {
             final double a = parameters[0];
             final double b = parameters[1];
             return a * x * Math.log(b * x);
          }
 
-         @Override
          public double[] gradient(double x, double... parameters) {
 
             final double a = parameters[0];
@@ -116,10 +115,10 @@ public class FitterLogLinear extends FitterBase {
    @Override
    public String toString() {
       final StringBuilder result = new StringBuilder(100);
-      result.append(String.format("LogLinear\t%.4f  \ty = ", getRSquareAdjusted()));
-      result.append(String.format("%.2E", coefficients.get(0)));
+      result.append(String.format(Locale.US,"LogLinear\t%.4f  \ty = ", getRSquareAdjusted()));
+      result.append(String.format(Locale.US,"%.2E", coefficients.get(0)));
       result.append(" * x * log( ");
-      result.append(String.format("%.2E", coefficients.get(1)));
+      result.append(String.format(Locale.US,"%.2E", coefficients.get(1)));
       result.append(" * x )");
       return result.toString();
    }
