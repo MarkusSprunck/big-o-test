@@ -5,8 +5,6 @@ Project : Eclipse Java EE IDE for Web Developers.
 
 Eclipse : Mars Release (4.5.0)
 
-Build id : 20150621-1200
-
 Java Version : JRE 8
 
 This library supports the need to check time efficiency of algorithms during development. 
