@@ -1,3 +1,5 @@
+package com.sw_engineering_candies.tests;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +19,11 @@ public class HeapSortTest {
       final BigOAnalyser boa = new BigOAnalyser();
       final HeapSort sut = (HeapSort) boa.createProxy(HeapSort.class);
       boa.deactivate();                       // measurement is deactivated
-      sut.sort(createSortInput(16 * 1024));   // give JIT compiler the chance to optimize
+      sut.sort(createSortInput(128 * 1024));  // give JIT compiler the chance to optimize
       boa.activate();                         // measurement is active
 
       // ACT
-      for (int x = (16 * 1024); x >= 1024; x /= 2) {
+      for (int x = (128 * 1024); x >= 1024; x /= 2) {
          sut.sort(createSortInput(x));
       }
       traceReport(boa, "sort");

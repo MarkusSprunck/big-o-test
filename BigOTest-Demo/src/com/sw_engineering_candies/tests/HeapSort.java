@@ -1,3 +1,5 @@
+package com.sw_engineering_candies.tests;
+
 import java.util.ArrayList;
 import java.util.List;
 

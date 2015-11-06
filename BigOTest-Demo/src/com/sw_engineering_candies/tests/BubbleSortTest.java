@@ -1,3 +1,5 @@
+package com.sw_engineering_candies.tests;
+
 // $codepro.audit.disable questionableName
 import java.util.ArrayList;
 import java.util.List;
