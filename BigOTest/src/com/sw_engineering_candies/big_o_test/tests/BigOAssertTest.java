@@ -310,36 +310,35 @@ public class BigOAssertTest {
       final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
       boa.deactivate();                         // measurement is deactivated
-      sut.runNLogN(16 * 1024);                  // give JIT compiler the chance to optimize
+      sut.runNLogN(64 * 1024);                  // give JIT compiler the chance to optimize
       boa.activate();                           // measurement is active
 
       // ACT
       for (int x = (16 * 1024); x >= 1024; x /= 2) {
-            sut.runNLogN(x);
+         sut.runNLogN(x);
       }
 
       // ASSERT
       BigOAssert.assertLogLinearOrPowerLaw(boa, "runNLogN");
    }
-   
+
    @Test
    public void assertLogLinear_RunNLogN_DetectLogLinearOk() {
       // ARRANGE
       final BigOAnalyser boa = new BigOAnalyser();
       final HeapSort sut = (HeapSort) boa.createProxy(HeapSort.class);
-      boa.deactivate();                       // measurement is deactivated
-      sut.sort(createSortInput(16 * 1024));   // give JIT compiler the chance to optimize
-      boa.activate();                         // measurement is active
+      boa.deactivate();                     // measurement is deactivated
+      sut.sort(createSortInput(64 * 1024)); // give JIT compiler the chance to optimize
+      boa.activate();                       // measurement is active
 
       // ACT
-      for (int x = (16 * 1024); x >= 1024; x /= 2) {
+      for (int x = (64 * 1024); x >= 1024; x /= 2) {
          sut.sort(createSortInput(x));
       }
 
       // ASSERT
       BigOAssert.assertLogLinearOrPowerLaw(boa, "sort");
    }
-
 
    @Test
    public void assertLogLinear_RunQuadratic_DetectLinearFailedAsExpected() {
@@ -577,16 +576,17 @@ public class BigOAssertTest {
       // ARRANGE
       final BigOAnalyser boa = new BigOAnalyser();
       final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
+      sut.runPowerLaw(10000);
       sut.runPowerLaw(3000);
       sut.runPowerLaw(1000);
       sut.runPowerLaw(300);
       sut.runPowerLaw(100);
 
       // ACT
-      BigOAssert.assertPolynomialDegree(boa, "runPowerLaw", 1.5, 0.1);
+      BigOAssert.assertPolynomialDegree(boa, "runPowerLaw", 1.5, 0.2);
       BigOAssert.assertPowerLaw(boa, "runPowerLaw");
-        
-      // ASSERT   
+
+      // ASSERT
    }
 
    @Test

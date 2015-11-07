@@ -188,4 +188,25 @@ public class BigOAssert {
          throw new BigOAssertWarningError(message.toString());
       }
    }
+
+   public static void assertPolynomialDegree(BigOResult result, String method, double expected, double delta) {
+      assertPolynomialDegree(result.getBigOAnalyser(), method, expected, delta);
+   }
+
+   public static void assertConstant(BigOResult result, String method) {
+      assertConstant(result.getBigOAnalyser(), method);
+   }
+
+   public static void assertLinear(BigOResult result, String method) {
+      assertLinear(result.getBigOAnalyser(), method);
+   }
+
+   public static void assertLogLinearOrPowerLaw(BigOResult result, String method) {
+      assertLogLinearOrPowerLaw(result.getBigOAnalyser(), method);
+   }
+
+   public static void assertPowerLaw(BigOResult result, String method) {
+      assertPowerLaw(result.getBigOAnalyser(), method);
+   }
+
 }

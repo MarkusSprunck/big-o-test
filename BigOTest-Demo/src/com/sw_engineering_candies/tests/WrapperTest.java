@@ -35,7 +35,7 @@ public class WrapperTest {
       BigOAssert.assertPolynomialDegree(boa, "sortWrapper", 1.25, 0.5);
    }
 
-   private static List<Long> createSortInput(int size) {
+   static List<Long> createSortInput(int size) {
       final List<Long> result = new ArrayList<Long>(size);
       for (int i = 0; i < size; i++) {
          result.add(Math.round(Long.MAX_VALUE * Math.random()));

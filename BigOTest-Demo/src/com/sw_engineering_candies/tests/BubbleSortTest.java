@@ -1,53 +1,38 @@
 package com.sw_engineering_candies.tests;
 
+import static org.junit.Assert.assertEquals;
+
 // $codepro.audit.disable questionableName
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
 
-import com.google.common.collect.Table;
-import com.sw_engineering_candies.big_o_test.BigOAnalyser;
-import com.sw_engineering_candies.big_o_test.BigOAssert;
-import com.sw_engineering_candies.big_o_test.BigOReports;
-
 public class BubbleSortTest {
 
-   @Test
-   public void assertQuadratic_RunBubbleSort_DetectQuadratic() {
-
-      // ARRANGE
-      final BigOAnalyser boa = new BigOAnalyser();
-      final BubbleSort sut = (BubbleSort) boa.createProxy(BubbleSort.class);
-      boa.deactivate();                       // measurement is deactivated
-      sut.sort(createSortInput(1024));        // give JIT compiler the chance to optimize
-      boa.activate();                         // measurement is active
-
-      // ACT
-      for (int x = 1024; x >= 16; x /= 2) {
-         sut.sort(createSortInput(x));
-      }
-      traceReport(boa, "sort");
-
-      // ASSERT
-      BigOAssert.assertQuadratic(boa, "sort");
-   }
-
-   private static List<Long> createSortInput(int size) {
+   static List<Long> createSortInput(int size) {
       final List<Long> result = new ArrayList<Long>(size);
       for (int i = 0; i < size; i++) {
-         result.add(Math.round(Long.MAX_VALUE * Math.random()));
+         result.add(Math.round(1000 * Math.random()));
       }
       return result;
    }
 
-   private static void traceReport(final BigOAnalyser boa, String method) {
-      System.out.println("--- BubbleSortTest ---------------------");
-      System.out.println();
-      final Table<Integer, String, Double> data = boa.getDataChecked(method);
-      System.out.println(BigOReports.getPolynomialDegree(data));
-      System.out.println(BigOReports.getBestFunctionsReport(data));
-      System.out.println(BigOReports.getDataReport(data));
+   @Test
+   public void bubbleSort_SmallList_SortedAscending() {
+
+      // ARRANGE
+      final List<Long> values = BubbleSortTest.createSortInput(100);
+      List<Long> expected = new ArrayList<Long>(values);
+      Collections.sort(expected);
+
+      // ACT
+      final List<Long> actual = Arrays.asList(new BubbleSort().sort(values));
+
+      // ASSERT
+      assertEquals(expected, actual);
    }
 
 }

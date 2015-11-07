@@ -40,8 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
-import javassist.util.proxy.MethodHandler;
+import java.util.TreeSet;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
@@ -54,6 +53,8 @@ import com.sw_engineering_candies.big_o_test.math.FitterLogLinear;
 import com.sw_engineering_candies.big_o_test.math.FitterLogarithmic;
 import com.sw_engineering_candies.big_o_test.math.FitterPolynomial;
 import com.sw_engineering_candies.big_o_test.math.FitterPowerLaw;
+
+import javassist.util.proxy.MethodHandler;
 
 /**
  * This class measures the Big-O time efficiency with a proxy of the system under test.
@@ -89,6 +90,34 @@ public class BigOAnalyser {
     */
    public void activate() {
       active = true;
+   }
+
+   /**
+    * Creates a BigOResult object for a certain class. This is needed to use a Lambda expression
+    * like:
+    * 
+    * <pre>
+    * <code>
+    * // given
+    * List<List<Long>> values = LongStream.range(6, 14) //
+    *       .mapToInt(i -> 1 << i) //
+    *       .mapToObj(x -> BubbleSortTest.createSortInput(x)) //
+    *       .collect(Collectors.toList());
+    *
+    * // when
+    * BigOResult actual = BigOAnalyser.classUnderTest(BubbleSort.class) //
+    *       .execute((BubbleSort o) -> values.stream().forEach(value -> o.sort(value)));
+    *
+    * // then
+    * BigOAssert.assertQuadratic(actual.getBigOAnalyser(), "sort");
+    * </code>
+    * </pre>
+    */
+   public static <P> BigOResult classUnderTest(Class<?> clazzUnderTest) {
+      BigOAnalyser analyser = new BigOAnalyser();
+      BigOResult bigOAnalyserHandler = new BigOResult(clazzUnderTest, analyser);
+
+      return bigOAnalyserHandler;
    }
 
    /**
@@ -200,6 +229,15 @@ public class BigOAnalyser {
       return false;
    }
 
+   public Set<String> getAnalysedMethodNames() {
+      Set<String> names = new TreeSet<String>();
+      for (final String key : getKeys()) {
+         final String[] splitedKey = key.split("#");
+         names.add(splitedKey[0]);
+      }
+      return names;
+   }
+
    /**
     * Helper function to find the best fitting function. The approach is based on the estimation of
     * the polynomial degree of the measured data.
@@ -259,7 +297,7 @@ public class BigOAnalyser {
 
       final MethodHandler handler = new MethodHandler() {
 
-          public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) {
+         public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) {
             final String Key = getCurrentKey(thisMethod, args);
             long endTime = 0;
             long calls = 0;

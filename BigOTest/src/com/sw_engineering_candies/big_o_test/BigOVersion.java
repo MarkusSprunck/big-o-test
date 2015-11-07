@@ -37,7 +37,7 @@ package com.sw_engineering_candies.big_o_test;
 public class BigOVersion {
 
    public static void main(String[] args) {
-      System.out.print("BigOTest.jar v0.5");
+      System.out.print("BigOTest.jar v0.6");
    }
 
 }
