@@ -55,6 +55,28 @@ The goal is to support unit-test in the following form:
 	
 	}
 	
+or shorter with Lambda expressions:
+
+    public class LambdaTest {
+
+        @Test
+	public void heapSortDetectLogLinear() {
+	
+	     // ARRANGE
+	     List<List<Long>> values = LongStream.range(6, 14) //
+	           .mapToInt(i -> 1 << i) //
+	           .mapToObj(x -> HeapSortTest.createSortInput(x)) //
+	           .collect(Collectors.toList());
+	
+	     // ACT
+	     BigOResult actual = BigOAnalyser.classUnderTest(HeapSort.class) //
+	           .execute((HeapSort o) -> values.stream().forEach(value -> o.sort(value))) //
+	           .trace();
+	
+	     // ASSERT
+	     BigOAssert.assertLogLinearOrPowerLaw(actual.getBigOAnalyser(), "sort");
+	}
+    } 	
 	
 With the system under test (sut):
 
