@@ -34,7 +34,7 @@ public class LambdaTest {
    public void heapSortDetectLogLinear() {
 
       // ARRANGE
-      List<List<Long>> values = LongStream.range(6, 14) //
+      List<List<Long>> values = LongStream.range(6, 16) //
             .mapToInt(i -> 1 << i) //
             .mapToObj(x -> HeapSortTest.createSortInput(x)) //
             .collect(Collectors.toList());

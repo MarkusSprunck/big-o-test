@@ -327,12 +327,12 @@ public class BigOAssertTest {
       // ARRANGE
       final BigOAnalyser boa = new BigOAnalyser();
       final HeapSort sut = (HeapSort) boa.createProxy(HeapSort.class);
-      boa.deactivate();                     // measurement is deactivated
-      sut.sort(createSortInput(64 * 1024)); // give JIT compiler the chance to optimize
-      boa.activate();                       // measurement is active
+      boa.deactivate();                      // measurement is deactivated
+      sut.sort(createSortInput(256 * 1024)); // give JIT compiler the chance to optimize
+      boa.activate();                        // measurement is active
 
       // ACT
-      for (int x = (64 * 1024); x >= 1024; x /= 2) {
+      for (int x = (256 * 1024); x >= 64; x /= 2) {
          sut.sort(createSortInput(x));
       }
 
