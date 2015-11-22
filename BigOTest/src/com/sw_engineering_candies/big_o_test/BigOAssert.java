@@ -205,6 +205,10 @@ public class BigOAssert {
       assertLogLinearOrPowerLaw(result.getBigOAnalyser(), method);
    }
 
+   public static void assertQuadratic(BigOResult result, String method) {
+      assertQuadratic(result.getBigOAnalyser(), method);
+   }
+
    public static void assertPowerLaw(BigOResult result, String method) {
       assertPowerLaw(result.getBigOAnalyser(), method);
    }
