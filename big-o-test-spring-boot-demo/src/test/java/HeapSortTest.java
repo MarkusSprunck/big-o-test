@@ -1,17 +1,20 @@
 import big_o_test.BigOAnalyser;
-import big_o_test.BigOAssert;
 import big_o_test.BigOReports;
 import com.google.common.collect.Table;
+import lombok.extern.java.Log;
+import org.junit.jupiter.api.Test;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-// run with JVM flag: -Xint
+import static big_o_test.BigOAssert.assertLogLinearOrPowerLaw;
+
+@Log
 public class HeapSortTest {
 
     private static List<Long> createSortInput(int size) {
-        final List<Long> result = new ArrayList<Long>(size);
+        final List<Long> result = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
             result.add(Math.round(Long.MAX_VALUE * Math.random()));
         }
@@ -33,15 +36,23 @@ public class HeapSortTest {
         final BigOAnalyser boa = new BigOAnalyser();
         final HeapSort sut = (HeapSort) boa.createProxy(HeapSort.class);
 
+        // give JIT compiler time to optimize
+        boa.deactivate();
+        sut.sort(createSortInput(1024));
+        boa.activate();
+
         // ACT
         for (int x = (64 * 1024); x >= 1024; x /= 2) {
-            sut.sort(createSortInput(x));
+            List<Long> sortInput = createSortInput(x);
+            log.info("Sort input size " + sortInput.size());
+            sut.sort(sortInput);
         }
+        log.info("Print trace report");
         traceReport(boa, "sort");
 
         // ASSERT
-        BigOAssert.assertLogLinearOrPowerLaw(boa, "sort");
-
+        log.info("Assert LogLinearOrPowerLaw");
+        assertLogLinearOrPowerLaw(boa, "sort");
     }
 
 }
