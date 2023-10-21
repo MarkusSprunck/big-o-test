@@ -5,7 +5,7 @@ IntelliJ : 2023.2
 
 Java Version : JRE 1.8
 
-This library supports the need to check time efficiency of algorithms during development. 
+This library supports the need to check time efficiency of algorithms during development.
 -----------------------------------------------------------------------------------------
 
 #### How does it look like?
@@ -19,7 +19,7 @@ The goal is to support unit-test in the following form:
 	
 	      // ARRANGE
 	      final BigOAnalyser boa = new BigOAnalyser();
-	      final HeapSort sut = (HeapSort) boa.createProxy(HeapSort.class);
+	      final com.sw_engineering_candies.HeapSort sut = (com.sw_engineering_candies.HeapSort) boa.createProxy(com.sw_engineering_candies.HeapSort.class);
 
 	      // ACT
 	      for (int x = (16 * 1024); x >= 1024; x /= 2) {
@@ -50,7 +50,7 @@ The goal is to support unit-test in the following form:
 	   }
 	
 	}
-	
+
 or shorter with Lambda expressions:
 
     public class LambdaTest {
@@ -65,18 +65,18 @@ or shorter with Lambda expressions:
 	           .collect(Collectors.toList());
 	
             // ACT
-            BigOResult actual = BigOAnalyser.classUnderTest(HeapSort.class) 
-	           .execute((HeapSort o) -> values.stream().forEach(value -> o.sort(value))) 
+            BigOResult actual = BigOAnalyser.classUnderTest(com.sw_engineering_candies.HeapSort.class) 
+	           .execute((com.sw_engineering_candies.HeapSort o) -> values.stream().forEach(value -> o.sort(value))) 
 	           .trace();
 	
             // ASSERT
             BigOAssert.assertLogLinearOrPowerLaw(actual.getBigOAnalyser(), "sort");
         }
     } 	
-	
+
 With the system under test (sut):
 
-	public class HeapSort {
+	public class com.sw_engineering_candies.HeapSort {
 	
 	   public Long[] sort(@BigOParameter List<Long> unsorted) {
 			...		
@@ -84,9 +84,7 @@ With the system under test (sut):
 		   ...
 	   }
 
-	
 The expected output looks like:
-
 
 	--- HeapSortTest -----------------------
 	
@@ -106,7 +104,7 @@ The expected output looks like:
 	8192	10723234
 	16384	22943745
 
-
 #### Read More
+
 http://www.sw-engineering-candies.com/blog-1/bigotest-jar-a-library-to-empirically-estimate-big-o-time-efficiency-and-check-results-of-analysis-in-junit-tests
 

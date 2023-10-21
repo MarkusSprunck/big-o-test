@@ -351,15 +351,15 @@ public class BigOAnalyserTest {
         final Table<Integer, String, Double> dataLinear = boa.getData("runLinear");
 
         // ASSERT
-       String expected = "N1\tN2\tN3\tTIME".concat(NL) +
-               "6\t8\t0\t23456".concat(NL) +
-               "8\t4\t5\t12345".concat(NL);
+        String expected = "N1\tN2\tN3\tTIME".concat(NL) +
+                "6\t8\t0\t23456".concat(NL) +
+                "8\t4\t5\t12345".concat(NL);
         final String actualRun = BigOReports.getDataReport(dataRun);
         assertEquals(expected, actualRun);
 
-       String expected2 = "N1\tTIME".concat(NL) +
-               "100\t1000".concat(NL) +
-               "1000\t2000".concat(NL);
+        String expected2 = "N1\tTIME".concat(NL) +
+                "100\t1000".concat(NL) +
+                "1000\t2000".concat(NL);
         final String actualRunLinear = BigOReports.getDataReport(dataLinear);
         assertEquals(expected2, actualRunLinear);
     }
@@ -394,10 +394,10 @@ public class BigOAnalyserTest {
 
         // ASSERT
         final String actual = BigOReports.getDataReport(data);
-       String expected = "N1\tTIME".concat(NL) +
-               "10\t123".concat(NL) +
-               "100\t500".concat(NL) +
-               "1000\t2000".concat(NL);
+        String expected = "N1\tTIME".concat(NL) +
+                "10\t123".concat(NL) +
+                "100\t500".concat(NL) +
+                "1000\t2000".concat(NL);
         assertEquals(expected, actual);
     }
 

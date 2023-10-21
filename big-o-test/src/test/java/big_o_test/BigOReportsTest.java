@@ -76,9 +76,9 @@ public class BigOReportsTest {
         final String actual = BigOReports.getDataReport(data);
 
         // ASSERT
-       String expected = "N1\tN2\tN3\tTIME".concat(NL) +
-               "6\t8\t0\t23456".concat(NL) +
-               "8\t4\t5\t12345".concat(NL);
+        String expected = "N1\tN2\tN3\tTIME".concat(NL) +
+                "6\t8\t0\t23456".concat(NL) +
+                "8\t4\t5\t12345".concat(NL);
         assertEquals(expected, actual);
     }
 
@@ -130,10 +130,10 @@ public class BigOReportsTest {
         final String actual = BigOReports.getDataReport(data);
 
         // ASSERT
-       String expected = "N1\tTIME".concat(NL) +
-               "10\t123".concat(NL) +
-               "100\t500".concat(NL) +
-               "1000\t567".concat(NL);
+        String expected = "N1\tTIME".concat(NL) +
+                "10\t123".concat(NL) +
+                "100\t500".concat(NL) +
+                "1000\t567".concat(NL);
         assertEquals(expected, actual);
     }
 
@@ -221,10 +221,10 @@ public class BigOReportsTest {
         final String actual = BigOReports.getBestFunction(input);
 
         // ASSERT
-       String expected = String.format(Locale.US, "PowerLaw\t%.4f  \ty = ", 0.9977) +
-               String.format(Locale.US, "%.2E", 5.56) +
-               " * x^" +
-               String.format(Locale.US, "%.2E", 1.70);
+        String expected = String.format(Locale.US, "PowerLaw\t%.4f  \ty = ", 0.9977) +
+                String.format(Locale.US, "%.2E", 5.56) +
+                " * x^" +
+                String.format(Locale.US, "%.2E", 1.70);
         assertEquals(expected, actual);
     }
 
@@ -236,25 +236,25 @@ public class BigOReportsTest {
         // ACT
         final String actual = BigOReports.getBestFunctionsReport(input);
         // ASSERT
-       String expected = "TYPE      \tR^2 (adjusted)\tFUNCTION" + NL +
-               String.format(Locale.US, "PowerLaw\t%.4f  \ty = ", 0.9977) +
-               String.format(Locale.US, "%.2E", 5.56) +
-               " * x^" +
-               String.format(Locale.US, "%.2E", 1.70) +
-               NL +
-               String.format(Locale.US, "Exponential\t%.4f  \ty = ", 0.8941) +
-               String.format(Locale.US, "%.2E", 9.34) +
-               " * exp ( " +
-               String.format(Locale.US, "%.2E", 0.42) +
-               " * x )" +
-               NL +
-               String.format(Locale.US, "Logarithmic\t%.4f  \ty = ", 0.723) +
-               String.format(Locale.US, "%.2E", -22.1) +
-               " + " +
-               String.format(Locale.US, "%.2E", 74.8) +
-               " * log ( x )" +
-               NL +
-               NL;
+        String expected = "TYPE      \tR^2 (adjusted)\tFUNCTION" + NL +
+                String.format(Locale.US, "PowerLaw\t%.4f  \ty = ", 0.9977) +
+                String.format(Locale.US, "%.2E", 5.56) +
+                " * x^" +
+                String.format(Locale.US, "%.2E", 1.70) +
+                NL +
+                String.format(Locale.US, "Exponential\t%.4f  \ty = ", 0.8941) +
+                String.format(Locale.US, "%.2E", 9.34) +
+                " * exp ( " +
+                String.format(Locale.US, "%.2E", 0.42) +
+                " * x )" +
+                NL +
+                String.format(Locale.US, "Logarithmic\t%.4f  \ty = ", 0.723) +
+                String.format(Locale.US, "%.2E", -22.1) +
+                " + " +
+                String.format(Locale.US, "%.2E", 74.8) +
+                " * log ( x )" +
+                NL +
+                NL;
         assertEquals(expected, actual);
     }
 

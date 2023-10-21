@@ -66,11 +66,11 @@ public class FitterLogLinearTest {
         fitter.init(input.column("N1"), input.column("TIME"));
 
         // ASSERT
-       String expected = String.format(Locale.US, "LogLinear\t%.4f  \ty = ", 1.0) +
-               String.format(Locale.US, "%.2E", 5.0) +
-               " * x * log( " +
-               String.format(Locale.US, "%.2E", 3.0) +
-               " * x )";
+        String expected = String.format(Locale.US, "LogLinear\t%.4f  \ty = ", 1.0) +
+                String.format(Locale.US, "%.2E", 5.0) +
+                " * x * log( " +
+                String.format(Locale.US, "%.2E", 3.0) +
+                " * x )";
         assertEquals(expected, fitter.toString());
     }
 
