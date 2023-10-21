@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Markus Sprunck <sprunck.markus@gmail.com>
+ * Copyright (C) 2013-2023, Markus Sprunck <sprunck.markus@gmail.com>
  *
  * All rights reserved.
  *
@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target({ PARAMETER })
+@Target({PARAMETER})
 @Retention(RUNTIME)
 public @interface DummyAnnotation {
 

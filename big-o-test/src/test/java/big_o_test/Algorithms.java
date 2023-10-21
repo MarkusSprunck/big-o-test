@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Markus Sprunck <sprunck.markus@gmail.com>
+ * Copyright (C) 2013-2023, Markus Sprunck <sprunck.markus@gmail.com>
  *
  * All rights reserved.
  *
@@ -39,80 +39,80 @@ import java.util.Set;
 
 public class Algorithms {
 
-   public double run(@BigOParameter @DummyAnnotation List<Integer> m, @DummyAnnotation boolean flag,
-                     @BigOParameter int[] n, @BigOParameter float[] k) {
-      double result = 0;
-      for (final Integer value_m : m) {
-         for (final int value_n : n) {
-            for (final float value_k : k) {
-               result += value_m * value_n * value_k;
+    public double run(@BigOParameter @DummyAnnotation List<Integer> m, @DummyAnnotation boolean flag,
+                      @BigOParameter int[] n, @BigOParameter float[] k) {
+        double result = 0;
+        for (final Integer value_m : m) {
+            for (final int value_n : n) {
+                for (final float value_k : k) {
+                    result += value_m * value_n * value_k;
+                }
             }
-         }
-      }
-      return result;
-   }
+        }
+        return result;
+    }
 
-   public double runConstant(@BigOParameter int m) {
-      double result = 0;
-      for (int index = 0; index < 100; index++) {
-         result += index;
-      }
-      return result;
-   }
+    public double runConstant(@BigOParameter int m) {
+        double result = 0;
+        for (int index = 0; index < 100; index++) {
+            result += index;
+        }
+        return result;
+    }
 
-   public double runLinear(@BigOParameter int m) {
-      double result = 0;
-      for (int index = 0; index < m; index++) {
-         result += index;
-      }
-      return result;
-   }
+    public double runLinear(@BigOParameter int m) {
+        double result = 0;
+        for (int index = 0; index < m; index++) {
+            result += index;
+        }
+        return result;
+    }
 
-   public double runQuadratic(@BigOParameter int m) {
-      double result = 0;
-      for (int index = 0; index < m; index++) {
-         for (int index2 = 0; index2 < m; index2++) {
-            result += index + index2;
-         }
-      }
-      return result;
-   }
+    public double runQuadratic(@BigOParameter int m) {
+        double result = 0;
+        for (int index = 0; index < m; index++) {
+            for (int index2 = 0; index2 < m; index2++) {
+                result += index + index2;
+            }
+        }
+        return result;
+    }
 
-   public double runNLogN(@BigOParameter int m) {
-      double result = 0;
-      final long count = Math.round(Math.pow(m, 1.1));
-      for (int index = 0; index < count; index++) {      
+    public double runNLogN(@BigOParameter int m) {
+        double result = 0;
+        final long count = Math.round(Math.pow(m, 1.1));
+        for (int index = 0; index < count; index++) {
             result += Math.sin(index);
-      }
-      return result;
-   }
-   
-   public double runPowerLaw(@BigOParameter int m) {
-      double result = 0;
-      final long count = Math.round(Math.pow(m, 1.5));
-      for (int index = 0; index < count; index++) {      
+        }
+        return result;
+    }
+
+    public double runPowerLaw(@BigOParameter int m) {
+        double result = 0;
+        final long count = Math.round(Math.pow(m, 1.5));
+        for (int index = 0; index < count; index++) {
             result += Math.sin(index);
-      }
-      return result;
-   }
+        }
+        return result;
+    }
 
-   public double runAllParameter(@BigOParameter int[] in01, @BigOParameter long[] in02, @BigOParameter float[] in03,
-                                 @BigOParameter double[] in04, @BigOParameter byte[] in05, @BigOParameter String in06,
-                                 @BigOParameter List<Integer> in07, @BigOParameter Set<Integer> in08,
-                                 @BigOParameter Map<Integer, Integer> in09, @BigOParameter int in10, @BigOParameter long in11) {
-      double result = 0;
-      for (int index = 0; index < 10; index++) {
-         result += index;
-      }
-      return result;
-   }
+    public double runAllParameter(@BigOParameter int[] in01, @BigOParameter long[] in02, @BigOParameter float[] in03,
+                                  @BigOParameter double[] in04, @BigOParameter byte[] in05, @BigOParameter String in06,
+                                  @BigOParameter List<Integer> in07, @BigOParameter Set<Integer> in08,
+                                  @BigOParameter Map<Integer, Integer> in09, @BigOParameter int in10, @BigOParameter long in11) {
+        double result = 0;
+        for (int index = 0; index < 10; index++) {
+            result += index;
+        }
+        return result;
+    }
 
-   public double runNotSupportedParameter(@BigOParameter File file) {
-      double result = 0;
-      for (int index = 0; index < 10; index++) {
-         result += index;
-      }
-      return result;
-   }
+    public double runNotSupportedParameter(@BigOParameter File file) {
+        double result = 0;
+        for (int index = 0; index < 10; index++) {
+            result += index;
+        }
+        return result;
+    }
 
 }

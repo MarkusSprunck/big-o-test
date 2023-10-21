@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Markus Sprunck <sprunck.markus@gmail.com>
+ * Copyright (C) 2013-2023, Markus Sprunck <sprunck.markus@gmail.com>
  *
  * All rights reserved.
  *
@@ -342,7 +342,7 @@ public class BigOAnalyser {
 
             /**
              * Java VM Type Signatures (see
-             * http://docs.oracle.com/javase/1.5.0/docs/guide/jni/spec/types.html#wp276)
+             * <a href="http://docs.oracle.com/javase/1.5.0/docs/guide/jni/spec/types.html#wp276">...</a>)
              */
             @SuppressWarnings("rawtypes")
             private void appendParameterInformation(final StringBuilder result, final Type parameterType,

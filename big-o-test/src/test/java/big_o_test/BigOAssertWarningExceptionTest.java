@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Markus Sprunck <sprunck.markus@gmail.com>
+ * Copyright (C) 2013-2023, Markus Sprunck <sprunck.markus@gmail.com>
  *
  * All rights reserved.
  *
@@ -31,22 +31,23 @@
 
 package big_o_test;
 
-import big_o_test.BigOAssertWarningError;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class BigOAssertWarningExceptionTest {
 
-   @Test
-   public void getMessage_CreateException_MessageIsOk() {
-      // ARRANGE
-      final BigOAssertWarningError sut = new BigOAssertWarningError("my Message");
+    @Test
+    public void getMessage_CreateException_MessageIsOk() {
+        // ARRANGE
+        final BigOAssertWarningError sut = new BigOAssertWarningError("my Message");
 
-      // ACT
-      final String result = sut.getMessage();
+        // ACT
+        final String result = sut.getMessage();
 
-      // ASSERT
-      Assert.assertEquals("my Message", result);
-   }
+        // ASSERT
+        assertEquals("my Message", result);
+    }
 
 }

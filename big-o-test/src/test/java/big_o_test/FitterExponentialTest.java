@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Markus Sprunck <sprunck.markus@gmail.com>
+ * Copyright (C) 2013-2023, Markus Sprunck <sprunck.markus@gmail.com>
  *
  * All rights reserved.
  *
@@ -34,75 +34,75 @@ package big_o_test;
 import big_o_test.math.FitterExponential;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class FitterExponentialTest {
 
-   @Test
-   public void getRSquareAdjusted_TenDataPoints_GetCorrectCoefficiantOfDetermination() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = createTenPoints();
-      final FitterExponential polynom = new FitterExponential();
-      polynom.init(input.column("N1"), input.column("TIME"));
+    @Test
+    public void getRSquareAdjusted_TenDataPoints_GetCorrectCoefficiantOfDetermination() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = createTenPoints();
+        final FitterExponential polynom = new FitterExponential();
+        polynom.init(input.column("N1"), input.column("TIME"));
 
-      // ACT
-      final double result = polynom.getRSquareAdjusted();
+        // ACT
+        final double result = polynom.getRSquareAdjusted();
 
-      // ASSERT
-      Assert.assertEquals(1.0, result, 0.000000000000001);
-   }
+        // ASSERT
+        assertEquals(1.0, result, 0.000000000000001);
+    }
 
-   @Test
-   public void init_ExponentalFunctionWithoutNoise_CorrectFunction() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = createTenPoints();
-      final FitterExponential exponentialFunction = new FitterExponential();
+    @Test
+    public void init_ExponentalFunctionWithoutNoise_CorrectFunction() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = createTenPoints();
+        final FitterExponential exponentialFunction = new FitterExponential();
 
-      // ACT
-      exponentialFunction.init(input.column("N1"), input.column("TIME"));
+        // ACT
+        exponentialFunction.init(input.column("N1"), input.column("TIME"));
 
-      // ASSERT
-      final StringBuilder expected = new StringBuilder(100);
-      expected.append(String.format(Locale.US,"Exponential\t%.4f  \ty = ", 1.0));
-      expected.append(String.format(Locale.US,"%.2E", 100.0));
-      expected.append(" * exp ( ");
-      expected.append(String.format(Locale.US,"%.2E", 0.5));
-      expected.append(" * x )");
-      Assert.assertEquals(expected.toString(), exponentialFunction.toString());
-   }
+        // ASSERT
+       String expected = String.format(Locale.US, "Exponential\t%.4f  \ty = ", 1.0) +
+               String.format(Locale.US, "%.2E", 100.0) +
+               " * exp ( " +
+               String.format(Locale.US, "%.2E", 0.5) +
+               " * x )";
+        assertEquals(expected, exponentialFunction.toString());
+    }
 
-   @Test
-   public void init_OneDataPoints_Exception() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = TreeBasedTable.create();
-      input.put(1, "N1", 0.0);
-      input.put(1, "TIME", 10.0);
-      final FitterExponential exponentialFunction = new FitterExponential();
+    @Test
+    public void init_OneDataPoints_Exception() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = TreeBasedTable.create();
+        input.put(1, "N1", 0.0);
+        input.put(1, "TIME", 10.0);
+        final FitterExponential exponentialFunction = new FitterExponential();
 
-      // ACT
-      String actual = "";
-      final String expected = "need minimum 2 data points to do the fit";
-      try {
-         exponentialFunction.init(input.column("N1"), input.column("TIME"));
-      } catch (final IllegalArgumentException ex) {
-         actual = ex.getMessage();
-      }
+        // ACT
+        String actual = "";
+        final String expected = "need minimum 2 data points to do the fit";
+        try {
+            exponentialFunction.init(input.column("N1"), input.column("TIME"));
+        } catch (final IllegalArgumentException ex) {
+            actual = ex.getMessage();
+        }
 
-      // ASSERT
-      Assert.assertEquals(expected, actual);
-   }
+        // ASSERT
+        assertEquals(expected, actual);
+    }
 
-   private Table<Integer, String, Double> createTenPoints() {
-      final Table<Integer, String, Double> input;
-      input = TreeBasedTable.create();
-      for (int i = 1; i <= 10; i++) {
-         input.put(i, "N1", (double) i);
-         input.put(i, "TIME", (100.0 * Math.exp(0.5 * i)));
-      }
-      return input;
-   }
+    private Table<Integer, String, Double> createTenPoints() {
+        final Table<Integer, String, Double> input;
+        input = TreeBasedTable.create();
+        for (int i = 1; i <= 10; i++) {
+            input.put(i, "N1", (double) i);
+            input.put(i, "TIME", (100.0 * Math.exp(0.5 * i)));
+        }
+        return input;
+    }
 
 }

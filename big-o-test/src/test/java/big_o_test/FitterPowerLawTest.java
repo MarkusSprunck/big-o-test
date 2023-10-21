@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Markus Sprunck <sprunck.markus@gmail.com>
+ * Copyright (C) 2013-2023, Markus Sprunck <sprunck.markus@gmail.com>
  *
  * All rights reserved.
  *
@@ -34,74 +34,74 @@ package big_o_test;
 import big_o_test.math.FitterPowerLaw;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class FitterPowerLawTest {
 
-   @Test
-   public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = createTenPoints();
-      final FitterPowerLaw fitter = new FitterPowerLaw();
-      fitter.init(input.column("N1"), input.column("TIME"));
+    @Test
+    public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = createTenPoints();
+        final FitterPowerLaw fitter = new FitterPowerLaw();
+        fitter.init(input.column("N1"), input.column("TIME"));
 
-      // ACT
-      final double result = fitter.getRSquareAdjusted();
+        // ACT
+        final double result = fitter.getRSquareAdjusted();
 
-      // ASSERT
-      Assert.assertEquals(1.0, result, 0.000000000000001);
-   }
+        // ASSERT
+        assertEquals(1.0, result, 0.000000000000001);
+    }
 
-   @Test
-   public void init_PowerLawWithoutNoise_CorrectFunction() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = createTenPoints();
-      final FitterPowerLaw fitter = new FitterPowerLaw();
+    @Test
+    public void init_PowerLawWithoutNoise_CorrectFunction() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = createTenPoints();
+        final FitterPowerLaw fitter = new FitterPowerLaw();
 
-      // ACT
-      fitter.init(input.column("N1"), input.column("TIME"));
+        // ACT
+        fitter.init(input.column("N1"), input.column("TIME"));
 
-      // ASSERT
-      final StringBuilder expected = new StringBuilder(100);
-      expected.append(String.format(Locale.US,"PowerLaw\t%.4f  \ty = ", 1.0));
-      expected.append(String.format(Locale.US,"%.2E", 10.0));
-      expected.append(" * x^");
-      expected.append(String.format(Locale.US,"%.2E", 1.1));
-      Assert.assertEquals(expected.toString(), fitter.toString());
-   }
+        // ASSERT
+       String expected = String.format(Locale.US, "PowerLaw\t%.4f  \ty = ", 1.0) +
+               String.format(Locale.US, "%.2E", 10.0) +
+               " * x^" +
+               String.format(Locale.US, "%.2E", 1.1);
+        assertEquals(expected, fitter.toString());
+    }
 
-   private Table<Integer, String, Double> createTenPoints() {
-      final Table<Integer, String, Double> input;
-      input = TreeBasedTable.create();
-      for (int i = 1; i <= 100; i++) {
-         input.put(i, "N1", (double) i);
-         input.put(i, "TIME", (10.0 * Math.pow(i, 1.1)));
-      }
-      return input;
-   }
+    private Table<Integer, String, Double> createTenPoints() {
+        final Table<Integer, String, Double> input;
+        input = TreeBasedTable.create();
+        for (int i = 1; i <= 100; i++) {
+            input.put(i, "N1", (double) i);
+            input.put(i, "TIME", (10.0 * Math.pow(i, 1.1)));
+        }
+        return input;
+    }
 
-   @Test
-   public void init_OneDataPoints_Exception() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = TreeBasedTable.create();
-      input.put(1, "N1", 0.0);
-      input.put(1, "TIME", 10.0);
-      final FitterPowerLaw function = new FitterPowerLaw();
+    @Test
+    public void init_OneDataPoints_Exception() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = TreeBasedTable.create();
+        input.put(1, "N1", 0.0);
+        input.put(1, "TIME", 10.0);
+        final FitterPowerLaw function = new FitterPowerLaw();
 
-      // ACT
-      String actual = "";
-      final String expected = "need minimum 2 data points to do the fit";
-      try {
-         function.init(input.column("N1"), input.column("TIME"));
-      } catch (final IllegalArgumentException ex) {
-         actual = ex.getMessage();
-      }
+        // ACT
+        String actual = "";
+        final String expected = "need minimum 2 data points to do the fit";
+        try {
+            function.init(input.column("N1"), input.column("TIME"));
+        } catch (final IllegalArgumentException ex) {
+            actual = ex.getMessage();
+        }
 
-      // ASSERT
-      Assert.assertEquals(expected, actual);
-   }
+        // ASSERT
+        assertEquals(expected, actual);
+    }
 
 }

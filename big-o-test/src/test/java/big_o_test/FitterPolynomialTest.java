@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Markus Sprunck <sprunck.markus@gmail.com>
+ * Copyright (C) 2013-2023, Markus Sprunck <sprunck.markus@gmail.com>
  *
  * All rights reserved.
  *
@@ -34,112 +34,113 @@ package big_o_test;
 import big_o_test.math.FitterPolynomial;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class FitterPolynomialTest {
 
-   @Test
-   public void getCoefficient_PolynomialRegressionDataSecondDegree_CorrectCoefficient() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = createSevenPoints();
-      final FitterPolynomial polynom = new FitterPolynomial();
-      polynom.init(input.column("N1"), input.column("TIME"), 2);
+    @Test
+    public void getCoefficient_PolynomialRegressionDataSecondDegree_CorrectCoefficient() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = createSevenPoints();
+        final FitterPolynomial polynom = new FitterPolynomial();
+        polynom.init(input.column("N1"), input.column("TIME"), 2);
 
-      // ACT
-      final double result = polynom.getCoefficient(1);
+        // ACT
+        final double result = polynom.getCoefficient(1);
 
-      // ASSERT
-      Assert.assertEquals(2.0000000000002167, result, 1E-12);
-   }
+        // ASSERT
+        assertEquals(2.0000000000002167, result, 1E-12);
+    }
 
-   @Test
-   public void init_PolynomialRegressionDataSecondDegree_CorrectPolynom() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = createSevenPoints();
-      final FitterPolynomial polynom = new FitterPolynomial();
+    @Test
+    public void init_PolynomialRegressionDataSecondDegree_CorrectPolynom() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = createSevenPoints();
+        final FitterPolynomial polynom = new FitterPolynomial();
 
-      // ACT
-      polynom.init(input.column("N1"), input.column("TIME"), 2);
+        // ACT
+        polynom.init(input.column("N1"), input.column("TIME"), 2);
 
-      // ASSERT
-      final String expected = "Quadratic ".concat(String.format(Locale.US,"\t%.4f        \ty = ", 1.0)
-            + "3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00");
-      Assert.assertEquals(expected, polynom.toString());
-   }
+        // ASSERT
+        final String expected = "Quadratic ".concat(String.format(Locale.US, "\t%.4f        \ty = ", 1.0)
+                + "3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00");
+        assertEquals(expected, polynom.toString());
+    }
 
-   @Test
-   public void init_PolynomialRegressionDataThirdDegree_CorrectPolynom() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = createSevenPoints();
-      final FitterPolynomial polynom = new FitterPolynomial();
+    @Test
+    public void init_PolynomialRegressionDataThirdDegree_CorrectPolynom() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = createSevenPoints();
+        final FitterPolynomial polynom = new FitterPolynomial();
 
-      // ACT
-      polynom.init(input.column("N1"), input.column("TIME"), 3);
+        // ACT
+        polynom.init(input.column("N1"), input.column("TIME"), 3);
 
-      // ASSERT
-      final String expected = "Polynomial".concat(String.format(Locale.US,"\t%.4f        \ty = ", 1.0)
-            + "1.08E-14 * x^3 + 3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00");
-      Assert.assertEquals(expected, polynom.toString());
-   }
+        // ASSERT
+        final String expected = "Polynomial".concat(String.format(Locale.US, "\t%.4f        \ty = ", 1.0)
+                + "1.08E-14 * x^3 + 3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00");
+        assertEquals(expected, polynom.toString());
+    }
 
-   @Test
-   public void getRSquareAdjusted_SevenDataPoints_GetCorrectCoefficiantOfDetermination() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = createSevenPoints();
-      final FitterPolynomial polynom = new FitterPolynomial();
-      polynom.init(input.column("N1"), input.column("TIME"), 2);
+    @Test
+    public void getRSquareAdjusted_SevenDataPoints_GetCorrectCoefficiantOfDetermination() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = createSevenPoints();
+        final FitterPolynomial polynom = new FitterPolynomial();
+        polynom.init(input.column("N1"), input.column("TIME"), 2);
 
-      // ACT
-      final double result = polynom.getRSquareAdjusted();
+        // ACT
+        final double result = polynom.getRSquareAdjusted();
 
-      // ASSERT
-      Assert.assertEquals(1.0, result, 0.000000000000001);
-   }
+        // ASSERT
+        assertEquals(1.0, result, 0.000000000000001);
+    }
 
-   private Table<Integer, String, Double> createSevenPoints() {
-      final Table<Integer, String, Double> input;
-      input = TreeBasedTable.create();
-      input.put(2, "N1", 2.0);
-      input.put(2, "TIME", 17.0);
-      input.put(3, "N1", 3.0);
-      input.put(3, "TIME", 34.0);
-      input.put(4, "N1", 4.0);
-      input.put(4, "TIME", 57.0);
-      input.put(5, "N1", 5.0);
-      input.put(5, "TIME", 86.0);
-      input.put(6, "N1", 6.0);
-      input.put(6, "TIME", 121.0);
-      input.put(7, "N1", 7.0);
-      input.put(7, "TIME", 162.0);
-      input.put(1, "N1", 1.0);
-      input.put(1, "TIME", 6.0);
-      return input;
-   }
+    private Table<Integer, String, Double> createSevenPoints() {
+        final Table<Integer, String, Double> input;
+        input = TreeBasedTable.create();
+        input.put(2, "N1", 2.0);
+        input.put(2, "TIME", 17.0);
+        input.put(3, "N1", 3.0);
+        input.put(3, "TIME", 34.0);
+        input.put(4, "N1", 4.0);
+        input.put(4, "TIME", 57.0);
+        input.put(5, "N1", 5.0);
+        input.put(5, "TIME", 86.0);
+        input.put(6, "N1", 6.0);
+        input.put(6, "TIME", 121.0);
+        input.put(7, "N1", 7.0);
+        input.put(7, "TIME", 162.0);
+        input.put(1, "N1", 1.0);
+        input.put(1, "TIME", 6.0);
+        return input;
+    }
 
-   @Test
-   public void init_TwoDataPoints_Exception() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = TreeBasedTable.create();
-      input.put(1, "N1", 0.0);
-      input.put(1, "TIME", 10.0);
-      input.put(2, "N1", 10.0);
-      input.put(2, "TIME", 12.0);
-      final FitterPolynomial function = new FitterPolynomial();
+    @Test
+    public void init_TwoDataPoints_Exception() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = TreeBasedTable.create();
+        input.put(1, "N1", 0.0);
+        input.put(1, "TIME", 10.0);
+        input.put(2, "N1", 10.0);
+        input.put(2, "TIME", 12.0);
+        final FitterPolynomial function = new FitterPolynomial();
 
-      // ACT
-      String actual = "";
-      final String expected = "number of data points to do the fit is dependent from degree";
-      try {
-         function.init(input.column("N1"), input.column("TIME"), 2);
-      } catch (final IllegalArgumentException ex) {
-         actual = ex.getMessage();
-      }
+        // ACT
+        String actual = "";
+        final String expected = "number of data points to do the fit is dependent from degree";
+        try {
+            function.init(input.column("N1"), input.column("TIME"), 2);
+        } catch (final IllegalArgumentException ex) {
+            actual = ex.getMessage();
+        }
 
-      // ASSERT
-      Assert.assertEquals(expected, actual);
-   }
+        // ASSERT
+        assertEquals(expected, actual);
+    }
 
 }

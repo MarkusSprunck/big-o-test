@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Markus Sprunck <sprunck.markus@gmail.com>
+ * Copyright (C) 2013-2023, Markus Sprunck <sprunck.markus@gmail.com>
  *
  * All rights reserved.
  *
@@ -34,75 +34,75 @@ package big_o_test;
 import big_o_test.math.FitterLogarithmic;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class FitterLogarithmicTest {
 
-   @Test
-   public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = createTenPoints();
-      final FitterLogarithmic fitter = new FitterLogarithmic();
-      fitter.init(input.column("N1"), input.column("TIME"));
+    @Test
+    public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = createTenPoints();
+        final FitterLogarithmic fitter = new FitterLogarithmic();
+        fitter.init(input.column("N1"), input.column("TIME"));
 
-      // ACT
-      final double result = fitter.getRSquareAdjusted();
+        // ACT
+        final double result = fitter.getRSquareAdjusted();
 
-      // ASSERT
-      Assert.assertEquals(1.0, result, 0.000000000000001);
-   }
+        // ASSERT
+        assertEquals(1.0, result, 0.000000000000001);
+    }
 
-   @Test
-   public void init_LogarithmicFunctionWithoutNoise_CorrectFunction() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = createTenPoints();
-      final FitterLogarithmic fitter = new FitterLogarithmic();
+    @Test
+    public void init_LogarithmicFunctionWithoutNoise_CorrectFunction() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = createTenPoints();
+        final FitterLogarithmic fitter = new FitterLogarithmic();
 
-      // ACT
-      fitter.init(input.column("N1"), input.column("TIME"));
+        // ACT
+        fitter.init(input.column("N1"), input.column("TIME"));
 
-      // ASSERT
-      final StringBuilder expected = new StringBuilder(100);
-      expected.append(String.format(Locale.US,"Logarithmic\t%.4f  \ty = ", 1.0));
-      expected.append(String.format(Locale.US,"%.2E", 100.));
-      expected.append(" + ");
-      expected.append(String.format(Locale.US,"%.2E", 10.5));
-      expected.append(" * log ( x )");
-      Assert.assertEquals(expected.toString(), fitter.toString());
-   }
+        // ASSERT
+       String expected = String.format(Locale.US, "Logarithmic\t%.4f  \ty = ", 1.0) +
+               String.format(Locale.US, "%.2E", 100.) +
+               " + " +
+               String.format(Locale.US, "%.2E", 10.5) +
+               " * log ( x )";
+        assertEquals(expected, fitter.toString());
+    }
 
-   @Test
-   public void init_OneDataPoints_Exception() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = TreeBasedTable.create();
-      input.put(1, "N1", 0.0);
-      input.put(1, "TIME", 10.0);
-      final FitterLogarithmic function = new FitterLogarithmic();
+    @Test
+    public void init_OneDataPoints_Exception() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = TreeBasedTable.create();
+        input.put(1, "N1", 0.0);
+        input.put(1, "TIME", 10.0);
+        final FitterLogarithmic function = new FitterLogarithmic();
 
-      // ACT
-      String actual = "";
-      final String expected = "need minimum 2 data points to do the fit";
-      try {
-         function.init(input.column("N1"), input.column("TIME"));
-      } catch (final IllegalArgumentException ex) {
-         actual = ex.getMessage();
-      }
+        // ACT
+        String actual = "";
+        final String expected = "need minimum 2 data points to do the fit";
+        try {
+            function.init(input.column("N1"), input.column("TIME"));
+        } catch (final IllegalArgumentException ex) {
+            actual = ex.getMessage();
+        }
 
-      // ASSERT
-      Assert.assertEquals(expected, actual);
-   }
+        // ASSERT
+        assertEquals(expected, actual);
+    }
 
-   private Table<Integer, String, Double> createTenPoints() {
-      final Table<Integer, String, Double> input;
-      input = TreeBasedTable.create();
-      for (int i = 1; i <= 100; i++) {
-         input.put(i, "N1", (double) i);
-         input.put(i, "TIME", (100.0 + 10.5 * Math.log(i)));
-      }
-      return input;
-   }
+    private Table<Integer, String, Double> createTenPoints() {
+        final Table<Integer, String, Double> input;
+        input = TreeBasedTable.create();
+        for (int i = 1; i <= 100; i++) {
+            input.put(i, "N1", (double) i);
+            input.put(i, "TIME", (100.0 + 10.5 * Math.log(i)));
+        }
+        return input;
+    }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Markus Sprunck <sprunck.markus@gmail.com>
+ * Copyright (C) 2013-2023, Markus Sprunck <sprunck.markus@gmail.com>
  *
  * All rights reserved.
  *
@@ -34,78 +34,78 @@ package big_o_test;
 import big_o_test.math.FitterLogLinear;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class FitterLogLinearTest {
 
-   @Test
-   public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = createTestFunction();
-      final FitterLogLinear fitter = new FitterLogLinear();
-      fitter.init(input.column("N1"), input.column("TIME"));
+    @Test
+    public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = createTestFunction();
+        final FitterLogLinear fitter = new FitterLogLinear();
+        fitter.init(input.column("N1"), input.column("TIME"));
 
-      // ACT
-      final double result = fitter.getRSquareAdjusted();
+        // ACT
+        final double result = fitter.getRSquareAdjusted();
 
-      // ASSERT
-      Assert.assertEquals(1.0, result, 0.000000000000001);
-   }
+        // ASSERT
+        assertEquals(1.0, result, 0.000000000000001);
+    }
 
-   @Test
-   public void init_PowerLawWithoutNoise_CorrectFunction() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = createTestFunction();
-      final FitterLogLinear fitter = new FitterLogLinear();
+    @Test
+    public void init_PowerLawWithoutNoise_CorrectFunction() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = createTestFunction();
+        final FitterLogLinear fitter = new FitterLogLinear();
 
-      // ACT
-      fitter.init(input.column("N1"), input.column("TIME"));
+        // ACT
+        fitter.init(input.column("N1"), input.column("TIME"));
 
-      // ASSERT
-      final StringBuilder expected = new StringBuilder(100);
-      expected.append(String.format(Locale.US,"LogLinear\t%.4f  \ty = ", 1.0));
-      expected.append(String.format(Locale.US,"%.2E", 5.0));
-      expected.append(" * x * log( ");
-      expected.append(String.format(Locale.US,"%.2E", 3.0));
-      expected.append(" * x )");
-      Assert.assertEquals(expected.toString(), fitter.toString());
-   }
+        // ASSERT
+       String expected = String.format(Locale.US, "LogLinear\t%.4f  \ty = ", 1.0) +
+               String.format(Locale.US, "%.2E", 5.0) +
+               " * x * log( " +
+               String.format(Locale.US, "%.2E", 3.0) +
+               " * x )";
+        assertEquals(expected, fitter.toString());
+    }
 
-   private Table<Integer, String, Double> createTestFunction() {
-      final Table<Integer, String, Double> input;
-      input = TreeBasedTable.create();
-      int index = 1;
-      for (int i = 1; i <= 100; i *= 2) {
-         final double x = i;
-         input.put(index, "N1", x);
-         input.put(index, "TIME", (5 * x * Math.log(3.0 * x)));
-         index++;
-      }
-      return input;
-   }
+    private Table<Integer, String, Double> createTestFunction() {
+        final Table<Integer, String, Double> input;
+        input = TreeBasedTable.create();
+        int index = 1;
+        for (int i = 1; i <= 100; i *= 2) {
+            final double x = i;
+            input.put(index, "N1", x);
+            input.put(index, "TIME", (5 * x * Math.log(3.0 * x)));
+            index++;
+        }
+        return input;
+    }
 
-   @Test
-   public void init_OneDataPoints_Exception() {
-      // ARRANGE
-      final Table<Integer, String, Double> input = TreeBasedTable.create();
-      input.put(1, "N1", 0.0);
-      input.put(1, "TIME", 10.0);
-      final FitterLogLinear function = new FitterLogLinear();
+    @Test
+    public void init_OneDataPoints_Exception() {
+        // ARRANGE
+        final Table<Integer, String, Double> input = TreeBasedTable.create();
+        input.put(1, "N1", 0.0);
+        input.put(1, "TIME", 10.0);
+        final FitterLogLinear function = new FitterLogLinear();
 
-      // ACT
-      String actual = "";
-      final String expected = "need minimum 2 data points to do the fit";
-      try {
-         function.init(input.column("N1"), input.column("TIME"));
-      } catch (final IllegalArgumentException ex) {
-         actual = ex.getMessage();
-      }
+        // ACT
+        String actual = "";
+        final String expected = "need minimum 2 data points to do the fit";
+        try {
+            function.init(input.column("N1"), input.column("TIME"));
+        } catch (final IllegalArgumentException ex) {
+            actual = ex.getMessage();
+        }
 
-      // ASSERT
-      Assert.assertEquals(expected, actual);
-   }
+        // ASSERT
+        assertEquals(expected, actual);
+    }
 
 }

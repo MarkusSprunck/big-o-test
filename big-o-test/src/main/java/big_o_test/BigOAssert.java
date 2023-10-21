@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Markus Sprunck <sprunck.markus@gmail.com>
+ * Copyright (C) 2013-2023, Markus Sprunck <sprunck.markus@gmail.com>
  *
  * All rights reserved.
  *
@@ -69,9 +69,9 @@ public class BigOAssert {
 
         // assert that degree is in expected range
         if (actual < expected - delta || actual > expected + delta) {
-           String message = "BigOAssertException - assertPolynomialDegree failed:" +
-                   NL + "\tPolynomial degree expected = " + expected +
-                   NL + "\tPolynomial degree actual   = " + actual;
+            String message = "BigOAssertException - assertPolynomialDegree failed:" +
+                    NL + "\tPolynomial degree expected = " + expected +
+                    NL + "\tPolynomial degree actual   = " + actual;
             throw new BigOAssertWarningError(message);
         }
     }
@@ -91,9 +91,9 @@ public class BigOAssert {
         // find the best fit function and check type
         final String function = BigOReports.getBestFunction(data);
         if (!function.startsWith("Constant")) {
-           String message = "BigOAssertException - assertConstant failed:" +
-                   NL +
-                   function;
+            String message = "BigOAssertException - assertConstant failed:" +
+                    NL +
+                    function;
             throw new BigOAssertWarningError(message);
         }
     }
@@ -113,9 +113,9 @@ public class BigOAssert {
         // find the best fit function and check type
         final String function = BigOReports.getBestFunction(data);
         if (!function.startsWith("Linear")) {
-           String message = "BigOAssertException - assertLinear failed:" +
-                   NL +
-                   function;
+            String message = "BigOAssertException - assertLinear failed:" +
+                    NL +
+                    function;
             throw new BigOAssertWarningError(message);
         }
     }
@@ -135,9 +135,9 @@ public class BigOAssert {
         // find the best fit function and check type
         final String function = BigOReports.getBestFunction(data);
         if (!(function.startsWith("LogLinear") || function.startsWith("PowerLaw"))) {
-           String message = "BigOAssertException - assertLogLinear failed:" +
-                   NL +
-                   function;
+            String message = "BigOAssertException - assertLogLinear failed:" +
+                    NL +
+                    function;
             throw new BigOAssertWarningError(message);
         }
     }
@@ -157,9 +157,9 @@ public class BigOAssert {
         // find the best fit function and check type
         final String function = BigOReports.getBestFunction(data);
         if (!function.startsWith("Quadratic")) {
-           String message = "BigOAssertException - assertQuadratic failed:" +
-                   NL +
-                   function;
+            String message = "BigOAssertException - assertQuadratic failed:" +
+                    NL +
+                    function;
             throw new BigOAssertWarningError(message);
         }
     }
@@ -176,9 +176,9 @@ public class BigOAssert {
         // find the best fit function and check type
         final String function = BigOReports.getBestFunction(data);
         if (!function.startsWith("PowerLaw")) {
-           String message = "BigOAssertException - assertPowerLaw failed:" +
-                   NL +
-                   function;
+            String message = "BigOAssertException - assertPowerLaw failed:" +
+                    NL +
+                    function;
             throw new BigOAssertWarningError(message);
         }
     }

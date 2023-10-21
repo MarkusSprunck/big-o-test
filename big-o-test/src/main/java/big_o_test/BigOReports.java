@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, Markus Sprunck <sprunck.markus@gmail.com>
+ * Copyright (C) 2013-2023, Markus Sprunck <sprunck.markus@gmail.com>
  *
  * All rights reserved.
  *
@@ -54,8 +54,8 @@ public class BigOReports {
         final Double degree = BigOAnalyser.estimatePolynomialDegree(input);
 
         // print result
-       String result = "ESTIMATED-POLYNOMIAL-DEGREE" + NL +
-               String.format(Locale.US, "%.4f", degree) + NL;
+        String result = "ESTIMATED-POLYNOMIAL-DEGREE" + NL +
+                String.format(Locale.US, "%.4f", degree) + NL;
         return result;
     }
 
