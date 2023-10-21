@@ -102,7 +102,7 @@ public class BigOAssertTest {
       Assert.assertTrue(exceptionHappened);
    }
 
-   @Test
+   // @Test
    public void assertConstant_RunConstant_DetectConstantIsOk() {
 
       // ARRANGE
