@@ -1,13 +1,9 @@
-BigOTest.jar is a Library to Empirically Estimate Big-O Time Efficiency and Check Results of Analysis in JUnit Tests
+big-o-test.jar is a Library to Empirically Estimate Big-O Time Efficiency and Check Results of Analysis in JUnit Tests
 --------------------------------------------------------------------------------------------------------------------
 
-Project : Eclipse Java EE IDE for Web Developers.
+IntelliJ : 2023.2
 
-Eclipse : Mars Release (4.5.0)
-
-Build id : 20150621-1200
-
-Java Version : JRE 8
+Java Version : JRE 1.8
 
 This library supports the need to check time efficiency of algorithms during development. 
 -----------------------------------------------------------------------------------------
