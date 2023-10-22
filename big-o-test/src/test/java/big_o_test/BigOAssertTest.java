@@ -41,7 +41,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Log
+
 public class BigOAssertTest {
 
     private static List<Long> createSortInput(int size) {
@@ -67,7 +67,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertConstant(boa, "");
         } catch (final IllegalArgumentException ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -90,7 +90,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertConstant(boa, "runLinear");
         } catch (final IllegalArgumentException ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -117,7 +117,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertConstant(boa, "runConstant");
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -142,7 +142,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertConstant(boa, "runNLogN");
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -167,7 +167,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertConstant(boa, "runLinear");
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -190,7 +190,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertLinear(boa, "runLinear");
         } catch (final IllegalStateException ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -215,7 +215,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertLinear(boa, "runConstant");
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -240,7 +240,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertLinear(boa, "runQuadratic");
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -270,8 +270,8 @@ public class BigOAssertTest {
             BigOAssert.assertLinear(boa, "runLinear");
         } catch (final BigOAssertWarningError ex) {
             final Table<Integer, String, Double> data = boa.getData("runLinear");
-            log.severe(ex.getMessage());
-            log.info(BigOReports.getBestFunctionsReport(data));
+            System.out.println(ex.getMessage());
+            System.out.println(BigOReports.getBestFunctionsReport(data));
             exceptionHappened = true;
         }
 
@@ -294,7 +294,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertLogLinearOrPowerLaw(boa, "runNLogN");
         } catch (final IllegalStateException ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -357,7 +357,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertLogLinearOrPowerLaw(boa, "runQuadratic");
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -382,7 +382,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertLogLinearOrPowerLaw(boa, "runConstant");
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -405,7 +405,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertPolynomialDegree(boa, "runLinear", 1.0, 0.1);
         } catch (final IllegalStateException ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -433,7 +433,7 @@ public class BigOAssertTest {
             final double range = 0.2;
             BigOAssert.assertPolynomialDegree(boa, "runLinear", expected, range);
         } catch (final BigOAssertWarningError ex) {
-            log.severe("assertPolynomialDegree_RunLinear_CheckPolynomialDegreeIsOk");
+            System.out.println("assertPolynomialDegree_RunLinear_CheckPolynomialDegreeIsOk");
             exceptionHappened = true;
         }
 
@@ -460,7 +460,7 @@ public class BigOAssertTest {
             final double range = 0.1;
             BigOAssert.assertPolynomialDegree(boa, "runConstant", expected, range);
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -487,7 +487,7 @@ public class BigOAssertTest {
             final double range = 0.1;
             BigOAssert.assertPolynomialDegree(boa, "runQuadratic", expected, range);
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -510,7 +510,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertQuadratic(boa, "runQuadratic");
         } catch (final IllegalStateException ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -535,7 +535,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertQuadratic(boa, "runQuadratic");
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -561,7 +561,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertQuadratic(boa, "runLinear");
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -606,7 +606,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertQuadratic(boa, "runConstant");
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 
@@ -632,7 +632,7 @@ public class BigOAssertTest {
         try {
             BigOAssert.assertQuadratic(boa, "runNLogN");
         } catch (final BigOAssertWarningError ex) {
-            log.severe(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 

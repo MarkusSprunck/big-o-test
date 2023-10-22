@@ -8,7 +8,7 @@
     <version>1.0.0</version>
     <name>big-o-test</name>
     <packaging>jar</packaging>
-    <description>Big-O-Test Support</description>
+    <description>Big-O-Test Support Library</description>
 
     <properties>
         <java.version>17</java.version>
@@ -27,11 +27,10 @@
         <version.junit-jupiter-api>5.10.0</version.junit-jupiter-api>
         <version.javassist>3.29.2-GA</version.javassist>
         <version.lombok>1.18.30</version.lombok>
-        <version.logback-core>1.4.11</version.logback-core>
-        <version.slf4j-api>2.0.9</version.slf4j-api>
     </properties>
 
     <dependencies>
+        <!-- runtime -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
@@ -53,16 +52,7 @@
             <version>${version.lombok}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${version.logback-core}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${version.slf4j-api}</version>
-        </dependency>
+        <!-- testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

@@ -40,7 +40,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Log
+
 public class BigOAnalyserTest {
 
     /**
@@ -61,7 +61,7 @@ public class BigOAnalyserTest {
         try {
             boa.getData("wrongMethodName");
         } catch (final IllegalStateException ex) {
-            log.info(ex.getMessage());
+            System.out.println(ex.getMessage());
             exceptionHappened = true;
         }
 

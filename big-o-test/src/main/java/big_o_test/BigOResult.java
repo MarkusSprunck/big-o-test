@@ -2,12 +2,11 @@ package big_o_test;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Table;
-import lombok.extern.java.Log;
 
 import java.util.Set;
 import java.util.logging.Logger;
 
-@Log
+
 public class BigOResult {
 
     private BigOAnalyser boa = null;
@@ -62,8 +61,6 @@ public class BigOResult {
         }
         if (logs.length == 1) {
             logs[0].info(message.toString());
-        } else {
-            log.info(message.toString());
         }
         return this;
     }

@@ -31,18 +31,15 @@
 
 package big_o_test;
 
-import lombok.extern.java.Log;
-
 /**
  * This class is used as a standard exception in all assert methods.
  */
 @SuppressWarnings("serial")
-@Log
+
 public class BigOAssertWarningError extends AssertionError {
 
     public BigOAssertWarningError(String message) {
         super(message);
-        log.severe(message);
     }
 
 }
