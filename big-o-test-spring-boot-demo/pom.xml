@@ -5,9 +5,9 @@
 
     <groupId>com.sw_engineering_candies</groupId>
     <artifactId>big-o-test-spring-boot-demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>big-o-test-spring-boot-demo</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Spring Boot demo project for Big-O-Test</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -63,6 +63,17 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

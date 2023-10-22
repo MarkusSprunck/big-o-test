@@ -37,13 +37,8 @@ public class HeapSortTest {
         final BigOAnalyser boa = new BigOAnalyser();
         final HeapSort sut = (HeapSort) boa.createProxy(HeapSort.class);
 
-        // give JIT compiler time to optimize
-        boa.deactivate();
-        sut.sort(createSortInput(1024));
-        boa.activate();
-
         // ACT
-        for (int x = (64 * 1024); x >= 1024; x /= 2) {
+        for (int x = (128 * 1024); x >= 256; x /= 2) {
             List<Long> sortInput = createSortInput(x);
             log.info("Sort input size " + sortInput.size());
             sut.sort(sortInput);

@@ -32,7 +32,6 @@
 package big_o_test;
 
 import com.google.common.collect.Table;
-import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -325,18 +324,21 @@ public class BigOAssertTest {
     public void assertLogLinear_RunNLogN_DetectLogLinearOk() {
         // ARRANGE
         final BigOAnalyser boa = new BigOAnalyser();
-        final HeapSort sut = (HeapSort) boa.createProxy(HeapSort.class);
+        final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         boa.deactivate();                      // measurement is deactivated
-        sut.sort(createSortInput(256 * 1024)); // give JIT compiler the chance to optimize
+        sut.runNLogN(256 * 1024);           // give JIT compiler the chance to optimize
         boa.activate();                        // measurement is active
 
         // ACT
-        for (int x = (256 * 1024); x >= 64; x /= 2) {
-            sut.sort(createSortInput(x));
+        for (int x = (1024 * 1024); x >= 4; x /= 2) {
+            sut.runNLogN(x);
         }
 
         // ASSERT
-        BigOAssert.assertLogLinearOrPowerLaw(boa, "sort");
+        BigOAssert.assertLogLinearOrPowerLaw(boa, "runNLogN");
+        BigOAssert.assertLogLinear(boa, "runNLogN");
+        System.out.println(BigOReports.getPolynomialDegree(boa.getData("runNLogN")));
+        System.out.println(BigOReports.getBestFunctionsReport(boa.getData("runNLogN")));
     }
 
     @Test

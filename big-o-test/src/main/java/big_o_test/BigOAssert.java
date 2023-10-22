@@ -46,7 +46,7 @@ public class BigOAssert {
     private static final double DEGREE_EXPECTED_LOG_LINEAR = 1.1;
     private static final double DEGREE_EXPECTED_LINEAR = 1.0;
     private static final double DEGREE_EXPECTED_CONSTANT = 0.0;
-    private static final double DEGREE_EXPECTED_DELTA = 0.15;
+    private static final double DEGREE_EXPECTED_DELTA = 0.05;
 
     /**
      * Use the platform independent line separator
@@ -193,6 +193,10 @@ public class BigOAssert {
 
     public static void assertLinear(BigOResult result, String method) {
         assertLinear(result.getBigOAnalyser(), method);
+    }
+
+    public static void assertLogLinear(BigOAnalyser boa, String method) {
+        assertPolynomialDegree(boa, method, DEGREE_EXPECTED_LOG_LINEAR, DEGREE_EXPECTED_DELTA);
     }
 
     public static void assertLogLinearOrPowerLaw(BigOResult result, String method) {

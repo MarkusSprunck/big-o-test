@@ -33,7 +33,6 @@ package big_o_test;
 
 import big_o_test.interfaces.BigOParameter;
 import com.google.common.collect.Table;
-import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
