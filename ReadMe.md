@@ -3,7 +3,7 @@ big-o-test.jar is a Library to Empirically Estimate Big-O Time Efficiency and Ch
 
 IntelliJ : 2023.2
 
-Java Version : JRE 1.8
+Java Version : JRE 17
 
 This library supports the need to check time efficiency of algorithms during development.
 -----------------------------------------------------------------------------------------
