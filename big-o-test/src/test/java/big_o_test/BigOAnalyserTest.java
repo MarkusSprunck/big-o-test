@@ -56,16 +56,12 @@ public class BigOAnalyserTest {
         sut.runQuadratic(10);
 
         // ACT
-        boolean exceptionHappened = false;
-        try {
-            boa.getData("wrongMethodName");
-        } catch (final IllegalStateException ex) {
-            System.out.println(ex.getMessage());
-            exceptionHappened = true;
-        }
+        IllegalStateException result = assertThrows(IllegalStateException.class, () ->
+                boa.getData("wrongMethodName")
+        );
 
         // ASSERT
-        assertTrue(exceptionHappened);
+        assertEquals("No data for method name 'wrongMethodName'", result.getMessage());
     }
 
     @Test
@@ -145,15 +141,9 @@ public class BigOAnalyserTest {
         final Table<Integer, String, Double> result = boa.getDataChecked("runLinear");
 
         // ACT
-        String actual = "";
-        try {
-            result.put(1, "N1", 1234.5);
-        } catch (UnsupportedOperationException ex) {
-            actual = ex.toString();
-        }
-
-        // ASSERT
-        assertEquals("java.lang.UnsupportedOperationException", actual);
+        assertThrows(UnsupportedOperationException.class, () ->
+                result.put(1, "N1", 1234.5)
+        );
     }
 
     @Test
@@ -167,15 +157,9 @@ public class BigOAnalyserTest {
         final Table<Integer, String, Double> result = boa.getData("runLinear");
 
         // ACT
-        String actual = "";
-        try {
-            result.put(1, "N1", 1234.5);
-        } catch (UnsupportedOperationException ex) {
-            actual = ex.toString();
-        }
-
-        // ASSERT
-        assertEquals("java.lang.UnsupportedOperationException", actual);
+        assertThrows(UnsupportedOperationException.class, () ->
+                result.put(1, "N1", 1234.5)
+        );
     }
 
     @Test
@@ -579,6 +563,7 @@ public class BigOAnalyserTest {
         assertEquals(expected, actual);
     }
 
+
 }
 
 class SutClass {
@@ -594,3 +579,4 @@ class SutClass {
         return 1 / b;
     }
 }
+
