@@ -39,33 +39,34 @@ import org.junit.jupiter.api.Test;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FitterLogLinearTest {
 
     @Test
-    public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
-        // ARRANGE
+    public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination()  {
+        // given
         final Table<Integer, String, Double> input = createTestFunction();
         final FitterLogLinear fitter = new FitterLogLinear();
         fitter.init(input.column("N1"), input.column("TIME"));
 
-        // ACT
+        // when
         final double result = fitter.getRSquareAdjusted();
 
-        // ASSERT
+        // then
         assertEquals(1.0, result, 0.000000000000001);
     }
 
     @Test
-    public void init_PowerLawWithoutNoise_CorrectFunction() {
-        // ARRANGE
+    public void init_PowerLawWithoutNoise_CorrectFunction()  {
+        // given
         final Table<Integer, String, Double> input = createTestFunction();
         final FitterLogLinear fitter = new FitterLogLinear();
 
-        // ACT
+        // when
         fitter.init(input.column("N1"), input.column("TIME"));
 
-        // ASSERT
+        // then
         String expected = String.format(Locale.US, "LogLinear\t%.4f  \ty = ", 1.0) +
                 String.format(Locale.US, "%.2E", 5.0) +
                 " * x * log( " +
@@ -88,24 +89,21 @@ public class FitterLogLinearTest {
     }
 
     @Test
-    public void init_OneDataPoints_Exception() {
-        // ARRANGE
+    public void init_OneDataPoints_Exception()  {
+        // given
         final Table<Integer, String, Double> input = TreeBasedTable.create();
         input.put(1, "N1", 0.0);
         input.put(1, "TIME", 10.0);
         final FitterLogLinear function = new FitterLogLinear();
 
-        // ACT
-        String actual = "";
-        final String expected = "need minimum 2 data points to do the fit";
-        try {
-            function.init(input.column("N1"), input.column("TIME"));
-        } catch (final IllegalArgumentException ex) {
-            actual = ex.getMessage();
-        }
+        // when
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                function.init(input.column("N1"), input.column("TIME"))
+        );
 
-        // ASSERT
-        assertEquals(expected, actual);
+        // then
+        assertEquals("need minimum 2 data points to do the fit", exception.getMessage());
+
     }
 
 }

@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BigOReportsTest {
 
@@ -51,8 +52,8 @@ public class BigOReportsTest {
     final BigOAnalyser boa = new BigOAnalyser();
 
     @Test
-    public void getDataReport_MoreCallsOfOneFunction_GetCorrectReport() {
-        // ARRANGE
+    public void getDataReport_MoreCallsOfOneFunction_GetCorrectReport()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
         final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
@@ -72,10 +73,10 @@ public class BigOReportsTest {
         result2.setCalls(1);
         final Table<Integer, String, Double> data = boa.getData("run");
 
-        // ACT
+        // when
         final String actual = BigOReports.getDataReport(data);
 
-        // ASSERT
+        // then
         String expected = "N1\tN2\tN3\tTIME".concat(NL) +
                 "6\t8\t0\t23456".concat(NL) +
                 "8\t4\t5\t12345".concat(NL);
@@ -83,8 +84,8 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getDataReport_OneCallOfRunLinear_GetReport() {
-        // ARRANGE
+    public void getDataReport_OneCallOfRunLinear_GetReport()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runLinear(10);
         final BigODataPoint result = boa.getValue("runLinear#10");
@@ -92,16 +93,16 @@ public class BigOReportsTest {
         result.setCalls(1);
         final Table<Integer, String, Double> data = boa.getData("runLinear");
 
-        // ACT
+        // when
         final String actual = BigOReports.getDataReport(data);
 
-        // ASSERT
+        // then
         assertEquals("N1\tTIME".concat(NL).concat("10\t123").concat(NL), actual);
     }
 
     @Test
-    public void getDataReport_FourCallsOfrunLinear_GetReport() {
-        // ARRANGE
+    public void getDataReport_FourCallsOfrunLinear_GetReport()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
         sut.runLinear(10);
@@ -126,10 +127,10 @@ public class BigOReportsTest {
 
         final Table<Integer, String, Double> data = boa.getData("runLinear");
 
-        // ACT
+        // when
         final String actual = BigOReports.getDataReport(data);
 
-        // ASSERT
+        // then
         String expected = "N1\tTIME".concat(NL) +
                 "10\t123".concat(NL) +
                 "100\t500".concat(NL) +
@@ -138,8 +139,8 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getDataReport_OneCall_GetCorrectReport() {
-        // ARRANGE
+    public void getDataReport_OneCall_GetCorrectReport()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
         final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
@@ -151,10 +152,10 @@ public class BigOReportsTest {
         result.setCalls(1);
         final Table<Integer, String, Double> data = boa.getData("run");
 
-        // ACT
+        // when
         final String actual = BigOReports.getDataReport(data);
 
-        // ASSERT
+        // then
         final String expected = "N1\tN2\tN3\tTIME".concat(NL).concat("8\t4\t5\t12345").concat(NL);
         assertEquals(expected, actual);
     }
@@ -200,27 +201,27 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getPolynomialDegree_CreateSevenPoints_GetReport() {
-        // ARRANGE
+    public void getPolynomialDegree_CreateSevenPoints_GetReport()  {
+        // given
         final Table<Integer, String, Double> input = createSevenPoints();
 
-        // ACT
+        // when
         final String actual = BigOReports.getPolynomialDegree(input);
 
-        // ASSERT
+        // then
         final String expected = "ESTIMATED-POLYNOMIAL-DEGREE".concat(NL).concat("1.7029").concat(NL);
         assertEquals(expected, actual);
     }
 
     @Test
-    public void getBestFunction_CreateSevenPoints_GetReport() {
-        // ARRANGE
+    public void getBestFunction_CreateSevenPoints_GetReport()  {
+        // given
         final Table<Integer, String, Double> input = createSevenPoints();
 
-        // ACT
+        // when
         final String actual = BigOReports.getBestFunction(input);
 
-        // ASSERT
+        // then
         String expected = String.format(Locale.US, "PowerLaw\t%.4f  \ty = ", 0.9977) +
                 String.format(Locale.US, "%.2E", 5.56) +
                 " * x^" +
@@ -229,14 +230,14 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getBestFunctionsreport_CreateSevenPoints_GetReport() {
-        // ARRANGE
+    public void getBestFunctionsreport_CreateSevenPoints_GetReport()  {
+        // given
         final Table<Integer, String, Double> input = createSevenPoints();
 
-        // ACT
+        // when
         final String actual = BigOReports.getBestFunctionsReport(input);
-        // ASSERT
-        String expected = "TYPE      \tR^2 (adjusted)\tFUNCTION" + NL +
+        // then
+        String expected = "TYPE       \tR^2 (adjusted)\tFUNCTION" + NL +
                 String.format(Locale.US, "PowerLaw\t%.4f  \ty = ", 0.9977) +
                 String.format(Locale.US, "%.2E", 5.56) +
                 " * x^" +
@@ -259,34 +260,25 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getDataReport_createSevenPointsMissingN1_GetIllegalArgumentException() {
-        // ARRANGE
+    public void getDataReport_createSevenPointsMissingN1_GetIllegalArgumentException()  {
+        // given
         final Table<Integer, String, Double> input = createSevenPointsMissingN1();
 
-        // ACT
-        String actual = "";
-        try {
-            BigOReports.getDataReport(input);
-        } catch (IllegalArgumentException ex) {
-            actual = ex.getMessage();
-        }
-        // ASSERT
-        assertEquals("expect a column N1 with data", actual);
+        // when
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                BigOReports.getDataReport(input)
+        );
+
+        // then
+        assertEquals("expect a column N1 with data", exception.getMessage());
     }
 
     @Test
     public void getDataReport_SetNULL_GetNullPointerException() {
-        // ARRANGE
-
-        // ACT
-        String actual = "";
-        try {
-            BigOReports.getDataReport(null);
-        } catch (NullPointerException ex) {
-            actual = ex.toString();
-        }
-        // ASSERT
-        assertEquals("java.lang.NullPointerException", actual);
+        // then
+        assertThrows(NullPointerException.class, () ->
+                BigOReports.getDataReport(null)
+        );
     }
 
 }

@@ -40,68 +40,63 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BigOAssertTest {
 
     @Test
-    public void assertConstant_EmptyMethodString_RaiseIllegalArgumentException() {
-
-        // ARRANGE
+    public void assertConstant_EmptyMethodString_RaiseIllegalArgumentException()  {
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runConstant(8192);
         sut.runConstant(4096);
         sut.runConstant(2048);
 
-        // ACT
+        // when
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 BigOAssert.assertConstant(boa, "")
         );
 
-        // ASSERT
+        // then
         assertEquals("here we need an analysed method name", exception.getMessage());
     }
 
     @Test
-    public void assertConstant_ThreeDataPoints_RaiseIllegalArgumentException() {
-
-        // ARRANGE
+    public void assertConstant_ThreeDataPoints_RaiseIllegalArgumentException() { 
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runConstant(8192);
         sut.runConstant(4096);
         sut.runConstant(2048);
 
-        // ACT
+        // when
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 BigOAssert.assertConstant(boa, "runLinear")
         );
 
-        // ASSERT
+        // then
         assertEquals("here we need an analysed method name", exception.getMessage());
     }
 
     @Test
     public void assertConstant_RunConstant_DetectConstantIsOk() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         boa.deactivate();
-        sut.runConstant(32768);
+        sut.runConstant(4*32768);
         boa.activate();
         sut.runConstant(8192);
         sut.runConstant(4096);
         sut.runConstant(2048);
         sut.runConstant(1024);
 
-        // ACT
+        // when
         assertDoesNotThrow(() ->
                 BigOAssert.assertConstant(boa, "runConstant")
         );
-
     }
 
     @Test
-    public void assertConstant_RunNLogN_DetectConstantFailedAsExpected() {
-
-        // ARRANGE
+    public void assertConstant_RunNLogN_DetectConstantFailedAsExpected() { 
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runNLogN(10000);
@@ -110,23 +105,22 @@ public class BigOAssertTest {
         sut.runNLogN(300);
         sut.runNLogN(100);
 
-        // ACT
-        boolean exceptionHappened = false;
-        try {
-            BigOAssert.assertConstant(boa, "runNLogN");
-        } catch (final BigOAssertWarningError ex) {
-            System.out.println(ex.getMessage());
-            exceptionHappened = true;
-        }
+        // when
+        BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
+                BigOAssert.assertQuadratic(boa, "runNLogN")
+        );
 
-        // ASSERT
-        assertTrue(exceptionHappened);
+        // then
+        String expected = """
+                BigOAssertException - assertPolynomialDegree failed:
+                \tPolynomial degree expected = 2.0
+                \tPolynomial degree actual   = 1.""";
+        assertTrue(exception.getMessage().contains(expected));
     }
 
     @Test
     public void assertConstant_RunLinear_DetectConstantFailedAsExpected() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runLinear(10000);
@@ -135,46 +129,40 @@ public class BigOAssertTest {
         sut.runLinear(300);
         sut.runLinear(100);
 
-        // ACT
-        boolean exceptionHappened = false;
-        try {
-            BigOAssert.assertConstant(boa, "runLinear");
-        } catch (final BigOAssertWarningError ex) {
-            System.out.println(ex.getMessage());
-            exceptionHappened = true;
-        }
+        // when
+        BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
+                BigOAssert.assertConstant(boa, "runLinear")
+        );
 
-        // ASSERT
-        assertTrue(exceptionHappened);
+        // then
+        String expected = """
+                BigOAssertException - assertPolynomialDegree failed:
+                \tPolynomial degree expected = 0.0
+                \tPolynomial degree actual   =""";
+        assertTrue(exception.getMessage().contains(expected));
     }
 
     @Test
-    public void assertLinear_ThreeDataPoints_RaiseIllegalArgumentException() {
-
-        // ARRANGE
+    public void assertLinear_ThreeDataPoints_RaiseIllegalArgumentException() { 
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runLinear(10000);
         sut.runLinear(3000);
         sut.runLinear(1000);
 
-        // ACT
-        boolean exceptionHappened = false;
-        try {
-            BigOAssert.assertLinear(boa, "runLinear");
-        } catch (final IllegalStateException ex) {
-            System.out.println(ex.getMessage());
-            exceptionHappened = true;
-        }
+        // when
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
+                BigOAssert.assertLinear(boa, "runLinear")
+        );
 
-        // ASSERT
-        assertTrue(exceptionHappened);
+        // then
+        assertEquals("minimum 4 data points are needed for a reliable analysis", exception.getMessage());
     }
 
     @Test
     public void assertLinear_RunConstant_DetectLinearFailedAsExpected() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runConstant(10000);
@@ -183,23 +171,22 @@ public class BigOAssertTest {
         sut.runConstant(300);
         sut.runConstant(100);
 
-        // ACT
-        boolean exceptionHappened = false;
-        try {
-            BigOAssert.assertLinear(boa, "runConstant");
-        } catch (final BigOAssertWarningError ex) {
-            System.out.println(ex.getMessage());
-            exceptionHappened = true;
-        }
+        // when
+        BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
+                BigOAssert.assertLinear(boa, "runConstant")
+        );
 
-        // ASSERT
-        assertTrue(exceptionHappened);
+        // then
+        String expected = """
+                BigOAssertException - assertPolynomialDegree failed:
+                \tPolynomial degree expected = 1.0
+                \tPolynomial degree actual   =""";
+        assertTrue(exception.getMessage().startsWith(expected));
     }
 
     @Test
     public void assertLinear_RunQuadratic_DetectLinearFailedAsExpected() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runQuadratic(10000);
@@ -208,23 +195,22 @@ public class BigOAssertTest {
         sut.runQuadratic(300);
         sut.runQuadratic(100);
 
-        // ACT
-        boolean exceptionHappened = false;
-        try {
-            BigOAssert.assertLinear(boa, "runQuadratic");
-        } catch (final BigOAssertWarningError ex) {
-            System.out.println(ex.getMessage());
-            exceptionHappened = true;
-        }
+        // when
+        BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
+                BigOAssert.assertLinear(boa, "runQuadratic")
+        );
 
-        // ASSERT
-        assertTrue(exceptionHappened);
+        // then
+        String expected = """
+                BigOAssertException - assertPolynomialDegree failed:
+                \tPolynomial degree expected = 1.0
+                \tPolynomial degree actual   =""";
+        assertTrue(exception.getMessage().startsWith(expected));
     }
 
     @Test
     public void assertLinear_RunLinear_DetectLinearIsOk() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         boa.deactivate();
@@ -237,48 +223,42 @@ public class BigOAssertTest {
         sut.runLinear(10000);
         sut.runLinear(3000);
 
-        // ACT
-        boolean exceptionHappened = false;
-        try {
-            BigOAssert.assertLinear(boa, "runLinear");
-        } catch (final BigOAssertWarningError ex) {
-            final Table<Integer, String, Double> data = boa.getData("runLinear");
-            System.out.println(ex.getMessage());
-            System.out.println(BigOReports.getBestFunctionsReport(data));
-            exceptionHappened = true;
-        }
+        // when
+        assertDoesNotThrow(() ->
+                BigOAssert.assertLinear(boa, "runLinear")
+        );
+        final Table<Integer, String, Double> data = boa.getData("runLinear");
+        String result = BigOReports.getBestFunctionsReport(data);
 
-        // ASSERT
-        assertFalse(exceptionHappened);
+        // then
+        assertTrue(result.contains("TYPE       \tR^2 (adjusted)\tFUNCTION"));
+        assertTrue(result.contains("Linear    \t"));
+        assertTrue(result.contains("Exponential\t"));
+        assertTrue(result.contains("Logarithmic\t"));
     }
 
     @Test
     public void assertLogLinear_ThreeDataPoints_RaiseIllegalArgumentException() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runNLogN(10000);
         sut.runNLogN(3000);
         sut.runNLogN(1000);
 
-        // ACT
-        boolean exceptionHappened = false;
-        try {
-            BigOAssert.assertLogLinearOrPowerLaw(boa, "runNLogN");
-        } catch (final IllegalStateException ex) {
-            System.out.println(ex.getMessage());
-            exceptionHappened = true;
-        }
+        // when
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
+                BigOAssert.assertLinear(boa, "runNLogN")
+        );
 
-        // ASSERT
-        assertTrue(exceptionHappened);
+        // then
+        assertEquals("minimum 4 data points are needed for a reliable analysis", exception.getMessage());
     }
 
     /*
     @Test
-    public void assertLogLinear_RunNLogN2_DetectLogLinearOk() {
-        // ARRANGE
+    public void assertLogLinear_RunNLogN2_DetectLogLinearOk()  {
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -286,42 +266,41 @@ public class BigOAssertTest {
         sut.runNLogN(1024 * 1024);               // give JIT compiler the chance to optimize
         boa.activate();                           // measurement is active
 
-        // ACT
+        // when
         for (int x = (128 * 1024); x >= 32; x /= 2) {
             sut.runNLogN(x);
         }
 
-        // ASSERT
+        // then
         BigOAssert.assertLogLinearOrPowerLaw(boa, "runNLogN");
     }
 
      */
 
     @Test
-    public void assertLogLinear_RunNLogN_DetectLogLinearOk() {
-        // ARRANGE
+    public void assertLogLinear_RunNLogN_DetectLogLinearOk()  {
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         boa.deactivate();                      // measurement is deactivated
         sut.runNLogN(256 * 1024);           // give JIT compiler the chance to optimize
         boa.activate();                        // measurement is active
 
-        // ACT
+        // when
         for (int x = (1024 * 1024); x >= 4; x /= 2) {
             sut.runNLogN(x);
         }
 
-        // ASSERT
+        // then
         BigOAssert.assertLogLinearOrPowerLaw(boa, "runNLogN");
         BigOAssert.assertLogLinear(boa, "runNLogN");
-        System.out.println(BigOReports.getPolynomialDegree(boa.getData("runNLogN")));
-        System.out.println(BigOReports.getBestFunctionsReport(boa.getData("runNLogN")));
+
+        assertTrue(BigOReports.getPolynomialDegree(boa.getData("runNLogN")).contains("ESTIMATED-POLYNOMIAL-DEGREE\n" + "1.1"));
     }
 
     @Test
     public void assertLogLinear_RunQuadratic_DetectLinearFailedAsExpected() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runQuadratic(16384);
@@ -331,12 +310,12 @@ public class BigOAssertTest {
         sut.runQuadratic(1024);
         sut.runQuadratic(512);
 
-        // ACT
+        // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class,
                 () -> BigOAssert.assertLogLinearOrPowerLaw(boa, "runQuadratic")
         );
 
-        // ASSERT
+        // then
         assertTrue(exception.getMessage().startsWith("""
                 BigOAssertException - assertPolynomialDegree failed:
                 \tPolynomial degree expected = 1.1
@@ -345,8 +324,7 @@ public class BigOAssertTest {
 
     @Test
     public void assertLogLinear_RunConstant_DetectLinearFailedAsExpected() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runConstant(16384);
@@ -355,12 +333,12 @@ public class BigOAssertTest {
         sut.runConstant(2048);
         sut.runConstant(1024);
 
-        // ACT
+        // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class,
                 () -> BigOAssert.assertLogLinearOrPowerLaw(boa, "runConstant")
         );
 
-        // ASSERT
+        // then
         assertTrue(exception.getMessage().startsWith("""
                 BigOAssertException - assertPolynomialDegree failed:
                 \tPolynomial degree expected = 1.1
@@ -369,27 +347,25 @@ public class BigOAssertTest {
 
     @Test
     public void assertPolynomialDegree_ThreeDataPoints_RaiseIllegalArgumentException() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runLinear(10000);
         sut.runLinear(3000);
         sut.runLinear(1000);
 
-        // ACT
+        // when
         IllegalStateException exception = assertThrows(IllegalStateException.class,
                 () -> BigOAssert.assertPolynomialDegree(boa, "runLinear", 1.0, 0.1)
         );
 
-        // ASSERT
+        // then
         assertEquals("minimum 4 data points are needed for a reliable analysis", exception.getMessage());
     }
 
     @Test
     public void assertPolynomialDegree_RunLinear_CheckPolynomialDegreeIsOk() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runLinear(100000);
@@ -399,12 +375,12 @@ public class BigOAssertTest {
         sut.runLinear(1000);
         sut.runLinear(300);
 
-        // ACT
+        // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class,
                 () -> BigOAssert.assertPolynomialDegree(boa, "runLinear", 1.0, 0.0001)
         );
 
-        // ASSERT
+        // then
         assertTrue(exception.getMessage().startsWith("""
                 BigOAssertException - assertPolynomialDegree failed:
                 \tPolynomial degree expected = 1.0
@@ -413,8 +389,7 @@ public class BigOAssertTest {
 
     @Test
     public void assertPolynomialDegree_RunLinear_CheckPolynomialDegreeIsSmaller() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runConstant(10000);
@@ -423,22 +398,22 @@ public class BigOAssertTest {
         sut.runConstant(300);
         sut.runConstant(100);
 
-        // ACT
+        // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class,
                 () -> BigOAssert.assertPolynomialDegree(boa, "runConstant", 1.0, 0.1)
         );
 
-        // ASSERT
-        assertTrue(exception.getMessage().startsWith("""
+        // then
+        String expected = """
                 BigOAssertException - assertPolynomialDegree failed:
                 \tPolynomial degree expected = 1.0
-                \tPolynomial degree actual   =\s"""));
+                \tPolynomial degree actual   =""";
+        assertTrue(exception.getMessage().startsWith(expected));
     }
 
     @Test
     public void assertPolynomialDegree_RunQuadratic_CheckPolynomialDegreeOk() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runQuadratic(10000);
@@ -447,12 +422,12 @@ public class BigOAssertTest {
         sut.runQuadratic(300);
         sut.runQuadratic(100);
 
-        // ACT
+        // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
                 BigOAssert.assertPolynomialDegree(boa, "runQuadratic", 1.0, 0.1)
         );
 
-        // ASSERT
+        // then
         assertTrue(exception.getMessage().startsWith("""
                 BigOAssertException - assertPolynomialDegree failed:
                 \tPolynomial degree expected = 1.0
@@ -461,27 +436,25 @@ public class BigOAssertTest {
 
     @Test
     public void assertQuadratic_ThreeDataPoints_RaiseIllegalArgumentException() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runQuadratic(10000);
         sut.runQuadratic(3000);
         sut.runQuadratic(1000);
 
-        // ACT
+        // when
         IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
                 BigOAssert.assertQuadratic(boa, "runQuadratic")
         );
 
-        // ASSERT
+        // then
         assertEquals("minimum 4 data points are needed for a reliable analysis", exception.getMessage());
     }
 
     @Test
     public void assertQuadratic_RunConstant_DetectQuadraticIsOk() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runQuadratic(16384);
@@ -490,23 +463,15 @@ public class BigOAssertTest {
         sut.runQuadratic(2048);
         sut.runQuadratic(1024);
 
-        // ACT
-        boolean exceptionHappened = false;
-        try {
-            BigOAssert.assertQuadratic(boa, "runQuadratic");
-        } catch (final BigOAssertWarningError ex) {
-            System.out.println(ex.getMessage());
-            exceptionHappened = true;
-        }
-
-        // ASSERT
-        assertFalse(exceptionHappened);
+        // then
+        assertDoesNotThrow(() ->
+                BigOAssert.assertQuadratic(boa, "runQuadratic")
+        );
     }
 
     @Test
     public void assertQuadratic_RunLinear_DetectQuadraticFailedAsExpected() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runLinear(30000);
@@ -516,23 +481,22 @@ public class BigOAssertTest {
         sut.runLinear(300);
         sut.runLinear(100);
 
-        // ACT
-        boolean exceptionHappened = false;
-        try {
-            BigOAssert.assertQuadratic(boa, "runLinear");
-        } catch (final BigOAssertWarningError ex) {
-            System.out.println(ex.getMessage());
-            exceptionHappened = true;
-        }
+        // when
+        BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
+                BigOAssert.assertQuadratic(boa, "runLinear")
+        );
 
-        // ASSERT
-        assertTrue(exceptionHappened);
+        // then
+        String expected = """
+                BigOAssertException - assertPolynomialDegree failed:
+                \tPolynomial degree expected = 2.0
+                \tPolynomial degree actual   =""";
+        assertTrue(exception.getMessage().contains(expected));
     }
 
     @Test
     public void assertPolynomialDegree_RunPowerLaw_DetectOK() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runPowerLaw(10000);
@@ -541,17 +505,14 @@ public class BigOAssertTest {
         sut.runPowerLaw(300);
         sut.runPowerLaw(100);
 
-        // ACT
+        // when
         BigOAssert.assertPolynomialDegree(boa, "runPowerLaw", 1.5, 0.2);
         BigOAssert.assertPowerLaw(boa, "runPowerLaw");
-
-        // ASSERT
     }
 
     @Test
     public void assertQuadratic_RunConstant_DetectQuadraticFailedAsExpected() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runConstant(16384);
@@ -561,23 +522,22 @@ public class BigOAssertTest {
         sut.runConstant(1024);
         sut.runConstant(512);
 
-        // ACT
-        boolean exceptionHappened = false;
-        try {
-            BigOAssert.assertQuadratic(boa, "runConstant");
-        } catch (final BigOAssertWarningError ex) {
-            System.out.println(ex.getMessage());
-            exceptionHappened = true;
-        }
+        // when
+        BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
+                BigOAssert.assertQuadratic(boa, "runConstant")
+        );
 
-        // ASSERT
-        assertTrue(exceptionHappened);
+        // then
+        String expected = """
+                BigOAssertException - assertPolynomialDegree failed:
+                \tPolynomial degree expected = 2.0
+                \tPolynomial degree actual   =""";
+        assertTrue(exception.getMessage().contains(expected));
     }
 
     @Test
     public void assertQuadratic_RunNLogN_DetectQuadraticFailedAsExpected() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runNLogN(16384);
@@ -587,17 +547,17 @@ public class BigOAssertTest {
         sut.runNLogN(1024);
         sut.runNLogN(512);
 
-        // ACT
-        boolean exceptionHappened = false;
-        try {
-            BigOAssert.assertQuadratic(boa, "runNLogN");
-        } catch (final BigOAssertWarningError ex) {
-            System.out.println(ex.getMessage());
-            exceptionHappened = true;
-        }
+        // when
+        BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
+                BigOAssert.assertQuadratic(boa, "runNLogN")
+        );
 
-        // ASSERT
-        assertTrue(exceptionHappened);
+        // then
+        String expected = """
+                BigOAssertException - assertPolynomialDegree failed:
+                \tPolynomial degree expected = 2.0
+                \tPolynomial degree actual   = 1.""";
+        assertTrue(exception.getMessage().contains(expected));
     }
 
 }

@@ -74,17 +74,14 @@ public class BigOAnalyser {
      *
      * <pre>
      * <code>
-     * // given
-     * List<List<Long>> values = LongStream.range(6, 14) //
-     *       .mapToInt(i -> 1 << i) //
-     *       .mapToObj(x -> BubbleSortTest.createSortInput(x)) //
+     * List<List<Long>> values = LongStream.range(6, 14)
+     *       .mapToInt(i -> 1 << i)
+     *       .mapToObj(x -> BubbleSortTest.createSortInput(x))
      *       .collect(Collectors.toList());
      *
-     * // when
-     * BigOResult actual = BigOAnalyser.classUnderTest(BubbleSort.class) //
+     * BigOResult actual = BigOAnalyser.classUnderTest(BubbleSort.class)
      *       .execute((BubbleSort o) -> values.stream().forEach(value -> o.sort(value)));
      *
-     * // then
      * BigOAssert.assertQuadratic(actual.getBigOAnalyser(), "sort");
      * </code>
      * </pre>
@@ -201,15 +198,8 @@ public class BigOAnalyser {
             pf.setSuperclass(type);
             final MethodHandler methodHandler = createMethodHandler();
             proxy = pf.create(new Class<?>[0], new Object[0], methodHandler);
-        } catch (final NoSuchMethodException e) {
-            Preconditions.checkState(false, "ERROR in create proxy -> " + e.getMessage());
-        } catch (final InstantiationException e) {
-            Preconditions.checkState(false, "ERROR in create proxy -> " + e.getMessage());
-        } catch (final IllegalArgumentException e) {
-            Preconditions.checkState(false, "ERROR in create proxy -> " + e.getMessage());
-        } catch (final IllegalAccessException e) {
-            Preconditions.checkState(false, "ERROR in create proxy -> " + e.getMessage());
-        } catch (final InvocationTargetException e) {
+        } catch (final NoSuchMethodException | InstantiationException | IllegalArgumentException |
+                       IllegalAccessException | InvocationTargetException e) {
             Preconditions.checkState(false, "ERROR in create proxy -> " + e.getMessage());
         }
         return proxy;
@@ -299,9 +289,7 @@ public class BigOAnalyser {
                         calls++;
                         endTime = System.nanoTime();
                     } while ((endTime - startTime) < MINIMAL_MEASUREMENT_INTERVAL);
-                } catch (final IllegalArgumentException e) {
-                    Preconditions.checkState(false, "ERROR in invoke -> " + e.getMessage());
-                } catch (final IllegalAccessException e) {
+                } catch (final IllegalArgumentException | IllegalAccessException e) {
                     Preconditions.checkState(false, "ERROR in invoke -> " + e.getMessage());
                 } catch (final InvocationTargetException e) {
                     Preconditions.checkState(false, "ERROR in invoke -> " + e.getCause());

@@ -39,33 +39,34 @@ import org.junit.jupiter.api.Test;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FitterExponentialTest {
 
     @Test
-    public void getRSquareAdjusted_TenDataPoints_GetCorrectCoefficiantOfDetermination() {
-        // ARRANGE
+    public void getRSquareAdjusted_TenDataPoints_GetCorrectCoefficiantOfDetermination()  {
+        // given
         final Table<Integer, String, Double> input = createTenPoints();
         final FitterExponential polynom = new FitterExponential();
         polynom.init(input.column("N1"), input.column("TIME"));
 
-        // ACT
+        // when
         final double result = polynom.getRSquareAdjusted();
 
-        // ASSERT
+        // then
         assertEquals(1.0, result, 0.000000000000001);
     }
 
     @Test
-    public void init_ExponentalFunctionWithoutNoise_CorrectFunction() {
-        // ARRANGE
+    public void init_ExponentalFunctionWithoutNoise_CorrectFunction()  {
+        // given
         final Table<Integer, String, Double> input = createTenPoints();
         final FitterExponential exponentialFunction = new FitterExponential();
 
-        // ACT
+        // when
         exponentialFunction.init(input.column("N1"), input.column("TIME"));
 
-        // ASSERT
+        // then
         String expected = String.format(Locale.US, "Exponential\t%.4f  \ty = ", 1.0) +
                 String.format(Locale.US, "%.2E", 100.0) +
                 " * exp ( " +
@@ -75,24 +76,21 @@ public class FitterExponentialTest {
     }
 
     @Test
-    public void init_OneDataPoints_Exception() {
-        // ARRANGE
+    public void init_OneDataPoints_Exception()  {
+        // given
         final Table<Integer, String, Double> input = TreeBasedTable.create();
         input.put(1, "N1", 0.0);
         input.put(1, "TIME", 10.0);
         final FitterExponential exponentialFunction = new FitterExponential();
 
-        // ACT
-        String actual = "";
+        // when
         final String expected = "need minimum 2 data points to do the fit";
-        try {
-            exponentialFunction.init(input.column("N1"), input.column("TIME"));
-        } catch (final IllegalArgumentException ex) {
-            actual = ex.getMessage();
-        }
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                exponentialFunction.init(input.column("N1"), input.column("TIME"))
+        );
 
-        // ASSERT
-        assertEquals(expected, actual);
+        // then
+        assertEquals(expected, exception.getMessage());
     }
 
     private Table<Integer, String, Double> createTenPoints() {

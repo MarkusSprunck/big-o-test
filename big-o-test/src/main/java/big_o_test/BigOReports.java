@@ -73,7 +73,7 @@ public class BigOReports {
 
         // add the function ordered by the R^2 value of the fits
         final StringBuilder result = new StringBuilder(1000);
-        result.append("TYPE      \tR^2 (adjusted)\tFUNCTION").append(NL);
+        result.append("TYPE       \tR^2 (adjusted)\tFUNCTION").append(NL);
         for (final Double key : functions.descendingKeySet()) {
             result.append(functions.get(key)).append(NL);
         }

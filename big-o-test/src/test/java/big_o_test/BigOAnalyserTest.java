@@ -50,38 +50,38 @@ public class BigOAnalyserTest {
     final BigOAnalyser boa = new BigOAnalyser();
 
     @Test
-    public void getResultTable_wrongMethodName_GetIllegalStateException() {
-        // ARRANGE
+    public void getResultTable_wrongMethodName_GetIllegalStateException()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runQuadratic(10);
 
-        // ACT
-        IllegalStateException result = assertThrows(IllegalStateException.class, () ->
+        // when
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
                 boa.getData("wrongMethodName")
         );
 
-        // ASSERT
-        assertEquals("No data for method name 'wrongMethodName'", result.getMessage());
+        // then
+        assertEquals("No data for method name 'wrongMethodName'", exception.getMessage());
     }
 
     @Test
     public void run_RunCalled_CorrectResult() {
-        // ARRANGE
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
         final int[] n_input = {11, 22, 33, 44};
         final float[] k_input = {11.4f, 2.1f, 2.23f, 4.2f, 8.2f};
 
-        // ACT
+        // when
         final double result = sut.run(m_input, true, n_input, k_input);
 
-        // ASSERT
+        // then
         assertEquals(117583.3969669342, result, 0.00001);
     }
 
     @Test
-    public void getValue_OneCall_GetNamoTime() {
-        // ARRANGE
+    public void getValue_OneCall_GetNamoTime()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
         final int[] n_input = {11, 22, 33, 44};
@@ -89,50 +89,50 @@ public class BigOAnalyserTest {
         sut.run(m_input, true, n_input, k_input);
         sut.run(m_input, true, n_input, k_input);
 
-        // ACT
+        // when
         final BigODataPoint result = boa.getValue("run#8#4#5");
         final long actual = result.getTime();
 
-        // ASSERT
+        // then
         assertTrue(actual > 0L);
     }
 
     @Test
-    public void getValue_OneCall_GetNumberOfCallsOne() {
-        // ARRANGE
+    public void getValue_OneCall_GetNumberOfCallsOne()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
         final int[] n_input = {11, 22, 33, 44};
         final float[] k_input = {11.4f, 2.1f, 2.23f, 4.2f, 8.2f};
         sut.run(m_input, true, n_input, k_input);
 
-        // ACT
+        // when
         final BigODataPoint result = boa.getValue("run#8#4#5");
         result.setCalls(1);
 
-        // ASSERT
+        // then
         assertEquals(1, result.getCalls());
     }
 
     @Test
-    public void getValuel_OneCallWithWrongKey_RetrunsNull() {
-        // ARRANGE
+    public void getValuel_OneCallWithWrongKey_RetrunsNull()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
         final int[] n_input = {11, 22, 33, 44};
         final float[] k_input = {11.4f, 2.1f, 2.23f, 4.2f, 8.2f};
         sut.run(m_input, true, n_input, k_input);
 
-        // ACT
+        // when
         final BigODataPoint result = boa.getValue("ThisIsWrongKey#8#4#5");
 
-        // ASSERT
+        // then
         assertNull(result);
     }
 
     @Test
-    public void put_TryToChangeValueOnGetDataChecked_GetUnsupportedOperationException() {
-        // ARRANGE
+    public void put_TryToChangeValueOnGetDataChecked_GetUnsupportedOperationException()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runLinear(1);
         sut.runLinear(10);
@@ -140,15 +140,15 @@ public class BigOAnalyserTest {
         sut.runLinear(1000);
         final Table<Integer, String, Double> result = boa.getDataChecked("runLinear");
 
-        // ACT
+        // when
         assertThrows(UnsupportedOperationException.class, () ->
                 result.put(1, "N1", 1234.5)
         );
     }
 
     @Test
-    public void put_TryToChangeValueOnGetData_GetUnsupportedOperationException() {
-        // ARRANGE
+    public void put_TryToChangeValueOnGetData_GetUnsupportedOperationException()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runLinear(1);
         sut.runLinear(10);
@@ -156,15 +156,15 @@ public class BigOAnalyserTest {
         sut.runLinear(1000);
         final Table<Integer, String, Double> result = boa.getData("runLinear");
 
-        // ACT
+        // when
         assertThrows(UnsupportedOperationException.class, () ->
                 result.put(1, "N1", 1234.5)
         );
     }
 
     @Test
-    public void getKeys_ThreeCallsWithDifferentValues_GetCorrectKeys() {
-        // ARRANGE
+    public void getKeys_ThreeCallsWithDifferentValues_GetCorrectKeys()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
         final List<Integer> m_input1 = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
@@ -183,10 +183,10 @@ public class BigOAnalyserTest {
         final float[] k_input3 = {11.4f, 2.23f};
         sut.run(m_input3, true, n_input3, k_input3);
 
-        // ACT
+        // when
         final Set<String> actual = boa.getKeys();
 
-        // ASSERT
+        // then
         final Set<String> expectedKeys = new HashSet<String>(10);
         expectedKeys.add("run#8#4#5");
         expectedKeys.add("run#6#3#4");
@@ -195,8 +195,8 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void estimatePolynomialDegree_MannyCallsOfRunLinear_GetDegreeOfPolynomIsThree() {
-        // ARRANGE
+    public void estimatePolynomialDegree_MannyCallsOfRunLinear_GetDegreeOfPolynomIsThree()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         for (int n = 1; n <= 128; n *= 2) {
             sut.runLinear((n));
@@ -207,16 +207,16 @@ public class BigOAnalyserTest {
         }
         final Table<Integer, String, Double> data = boa.getData("runLinear");
 
-        // ACT
+        // when
         final long result = Math.round(BigOAnalyser.estimatePolynomialDegree(data));
 
-        // ASSERT
+        // then
         assertEquals(3L, result);
     }
 
     @Test
-    public void estimatePolynomialDegree_MannyCallsOfRunLinear_GetDegreeOfPolynomIsOne() {
-        // ARRANGE
+    public void estimatePolynomialDegree_MannyCallsOfRunLinear_GetDegreeOfPolynomIsOne()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         for (int n = 1; n <= 128; n *= 2) {
             sut.runLinear((n));
@@ -227,16 +227,16 @@ public class BigOAnalyserTest {
         }
         final Table<Integer, String, Double> data = boa.getData("runLinear");
 
-        // ACT
+        // when
         final long result = Math.round(BigOAnalyser.estimatePolynomialDegree(data));
 
-        // ASSERT
+        // then
         assertEquals(1L, result);
     }
 
     @Test
-    public void estimatePolynomialDegree_MannyCallsOfrunQuadratic_GetDegreeOfPolynomIsTwo() {
-        // ARRANGE
+    public void estimatePolynomialDegree_MannyCallsOfrunQuadratic_GetDegreeOfPolynomIsTwo()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         for (int n = 1; n <= 128; n *= 2) {
             sut.runQuadratic((n));
@@ -247,32 +247,32 @@ public class BigOAnalyserTest {
         }
         final Table<Integer, String, Double> data = boa.getData("runQuadratic");
 
-        // ACT
+        // when
         final long result = Math.round(BigOAnalyser.estimatePolynomialDegree(data));
 
-        // ASSERT
+        // then
         assertEquals(2L, result);
     }
 
     @Test
-    public void estimatePolynomialDegree_MannyCallsOfrunConst_GetDegreeOfPolynomIsZero() {
-        // ARRANGE
+    public void estimatePolynomialDegree_MannyCallsOfrunConst_GetDegreeOfPolynomIsZero()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         for (int n = 1; n <= 128; n *= 2) {
             sut.runConstant(n);
         }
         final Table<Integer, String, Double> data = boa.getData("runConstant");
 
-        // ACT
+        // when
         final long result = Math.round(BigOAnalyser.estimatePolynomialDegree(data));
 
-        // ASSERT
+        // then
         assertEquals(0L, result);
     }
 
     @Test
-    public void getResultTable_TwoCalls_GetTableWithAllValues() {
-        // ARRANGE
+    public void getResultTable_TwoCalls_GetTableWithAllValues()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
         final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
@@ -291,17 +291,17 @@ public class BigOAnalyserTest {
         result2.setNanoTime(23456);
         result2.setCalls(1);
 
-        // ACT
+        // when
         final String data = boa.getData("run").toString();
 
-        // ASSERT
+        // then
         final String expected = "{1={N1=8.0, N2=4.0, N3=5.0, TIME=12345.0}, 2={N1=6.0, N2=8.0, N3=0.0, TIME=23456.0}}";
         assertEquals(expected, data);
     }
 
     @Test
-    public void getResultTable_MixedCallsOfTwoFunctions_GetTableforDifferentMethodNames() {
-        // ARRANGE
+    public void getResultTable_MixedCallsOfTwoFunctions_GetTableforDifferentMethodNames()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
         final int[] n_input = {11, 22, 33, 44};
@@ -329,11 +329,11 @@ public class BigOAnalyserTest {
         result4.setNanoTime(1000);
         result4.setCalls(1);
 
-        // ACT
+        // when
         final Table<Integer, String, Double> dataRun = boa.getData("run");
         final Table<Integer, String, Double> dataLinear = boa.getData("runLinear");
 
-        // ASSERT
+        // then
         String expected = "N1\tN2\tN3\tTIME".concat(NL) +
                 "6\t8\t0\t23456".concat(NL) +
                 "8\t4\t5\t12345".concat(NL);
@@ -348,8 +348,8 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void getResultTable_FourMixedCalls_GetCorrectValues() {
-        // ARRANGE
+    public void getResultTable_FourMixedCalls_GetCorrectValues()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
         sut.runLinear(10);
@@ -372,10 +372,10 @@ public class BigOAnalyserTest {
         result4.setNanoTime(1000);
         result4.setCalls(2);
 
-        // ACT
+        // when
         final Table<Integer, String, Double> data = boa.getData("runLinear");
 
-        // ASSERT
+        // then
         final String actual = BigOReports.getDataReport(data);
         String expected = "N1\tTIME".concat(NL) +
                 "10\t123".concat(NL) +
@@ -391,10 +391,10 @@ public class BigOAnalyserTest {
         bigOProbe.addTime(123);
         bigOProbe.addTime(234);
 
-        // ACT
+        // when
         bigOProbe.setNanoTime(456);
 
-        // ASSERT
+        // then
         assertEquals(456, bigOProbe.getTime());
     }
 
@@ -403,11 +403,11 @@ public class BigOAnalyserTest {
         // ARRANG
         final BigODataPoint bigOProbe = new BigODataPoint();
 
-        // ACT
+        // when
         bigOProbe.addTime(123);
         bigOProbe.addTime(234);
 
-        // ASSERT
+        // then
         assertEquals(357, bigOProbe.getTime());
     }
 
@@ -416,10 +416,10 @@ public class BigOAnalyserTest {
         // ARRANG
         final BigODataPoint bigOProbe = new BigODataPoint();
 
-        // ACT
+        // when
         bigOProbe.addTime(123);
 
-        // ASSERT
+        // then
         assertEquals(123, bigOProbe.getTime());
     }
 
@@ -428,11 +428,11 @@ public class BigOAnalyserTest {
         // ARRANG
         final BigODataPoint bigOProbe = new BigODataPoint();
 
-        // ACT
+        // when
         bigOProbe.addTime(123);
         bigOProbe.addTime(234);
 
-        // ASSERT
+        // then
         assertEquals(2, bigOProbe.getCalls());
     }
 
@@ -441,16 +441,16 @@ public class BigOAnalyserTest {
         // ARRANG
         final BigODataPoint bigOProbe = new BigODataPoint();
 
-        // ACT
+        // when
         bigOProbe.addTime(123);
 
-        // ASSERT
+        // then
         assertEquals(1, bigOProbe.getCalls());
     }
 
     @Test
-    public void getKeys_AllParameter_GetCorrectKeys() {
-        // ARRANGE
+    public void getKeys_AllParameter_GetCorrectKeys()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
         final int[] in01 = {11, 22};
@@ -477,90 +477,78 @@ public class BigOAnalyserTest {
         final long in11 = 12;
         sut.runAllParameter(in01, in02, in03, in04, in05, in06, in07, in08, in09, in10, in11);
 
-        // ACT
+        // when
         final Set<String> actual = boa.getKeys();
 
-        // ASSERT
+        // then
         final Set<String> expectedKeys = new HashSet<String>();
         expectedKeys.add("runAllParameter#2#3#4#5#6#7#8#9#10#11#12");
         assertEquals(expectedKeys, actual);
     }
 
     @Test
-    public void runNotSupportedParameter_wrongParameterType_GetIllegalStateException() {
-        // ARRANGE
+    public void runNotSupportedParameter_wrongParameterType_GetIllegalStateException()  {
+        // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
-        // ACT
-        String actual = "";
-        final String expected = "Not supported data type 'class java.io.File' for method runNotSupportedParameter";
-        try {
-            sut.runNotSupportedParameter(null);
-        } catch (final IllegalStateException ex) {
-            actual = ex.getMessage();
-        }
+        // when
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
+                sut.runNotSupportedParameter(null)
+        );
 
-        // ASSERT
-        assertEquals(expected, actual);
+        // then
+        assertEquals("Not supported data type 'class java.io.File' for method runNotSupportedParameter", exception.getMessage());
     }
 
     @Test
-    public void run_NotStaticMethod_CorrectResult() {
-        // ARRANGE
+    public void run_NotStaticMethod_CorrectResult()  {
+        // given
         final SutClass sut = (SutClass) boa.createProxy(SutClass.class);
 
-        // ACT
+        // when
         sut.run(100);
 
-        // ASSERT
+        // then
         assertEquals("[run#100]", boa.getKeys().toString());
     }
 
     @Test
-    public void run_StaticMethod_EmptyResult() {
-        // ARRANGE
+    public void run_StaticMethod_EmptyResult()  {
+        // given
         @SuppressWarnings("unused") final SutClass sut = (SutClass) boa.createProxy(SutClass.class);
 
-        // ACT
+        // when
         SutClass.staticRun(100);
 
-        // ASSERT
+        // then
         assertEquals("[]", boa.getKeys().toString());
     }
 
     @Test
-    public void run_RaiseExceptionMethod_IllegalStateException() {
-        // ARRANGE
+    public void run_RaiseExceptionMethod_IllegalStateException()  {
+        // given
         final SutClass sut = (SutClass) boa.createProxy(SutClass.class);
 
-        // ACT
-        String actual = "";
-        final String expected = "ERROR in invoke -> java.lang.ArithmeticException: / by zero";
-        try {
-            sut.runRaiseException(0);
-        } catch (final IllegalStateException ex) {
-            actual = ex.getMessage();
-        }
+        // when
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
+                sut.runRaiseException(0)
+        );
 
-        // ASSERT
-        assertEquals(expected, actual);
+        // then
+        assertEquals("ERROR in invoke -> java.lang.ArithmeticException: / by zero", exception.getMessage());
     }
 
     @Test
     public void getDataChecked_CallNull_GetIllegalArgumentException() {
-        // ARRANGE
-        String actual = "";
-        final String expected = "java.lang.IllegalArgumentException";
 
-        // ACT
-        try {
-            boa.getDataChecked("");
-        } catch (final IllegalArgumentException ex) {
-            actual = ex.toString();
-        }
+        // when
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                boa.getDataChecked("")
+        );
 
-        // ASSERT
-        assertEquals(expected, actual);
+        // then
+        assertEquals(IllegalArgumentException.class, exception.getClass());
+
     }
 
 

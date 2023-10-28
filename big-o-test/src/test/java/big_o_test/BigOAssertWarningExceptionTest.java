@@ -40,13 +40,13 @@ public class BigOAssertWarningExceptionTest {
 
     @Test
     public void getMessage_CreateException_MessageIsOk() {
-        // ARRANGE
+        // given
         final BigOAssertWarningError sut = new BigOAssertWarningError("my Message");
 
-        // ACT
+        // when
         final String result = sut.getMessage();
 
-        // ASSERT
+        // then
         assertEquals("my Message", result);
     }
 

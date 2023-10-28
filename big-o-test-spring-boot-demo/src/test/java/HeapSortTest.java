@@ -32,12 +32,11 @@ public class HeapSortTest {
 
     @Test
     public void assertLogLinear_RunHeapSort_DetectLogLinear() {
-
-        // ARRANGE
+        // given
         final BigOAnalyser boa = new BigOAnalyser();
         final HeapSort sut = (HeapSort) boa.createProxy(HeapSort.class);
 
-        // ACT
+        // when
         for (int x = (128 * 1024); x >= 256; x /= 2) {
             List<Long> sortInput = createSortInput(x);
             log.info("Sort input size " + sortInput.size());
@@ -46,7 +45,7 @@ public class HeapSortTest {
         log.info("Print trace report");
         traceReport(boa, "sort");
 
-        // ASSERT
+        // then
         log.info("Assert LogLinearOrPowerLaw");
         assertLogLinearOrPowerLaw(boa, "sort");
     }

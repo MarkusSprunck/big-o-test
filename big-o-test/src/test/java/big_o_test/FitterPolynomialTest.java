@@ -39,64 +39,65 @@ import org.junit.jupiter.api.Test;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FitterPolynomialTest {
 
     @Test
     public void getCoefficient_PolynomialRegressionDataSecondDegree_CorrectCoefficient() {
-        // ARRANGE
+        // given
         final Table<Integer, String, Double> input = createSevenPoints();
         final FitterPolynomial polynom = new FitterPolynomial();
         polynom.init(input.column("N1"), input.column("TIME"), 2);
 
-        // ACT
+        // when
         final double result = polynom.getCoefficient(1);
 
-        // ASSERT
+        // then
         assertEquals(2.0000000000002167, result, 1E-12);
     }
 
     @Test
-    public void init_PolynomialRegressionDataSecondDegree_CorrectPolynom() {
-        // ARRANGE
+    public void init_PolynomialRegressionDataSecondDegree_CorrectPolynom()  {
+        // given
         final Table<Integer, String, Double> input = createSevenPoints();
         final FitterPolynomial polynom = new FitterPolynomial();
 
-        // ACT
+        // when
         polynom.init(input.column("N1"), input.column("TIME"), 2);
 
-        // ASSERT
+        // then
         final String expected = "Quadratic ".concat(String.format(Locale.US, "\t%.4f        \ty = ", 1.0)
                 + "3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00");
         assertEquals(expected, polynom.toString());
     }
 
     @Test
-    public void init_PolynomialRegressionDataThirdDegree_CorrectPolynom() {
-        // ARRANGE
+    public void init_PolynomialRegressionDataThirdDegree_CorrectPolynom()  {
+        // given
         final Table<Integer, String, Double> input = createSevenPoints();
         final FitterPolynomial polynom = new FitterPolynomial();
 
-        // ACT
+        // when
         polynom.init(input.column("N1"), input.column("TIME"), 3);
 
-        // ASSERT
+        // then
         final String expected = "Polynomial".concat(String.format(Locale.US, "\t%.4f        \ty = ", 1.0)
                 + "1.08E-14 * x^3 + 3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00");
         assertEquals(expected, polynom.toString());
     }
 
     @Test
-    public void getRSquareAdjusted_SevenDataPoints_GetCorrectCoefficiantOfDetermination() {
-        // ARRANGE
+    public void getRSquareAdjusted_SevenDataPoints_GetCorrectCoefficiantOfDetermination()  {
+        // given
         final Table<Integer, String, Double> input = createSevenPoints();
         final FitterPolynomial polynom = new FitterPolynomial();
         polynom.init(input.column("N1"), input.column("TIME"), 2);
 
-        // ACT
+        // when
         final double result = polynom.getRSquareAdjusted();
 
-        // ASSERT
+        // then
         assertEquals(1.0, result, 0.000000000000001);
     }
 
@@ -121,8 +122,8 @@ public class FitterPolynomialTest {
     }
 
     @Test
-    public void init_TwoDataPoints_Exception() {
-        // ARRANGE
+    public void init_TwoDataPoints_Exception()  {
+        // given
         final Table<Integer, String, Double> input = TreeBasedTable.create();
         input.put(1, "N1", 0.0);
         input.put(1, "TIME", 10.0);
@@ -130,17 +131,14 @@ public class FitterPolynomialTest {
         input.put(2, "TIME", 12.0);
         final FitterPolynomial function = new FitterPolynomial();
 
-        // ACT
-        String actual = "";
+        // when
         final String expected = "number of data points to do the fit is dependent from degree";
-        try {
-            function.init(input.column("N1"), input.column("TIME"), 2);
-        } catch (final IllegalArgumentException ex) {
-            actual = ex.getMessage();
-        }
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                function.init(input.column("N1"), input.column("TIME"), 2)
+        );
 
-        // ASSERT
-        assertEquals(expected, actual);
+        // then
+        assertEquals(expected, exception.getMessage());
     }
 
 }
