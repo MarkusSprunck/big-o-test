@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class FitterLogarithmicTest {
 
     @Test
-    public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination()  {
+    public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
         // given
         final Table<Integer, String, Double> input = createTenPoints();
         final FitterLogarithmic fitter = new FitterLogarithmic();
@@ -58,7 +58,7 @@ public class FitterLogarithmicTest {
     }
 
     @Test
-    public void init_LogarithmicFunctionWithoutNoise_CorrectFunction()  {
+    public void init_LogarithmicFunctionWithoutNoise_CorrectFunction() {
         // given
         final Table<Integer, String, Double> input = createTenPoints();
         final FitterLogarithmic fitter = new FitterLogarithmic();
@@ -76,7 +76,7 @@ public class FitterLogarithmicTest {
     }
 
     @Test
-    public void init_OneDataPoints_Exception()  {
+    public void init_OneDataPoints_Exception() {
         // given
         final Table<Integer, String, Double> input = TreeBasedTable.create();
         input.put(1, "N1", 0.0);

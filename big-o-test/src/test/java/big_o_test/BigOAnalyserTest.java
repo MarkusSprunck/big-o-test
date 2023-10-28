@@ -36,6 +36,8 @@ import com.google.common.collect.Table;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.logging.Logger;
+import java.util.stream.LongStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,8 +51,16 @@ public class BigOAnalyserTest {
 
     final BigOAnalyser boa = new BigOAnalyser();
 
+    private static List<Long> createSortInput(int size) {
+        final List<Long> result = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            result.add(Math.round(Long.MAX_VALUE * Math.random()));
+        }
+        return result;
+    }
+
     @Test
-    public void getResultTable_wrongMethodName_GetIllegalStateException()  {
+    public void getResultTable_wrongMethodName_GetIllegalStateException() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runQuadratic(10);
@@ -80,7 +90,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void getValue_OneCall_GetNamoTime()  {
+    public void getValue_OneCall_GetNamoTime() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
@@ -98,7 +108,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void getValue_OneCall_GetNumberOfCallsOne()  {
+    public void getValue_OneCall_GetNumberOfCallsOne() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
@@ -115,7 +125,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void getValuel_OneCallWithWrongKey_RetrunsNull()  {
+    public void getValuel_OneCallWithWrongKey_RetrunsNull() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
@@ -131,7 +141,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void put_TryToChangeValueOnGetDataChecked_GetUnsupportedOperationException()  {
+    public void put_TryToChangeValueOnGetDataChecked_GetUnsupportedOperationException() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runLinear(1);
@@ -147,7 +157,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void put_TryToChangeValueOnGetData_GetUnsupportedOperationException()  {
+    public void put_TryToChangeValueOnGetData_GetUnsupportedOperationException() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runLinear(1);
@@ -163,7 +173,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void getKeys_ThreeCallsWithDifferentValues_GetCorrectKeys()  {
+    public void getKeys_ThreeCallsWithDifferentValues_GetCorrectKeys() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -195,7 +205,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void estimatePolynomialDegree_MannyCallsOfRunLinear_GetDegreeOfPolynomIsThree()  {
+    public void estimatePolynomialDegree_MannyCallsOfRunLinear_GetDegreeOfPolynomIsThree() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         for (int n = 1; n <= 128; n *= 2) {
@@ -215,7 +225,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void estimatePolynomialDegree_MannyCallsOfRunLinear_GetDegreeOfPolynomIsOne()  {
+    public void estimatePolynomialDegree_MannyCallsOfRunLinear_GetDegreeOfPolynomIsOne() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         for (int n = 1; n <= 128; n *= 2) {
@@ -235,7 +245,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void estimatePolynomialDegree_MannyCallsOfrunQuadratic_GetDegreeOfPolynomIsTwo()  {
+    public void estimatePolynomialDegree_MannyCallsOfrunQuadratic_GetDegreeOfPolynomIsTwo() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         for (int n = 1; n <= 128; n *= 2) {
@@ -255,7 +265,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void estimatePolynomialDegree_MannyCallsOfrunConst_GetDegreeOfPolynomIsZero()  {
+    public void estimatePolynomialDegree_MannyCallsOfrunConst_GetDegreeOfPolynomIsZero() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         for (int n = 1; n <= 128; n *= 2) {
@@ -271,7 +281,47 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void getResultTable_TwoCalls_GetTableWithAllValues()  {
+    public void classUnderTest() {
+        // given
+        List<List<Long>> values = LongStream.range(6, 14)
+                .mapToInt(i -> 1 << i)
+                .mapToObj(BigOAnalyserTest::createSortInput)
+                .toList();
+
+        // when
+        BigOResult actual = BigOAnalyser.classUnderTest(BubbleSort.class)
+                .execute((BubbleSort o) ->
+                        values.forEach(o::sort)
+                );
+
+        // then
+        BigOAssert.assertQuadratic(actual.getBigOAnalyser(), "sort");
+    }
+
+
+    @Test
+    public void trace() {
+        // given
+        List<List<Long>> values = LongStream.range(6, 14)
+                .mapToInt(i -> 1 << i)
+                .mapToObj(BigOAnalyserTest::createSortInput)
+                .toList();
+
+        // when
+        BigOResult actual = BigOAnalyser.classUnderTest(BubbleSort.class)
+                .execute((BubbleSort o) ->
+                        values.forEach(o::sort)
+                );
+        Logger log = Logger.getLogger(BigOAnalyserTest.class.toString());
+        actual.trace(log);
+
+        // then
+        BigOAssert.assertQuadratic(actual.getBigOAnalyser(), "sort");
+        assertEquals(BubbleSort.class, actual.getClassUnderTest());
+    }
+
+    @Test
+    public void getResultTable_TwoCalls_GetTableWithAllValues() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -300,7 +350,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void getResultTable_MixedCallsOfTwoFunctions_GetTableforDifferentMethodNames()  {
+    public void getResultTable_MixedCallsOfTwoFunctions_GetTableforDifferentMethodNames() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         final List<Integer> m_input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 10);
@@ -348,7 +398,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void getResultTable_FourMixedCalls_GetCorrectValues()  {
+    public void getResultTable_FourMixedCalls_GetCorrectValues() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -382,6 +432,37 @@ public class BigOAnalyserTest {
                 "100\t500".concat(NL) +
                 "1000\t2000".concat(NL);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getAnalysedMethodNames_GetCorrectValues() {
+        // given
+        final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
+
+        // when
+        sut.runLinear(10);
+        sut.runNLogN(100);
+        sut.runQuadratic(1000);
+
+        // then
+        assertEquals("[runLinear, runNLogN, runQuadratic]", boa.getAnalysedMethodNames().toString());
+    }
+
+    @Test
+    public void isAnalysed_GetCorrectValues() {
+        // given
+        final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
+
+        // when
+        sut.runLinear(10);
+        sut.runNLogN(100);
+        sut.runQuadratic(1000);
+
+        // then
+        assertTrue(boa.isAnalysed("runLinear"));
+        assertTrue(boa.isAnalysed("runNLogN"));
+        assertTrue(boa.isAnalysed("runQuadratic"));
+        assertFalse(boa.isAnalysed("xxx"));
     }
 
     @Test
@@ -449,7 +530,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void getKeys_AllParameter_GetCorrectKeys()  {
+    public void getKeys_AllParameter_GetCorrectKeys() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -487,7 +568,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void runNotSupportedParameter_wrongParameterType_GetIllegalStateException()  {
+    public void runNotSupportedParameter_wrongParameterType_GetIllegalStateException() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -501,7 +582,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void run_NotStaticMethod_CorrectResult()  {
+    public void run_NotStaticMethod_CorrectResult() {
         // given
         final SutClass sut = (SutClass) boa.createProxy(SutClass.class);
 
@@ -513,7 +594,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void run_StaticMethod_EmptyResult()  {
+    public void run_StaticMethod_EmptyResult() {
         // given
         @SuppressWarnings("unused") final SutClass sut = (SutClass) boa.createProxy(SutClass.class);
 
@@ -525,7 +606,7 @@ public class BigOAnalyserTest {
     }
 
     @Test
-    public void run_RaiseExceptionMethod_IllegalStateException()  {
+    public void run_RaiseExceptionMethod_IllegalStateException() {
         // given
         final SutClass sut = (SutClass) boa.createProxy(SutClass.class);
 

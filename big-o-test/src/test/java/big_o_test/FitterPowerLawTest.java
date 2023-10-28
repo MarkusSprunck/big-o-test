@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class FitterPowerLawTest {
 
     @Test
-    public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination()  {
+    public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
         // given
         final Table<Integer, String, Double> input = createTenPoints();
         final FitterPowerLaw fitter = new FitterPowerLaw();
@@ -58,7 +58,7 @@ public class FitterPowerLawTest {
     }
 
     @Test
-    public void init_PowerLawWithoutNoise_CorrectFunction()  {
+    public void init_PowerLawWithoutNoise_CorrectFunction() {
         // given
         final Table<Integer, String, Double> input = createTenPoints();
         final FitterPowerLaw fitter = new FitterPowerLaw();
@@ -85,7 +85,7 @@ public class FitterPowerLawTest {
     }
 
     @Test
-    public void init_OneDataPoints_Exception()  {
+    public void init_OneDataPoints_Exception() {
         // given
         final Table<Integer, String, Double> input = TreeBasedTable.create();
         input.put(1, "N1", 0.0);

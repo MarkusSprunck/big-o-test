@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class FitterExponentialTest {
 
     @Test
-    public void getRSquareAdjusted_TenDataPoints_GetCorrectCoefficiantOfDetermination()  {
+    public void getRSquareAdjusted_TenDataPoints_GetCorrectCoefficiantOfDetermination() {
         // given
         final Table<Integer, String, Double> input = createTenPoints();
         final FitterExponential polynom = new FitterExponential();
@@ -58,7 +58,7 @@ public class FitterExponentialTest {
     }
 
     @Test
-    public void init_ExponentalFunctionWithoutNoise_CorrectFunction()  {
+    public void init_ExponentalFunctionWithoutNoise_CorrectFunction() {
         // given
         final Table<Integer, String, Double> input = createTenPoints();
         final FitterExponential exponentialFunction = new FitterExponential();
@@ -76,7 +76,7 @@ public class FitterExponentialTest {
     }
 
     @Test
-    public void init_OneDataPoints_Exception()  {
+    public void init_OneDataPoints_Exception() {
         // given
         final Table<Integer, String, Double> input = TreeBasedTable.create();
         input.put(1, "N1", 0.0);

@@ -198,8 +198,12 @@ public class BigOAnalyser {
             pf.setSuperclass(type);
             final MethodHandler methodHandler = createMethodHandler();
             proxy = pf.create(new Class<?>[0], new Object[0], methodHandler);
-        } catch (final NoSuchMethodException | InstantiationException | IllegalArgumentException |
-                       IllegalAccessException | InvocationTargetException e) {
+        } catch (final NoSuchMethodException
+                       | InstantiationException
+                       | IllegalArgumentException
+                       | IllegalAccessException
+                       | InvocationTargetException e) {
+
             Preconditions.checkState(false, "ERROR in create proxy -> " + e.getMessage());
         }
         return proxy;

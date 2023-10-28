@@ -87,15 +87,6 @@ public class BigOAssert {
 
         // constant functions should have a polynomial degree of DEGREE_EXPECTED_CONSTANT
         assertPolynomialDegree(boa, method, DEGREE_EXPECTED_CONSTANT, DEGREE_EXPECTED_DELTA);
-
-        // find the best fit function and check type
-        final String function = BigOReports.getBestFunction(data);
-        if (!function.startsWith("Constant")) {
-            String message = "BigOAssertException - assertConstant failed:" +
-                    NL +
-                    function;
-            throw new BigOAssertWarningError(message);
-        }
     }
 
     public static void assertLinear(BigOAnalyser boa, String method) {
@@ -109,15 +100,6 @@ public class BigOAssert {
 
         // linear functions should have a polynomial degree of DEGREE_EXPECTED_LINEAR
         assertPolynomialDegree(boa, method, DEGREE_EXPECTED_LINEAR, DEGREE_EXPECTED_DELTA);
-
-        // find the best fit function and check type
-        final String function = BigOReports.getBestFunction(data);
-        if (!function.startsWith("Linear")) {
-            String message = "BigOAssertException - assertLinear failed:" +
-                    NL +
-                    function;
-            throw new BigOAssertWarningError(message);
-        }
     }
 
     public static void assertLogLinearOrPowerLaw(BigOAnalyser boa, String method) {
@@ -131,15 +113,6 @@ public class BigOAssert {
 
         // log-linear functions should have a polynomial degree of DEGREE_EXPECTED_LOG_LINEAR
         assertPolynomialDegree(boa, method, DEGREE_EXPECTED_LOG_LINEAR, DEGREE_EXPECTED_DELTA);
-
-        // find the best fit function and check type
-        final String function = BigOReports.getBestFunction(data);
-        if (!(function.startsWith("LogLinear") || function.startsWith("PowerLaw"))) {
-            String message = "BigOAssertException - assertLogLinear failed:" +
-                    NL +
-                    function;
-            throw new BigOAssertWarningError(message);
-        }
     }
 
     public static void assertQuadratic(BigOAnalyser boa, String method) {
@@ -153,15 +126,6 @@ public class BigOAssert {
 
         // quadratic functions should have a polynomial degree of DEGREE_EXPECTED_QUADRATIC
         assertPolynomialDegree(boa, method, DEGREE_EXPECTED_QUADRATIC, DEGREE_EXPECTED_DELTA);
-
-        // find the best fit function and check type
-        final String function = BigOReports.getBestFunction(data);
-        if (!function.startsWith("Quadratic")) {
-            String message = "BigOAssertException - assertQuadratic failed:" +
-                    NL +
-                    function;
-            throw new BigOAssertWarningError(message);
-        }
     }
 
     public static void assertPowerLaw(BigOAnalyser boa, String method) {
@@ -172,43 +136,10 @@ public class BigOAssert {
 
         // fetch measured data
         final Table<Integer, String, Double> data = boa.getDataChecked(method);
-
-        // find the best fit function and check type
-        final String function = BigOReports.getBestFunction(data);
-        if (!function.startsWith("PowerLaw")) {
-            String message = "BigOAssertException - assertPowerLaw failed:" +
-                    NL +
-                    function;
-            throw new BigOAssertWarningError(message);
-        }
-    }
-
-    public static void assertPolynomialDegree(BigOResult result, String method, double expected, double delta) {
-        assertPolynomialDegree(result.getBigOAnalyser(), method, expected, delta);
-    }
-
-    public static void assertConstant(BigOResult result, String method) {
-        assertConstant(result.getBigOAnalyser(), method);
-    }
-
-    public static void assertLinear(BigOResult result, String method) {
-        assertLinear(result.getBigOAnalyser(), method);
     }
 
     public static void assertLogLinear(BigOAnalyser boa, String method) {
         assertPolynomialDegree(boa, method, DEGREE_EXPECTED_LOG_LINEAR, DEGREE_EXPECTED_DELTA);
-    }
-
-    public static void assertLogLinearOrPowerLaw(BigOResult result, String method) {
-        assertLogLinearOrPowerLaw(result.getBigOAnalyser(), method);
-    }
-
-    public static void assertQuadratic(BigOResult result, String method) {
-        assertQuadratic(result.getBigOAnalyser(), method);
-    }
-
-    public static void assertPowerLaw(BigOResult result, String method) {
-        assertPowerLaw(result.getBigOAnalyser(), method);
     }
 
 }

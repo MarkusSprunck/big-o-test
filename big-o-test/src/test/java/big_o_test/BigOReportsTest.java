@@ -52,7 +52,7 @@ public class BigOReportsTest {
     final BigOAnalyser boa = new BigOAnalyser();
 
     @Test
-    public void getDataReport_MoreCallsOfOneFunction_GetCorrectReport()  {
+    public void getDataReport_MoreCallsOfOneFunction_GetCorrectReport() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -84,7 +84,7 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getDataReport_OneCallOfRunLinear_GetReport()  {
+    public void getDataReport_OneCallOfRunLinear_GetReport() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         sut.runLinear(10);
@@ -101,7 +101,7 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getDataReport_FourCallsOfrunLinear_GetReport()  {
+    public void getDataReport_FourCallsOfrunLinear_GetReport() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -139,7 +139,7 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getDataReport_OneCall_GetCorrectReport()  {
+    public void getDataReport_OneCall_GetCorrectReport() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -201,7 +201,7 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getPolynomialDegree_CreateSevenPoints_GetReport()  {
+    public void getPolynomialDegree_CreateSevenPoints_GetReport() {
         // given
         final Table<Integer, String, Double> input = createSevenPoints();
 
@@ -214,7 +214,7 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getBestFunction_CreateSevenPoints_GetReport()  {
+    public void getBestFunction_CreateSevenPoints_GetReport() {
         // given
         final Table<Integer, String, Double> input = createSevenPoints();
 
@@ -230,7 +230,7 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getBestFunctionsreport_CreateSevenPoints_GetReport()  {
+    public void getBestFunctionsreport_CreateSevenPoints_GetReport() {
         // given
         final Table<Integer, String, Double> input = createSevenPoints();
 
@@ -260,7 +260,7 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getDataReport_createSevenPointsMissingN1_GetIllegalArgumentException()  {
+    public void getDataReport_createSevenPointsMissingN1_GetIllegalArgumentException() {
         // given
         final Table<Integer, String, Double> input = createSevenPointsMissingN1();
 

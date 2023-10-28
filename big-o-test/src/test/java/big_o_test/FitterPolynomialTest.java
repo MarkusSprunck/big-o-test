@@ -58,7 +58,7 @@ public class FitterPolynomialTest {
     }
 
     @Test
-    public void init_PolynomialRegressionDataSecondDegree_CorrectPolynom()  {
+    public void init_PolynomialRegressionDataSecondDegree_CorrectPolynom() {
         // given
         final Table<Integer, String, Double> input = createSevenPoints();
         final FitterPolynomial polynom = new FitterPolynomial();
@@ -73,7 +73,7 @@ public class FitterPolynomialTest {
     }
 
     @Test
-    public void init_PolynomialRegressionDataThirdDegree_CorrectPolynom()  {
+    public void init_PolynomialRegressionDataThirdDegree_CorrectPolynom() {
         // given
         final Table<Integer, String, Double> input = createSevenPoints();
         final FitterPolynomial polynom = new FitterPolynomial();
@@ -88,7 +88,7 @@ public class FitterPolynomialTest {
     }
 
     @Test
-    public void getRSquareAdjusted_SevenDataPoints_GetCorrectCoefficiantOfDetermination()  {
+    public void getRSquareAdjusted_SevenDataPoints_GetCorrectCoefficiantOfDetermination() {
         // given
         final Table<Integer, String, Double> input = createSevenPoints();
         final FitterPolynomial polynom = new FitterPolynomial();
@@ -122,7 +122,7 @@ public class FitterPolynomialTest {
     }
 
     @Test
-    public void init_TwoDataPoints_Exception()  {
+    public void init_TwoDataPoints_Exception() {
         // given
         final Table<Integer, String, Double> input = TreeBasedTable.create();
         input.put(1, "N1", 0.0);

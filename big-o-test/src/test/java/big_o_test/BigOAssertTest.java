@@ -40,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BigOAssertTest {
 
     @Test
-    public void assertConstant_EmptyMethodString_RaiseIllegalArgumentException()  {
+    public void assertConstant_EmptyMethodString_RaiseIllegalArgumentException() {
         // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
@@ -58,7 +58,7 @@ public class BigOAssertTest {
     }
 
     @Test
-    public void assertConstant_ThreeDataPoints_RaiseIllegalArgumentException() { 
+    public void assertConstant_ThreeDataPoints_RaiseIllegalArgumentException() {
         // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
@@ -81,7 +81,7 @@ public class BigOAssertTest {
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
         boa.deactivate();
-        sut.runConstant(4*32768);
+        sut.runConstant(4 * 32768);
         boa.activate();
         sut.runConstant(8192);
         sut.runConstant(4096);
@@ -95,7 +95,7 @@ public class BigOAssertTest {
     }
 
     @Test
-    public void assertConstant_RunNLogN_DetectConstantFailedAsExpected() { 
+    public void assertConstant_RunNLogN_DetectConstantFailedAsExpected() {
         // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
@@ -143,7 +143,7 @@ public class BigOAssertTest {
     }
 
     @Test
-    public void assertLinear_ThreeDataPoints_RaiseIllegalArgumentException() { 
+    public void assertLinear_ThreeDataPoints_RaiseIllegalArgumentException() {
         // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
@@ -255,9 +255,9 @@ public class BigOAssertTest {
         assertEquals("minimum 4 data points are needed for a reliable analysis", exception.getMessage());
     }
 
-    /*
+
     @Test
-    public void assertLogLinear_RunNLogN2_DetectLogLinearOk()  {
+    public void assertLogLinear_RunNLogN2_DetectLogLinearOk() {
         // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
@@ -275,10 +275,8 @@ public class BigOAssertTest {
         BigOAssert.assertLogLinearOrPowerLaw(boa, "runNLogN");
     }
 
-     */
-
     @Test
-    public void assertLogLinear_RunNLogN_DetectLogLinearOk()  {
+    public void assertLogLinear_RunNLogN_DetectLogLinearOk() {
         // given
         final BigOAnalyser boa = new BigOAnalyser();
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
