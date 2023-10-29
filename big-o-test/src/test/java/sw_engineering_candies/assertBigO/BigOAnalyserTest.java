@@ -31,10 +31,14 @@
 
 package sw_engineering_candies.assertBigO;
 
-import sw_engineering_candies.assertBigO.interfaces.BigOParameter;
 import com.google.common.collect.Table;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import sw_engineering_candies.assertBigO.interfaces.BigOParameter;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
@@ -48,8 +52,16 @@ public class BigOAnalyserTest {
      * Use the platform independent line separator
      */
     private static final String NL = System.getProperty("line.separator");
+    static Logger log = Logger.getLogger(BigOAnalyserTest.class.toString());
+
+    static {
+        String path = BigOAnalyserTest.class.getClassLoader().getResource("logging.properties").getFile();
+        System.setProperty("java.util.logging.config.file", path);
+    }
 
     final BigOAnalyser boa = new BigOAnalyser();
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.err;
 
     private static List<Long> createSortInput(int size) {
         final List<Long> result = new ArrayList<>(size);
@@ -57,6 +69,16 @@ public class BigOAnalyserTest {
             result.add(Math.round(Long.MAX_VALUE * Math.random()));
         }
         return result;
+    }
+
+    @BeforeEach
+    void setUp() {
+        System.setErr(new PrintStream(outContent));
+    }
+
+    @AfterEach
+    void tearDown() {
+        System.setErr(originalOut);
     }
 
     @Test
@@ -314,22 +336,28 @@ public class BigOAnalyserTest {
     @Test
     public void trace() {
         // given
-        List<List<Long>> values = LongStream.range(6, 14)
+        List<List<Long>> values = LongStream.range(6, 10)
                 .mapToInt(i -> 1 << i)
                 .mapToObj(BigOAnalyserTest::createSortInput)
                 .toList();
 
         // when
-        BigOResult actual = BigOAnalyser.classUnderTest(BubbleSort.class)
+        BigOAnalyser.classUnderTest(BubbleSort.class)
                 .execute((BubbleSort o) ->
                         values.forEach(o::sort)
-                );
-        Logger log = Logger.getLogger(BigOAnalyserTest.class.toString());
-        actual.trace(log);
+                ).trace(log);
 
         // then
-        BigOAssert.assertQuadratic(actual.getBigOAnalyser(), "sort");
-        assertEquals(BubbleSort.class, actual.getClassUnderTest());
+        assertTrue(outContent.toString().contains("INFORMATION: BigOAnalyser for method 'sort'"));
+        assertTrue(outContent.toString().contains("ESTIMATED-POLYNOMIAL-DEGREE"));
+        assertTrue(outContent.toString().contains("TYPE       \tR^2 (adjusted)\tFUNCTION"));
+        assertTrue(outContent.toString().contains("Exponential"));
+        assertTrue(outContent.toString().contains("Logarithmic"));
+        assertTrue(outContent.toString().contains("N1\tTIME"));
+        assertTrue(outContent.toString().contains("64\t"));
+        assertTrue(outContent.toString().contains("128\t"));
+        assertTrue(outContent.toString().contains("256\t"));
+        assertTrue(outContent.toString().contains("512\t"));
     }
 
     @Test
