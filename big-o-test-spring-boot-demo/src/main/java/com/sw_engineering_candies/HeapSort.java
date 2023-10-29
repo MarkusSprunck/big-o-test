@@ -1,6 +1,6 @@
 package com.sw_engineering_candies;
 
-import big_o_test.interfaces.BigOParameter;
+import sw_engineering_candies.assertBigO.interfaces.BigOParameter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.sw_engineering_candies;
 
-import big_o_test.BigOAnalyser;
-import big_o_test.BigOReports;
+import sw_engineering_candies.assertBigO.BigOAnalyser;
+import sw_engineering_candies.assertBigO.BigOReports;
 import com.google.common.collect.Table;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
@@ -32,7 +32,7 @@ public class DemoController {
 
         sb.append("EXECUTIONS\n");
         int step = 1;
-        for (int x = (128 * 1024); x >= 256; x /= 2, step++) {
+        for (int x = (65536); x >= 1024; x /= 2, step++) {
             List<Long> sortInput = createSortInput(x);
             Long start = System.currentTimeMillis();
             sut.sort(sortInput);

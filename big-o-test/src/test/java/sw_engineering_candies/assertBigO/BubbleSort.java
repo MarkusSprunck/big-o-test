@@ -1,4 +1,4 @@
-package com.sw_engineering_candies;
+package sw_engineering_candies.assertBigO;
 
 import sw_engineering_candies.assertBigO.interfaces.BigOParameter;
 
