@@ -31,10 +31,10 @@
 
 package sw_engineering_candies.assertBigO;
 
-import sw_engineering_candies.assertBigO.math.FitterLogLinear;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import org.junit.jupiter.api.Test;
+import sw_engineering_candies.assertBigO.math.FitterLogLinear;
 
 import java.util.Locale;
 
@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class FitterLogLinearTest {
 
     @Test
-    public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
+    public void getRSquareAdjusted_HundredDataPoints_GetCorrectCoefficientOfDetermination() {
         // given
         final Table<Integer, String, Double> input = createTestFunction();
         final FitterLogLinear fitter = new FitterLogLinear();
@@ -80,9 +80,8 @@ public class FitterLogLinearTest {
         input = TreeBasedTable.create();
         int index = 1;
         for (int i = 1; i <= 100; i *= 2) {
-            final double x = i;
-            input.put(index, "N1", x);
-            input.put(index, "TIME", (5 * x * Math.log(3.0 * x)));
+            input.put(index, "N1", (double) i);
+            input.put(index, "TIME", (5 * (double) i * Math.log(3.0 * (double) i)));
             index++;
         }
         return input;

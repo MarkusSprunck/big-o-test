@@ -32,7 +32,6 @@
 package sw_engineering_candies.assertBigO;
 
 import org.junit.jupiter.api.Test;
-import sw_engineering_candies.assertBigO.BigOAssertWarningError;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

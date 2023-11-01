@@ -101,7 +101,7 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getDataReport_FourCallsOfrunLinear_GetReport() {
+    public void getDataReport_FourCallsOfRunLinear_GetReport() {
         // given
         final Algorithms sut = (Algorithms) boa.createProxy(Algorithms.class);
 
@@ -230,7 +230,7 @@ public class BigOReportsTest {
     }
 
     @Test
-    public void getBestFunctionsreport_CreateSevenPoints_GetReport() {
+    public void getBestFunctionsReport_CreateSevenPoints_GetReport() {
         // given
         final Table<Integer, String, Double> input = createSevenPoints();
 

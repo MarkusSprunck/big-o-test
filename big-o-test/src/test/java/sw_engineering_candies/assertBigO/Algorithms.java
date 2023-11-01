@@ -37,19 +37,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@SuppressWarnings("UnusedReturnValue")
 public class Algorithms {
 
-    enum SomeEnumeration {
-        A1,A2,A3
-    }
-
-    public double run(@BigOParameter @DummyAnnotation List<Integer> m, @DummyAnnotation boolean flag,
-                      @BigOParameter int[] n, @BigOParameter float[] k) {
+    public double run(@BigOParameter @DummyAnnotation List<Integer> m,
+                      @DummyAnnotation boolean flag,
+                      @BigOParameter int[] n,
+                      @BigOParameter float[] k
+    ) {
         double result = 0;
-        for (final Integer value_m : m) {
-            for (final int value_n : n) {
-                for (final float value_k : k) {
-                    result += value_m * value_n * value_k;
+        if (flag) {
+            for (final Integer value_m : m) {
+                for (final int value_n : n) {
+                    for (final float value_k : k) {
+                        result += value_m * value_n * value_k;
+                    }
                 }
             }
         }
@@ -61,7 +63,7 @@ public class Algorithms {
         for (int index = 0; index < 100; index++) {
             result += index;
         }
-        return result;
+        return result + m;
     }
 
     public double runLinear(@BigOParameter int m) {
@@ -100,23 +102,27 @@ public class Algorithms {
         return result;
     }
 
-    public double runAllParameter(@BigOParameter int[] in01, @BigOParameter long[] in02, @BigOParameter float[] in03,
-                                  @BigOParameter double[] in04, @BigOParameter byte[] in05, @BigOParameter String in06,
-                                  @BigOParameter List<Integer> in07, @BigOParameter Set<Integer> in08,
-                                  @BigOParameter Map<Integer, Integer> in09, @BigOParameter int in10, @BigOParameter long in11) {
+    public double runAllParameter(@BigOParameter int[] in01,
+                                  @BigOParameter long[] in02,
+                                  @BigOParameter float[] in03,
+                                  @BigOParameter double[] in04,
+                                  @BigOParameter byte[] in05,
+                                  @BigOParameter String in06,
+                                  @BigOParameter List<Integer> in07,
+                                  @BigOParameter Set<Integer> in08,
+                                  @BigOParameter Map<Integer, Integer> in09,
+                                  @BigOParameter int in10,
+                                  @BigOParameter long in11
+    ) {
         double result = 0;
         for (int index = 0; index < 10; index++) {
             result += index;
         }
-        return result;
+        return result + in01.length + in02.length + in03.length + in04.length + in05.length + in06.length() + in07.size() + in08.size() + in09.size() + in10 + in11;
     }
 
-    public double runNotSupportedParameter(@BigOParameter File file) {
-        double result = 0;
-        for (int index = 0; index < 10; index++) {
-            result += index;
-        }
-        return result;
+    public boolean runNotSupportedParameter(@BigOParameter File file) {
+        return file.exists();
     }
 
 }

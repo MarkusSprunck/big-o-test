@@ -43,10 +43,8 @@ public class BigOResult {
         return this;
     }
 
-    public BigOResult trace(Logger... logs) {
-
+    public void trace(Logger... logs) {
         Set<String> methodNames = this.boa.getAnalysedMethodNames();
-
         StringBuilder message = new StringBuilder();
         for (String method : methodNames) {
             message.append("BigOAnalyser for method '").append(method).append("'\n\n");
@@ -58,7 +56,6 @@ public class BigOResult {
         if (logs.length == 1) {
             logs[0].info(message.toString());
         }
-        return this;
     }
 
 }

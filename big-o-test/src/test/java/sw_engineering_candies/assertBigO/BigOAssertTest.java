@@ -51,7 +51,7 @@ public class BigOAssertTest {
 
         // when
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-               assertConstant(boa, "")
+                assertConstant(boa, "")
         );
 
         // then
@@ -72,8 +72,8 @@ public class BigOAssertTest {
         sut.runConstant(128);
 
         // then
-        assertDoesNotThrow( () ->
-               assertPolynomialDegree(boa, "runConstant",  DEGREE_EXPECTED_CONSTANT, 3*DEGREE_EXPECTED_DELTA)
+        assertDoesNotThrow(() ->
+                assertPolynomialDegree(boa, "runConstant", DEGREE_EXPECTED_CONSTANT, 3 * DEGREE_EXPECTED_DELTA)
         );
     }
 
@@ -88,7 +88,7 @@ public class BigOAssertTest {
 
         // when
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-               assertConstant(boa, "runLinear")
+                assertConstant(boa, "runLinear")
         );
 
         // then
@@ -109,7 +109,7 @@ public class BigOAssertTest {
 
         // when
         assertDoesNotThrow(() ->
-               assertConstant(boa, "runConstant")
+                assertConstant(boa, "runConstant")
         );
     }
 
@@ -127,7 +127,7 @@ public class BigOAssertTest {
 
         // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
-               assertQuadratic(boa, "runNLogN")
+                assertQuadratic(boa, "runNLogN")
         );
 
         final Table<Integer, String, Double> data = boa.getData("runNLogN");
@@ -154,7 +154,7 @@ public class BigOAssertTest {
 
         // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
-               assertConstant(boa, "runLinear")
+                assertConstant(boa, "runLinear")
         );
 
         // then
@@ -176,7 +176,7 @@ public class BigOAssertTest {
 
         // when
         IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-               assertLinear(boa, "runLinear")
+                assertLinear(boa, "runLinear")
         );
 
         // then
@@ -196,7 +196,7 @@ public class BigOAssertTest {
 
         // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
-               assertLinear(boa, "runConstant")
+                assertLinear(boa, "runConstant")
         );
 
         // then
@@ -220,7 +220,7 @@ public class BigOAssertTest {
 
         // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
-               assertLinear(boa, "runQuadratic")
+                assertLinear(boa, "runQuadratic")
         );
 
         // then
@@ -248,7 +248,7 @@ public class BigOAssertTest {
 
         // when
         assertDoesNotThrow(() ->
-               assertLinear(boa, "runLinear")
+                assertLinear(boa, "runLinear")
         );
         final Table<Integer, String, Double> data = boa.getData("runLinear");
         String result = BigOReports.getBestFunctionsReport(data);
@@ -271,7 +271,7 @@ public class BigOAssertTest {
 
         // when
         IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-               assertLinear(boa, "runNLogN")
+                assertLinear(boa, "runNLogN")
         );
 
         // then
@@ -311,8 +311,8 @@ public class BigOAssertTest {
         }
 
         // then
-       assertLogLinearOrPowerLaw(boa, "runNLogN");
-       assertLogLinear(boa, "runNLogN");
+        assertLogLinearOrPowerLaw(boa, "runNLogN");
+        assertLogLinear(boa, "runNLogN");
 
         assertTrue(BigOReports.getPolynomialDegree(boa.getData("runNLogN")).contains("ESTIMATED-POLYNOMIAL-DEGREE\n" + "1.1"));
     }
@@ -331,7 +331,7 @@ public class BigOAssertTest {
 
         // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class,
-                () ->assertLogLinearOrPowerLaw(boa, "runQuadratic")
+                () -> assertLogLinearOrPowerLaw(boa, "runQuadratic")
         );
 
         // then
@@ -354,7 +354,7 @@ public class BigOAssertTest {
 
         // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class,
-                () ->assertLogLinearOrPowerLaw(boa, "runConstant")
+                () -> assertLogLinearOrPowerLaw(boa, "runConstant")
         );
 
         // then
@@ -375,7 +375,7 @@ public class BigOAssertTest {
 
         // when
         IllegalStateException exception = assertThrows(IllegalStateException.class,
-                () ->assertPolynomialDegree(boa, "runLinear", 1.0, 0.1)
+                () -> assertPolynomialDegree(boa, "runLinear", 1.0, 0.1)
         );
 
         // then
@@ -396,7 +396,7 @@ public class BigOAssertTest {
 
         // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class,
-                () ->assertPolynomialDegree(boa, "runLinear", 1.0, 0.0)
+                () -> assertPolynomialDegree(boa, "runLinear", 1.0, 0.0)
         );
 
         // then
@@ -419,7 +419,7 @@ public class BigOAssertTest {
 
         // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class,
-                () ->assertPolynomialDegree(boa, "runConstant", 1.0, 0.1)
+                () -> assertPolynomialDegree(boa, "runConstant", 1.0, 0.1)
         );
 
         // then
@@ -443,7 +443,7 @@ public class BigOAssertTest {
 
         // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
-               assertPolynomialDegree(boa, "runQuadratic", 1.0, 0.1)
+                assertPolynomialDegree(boa, "runQuadratic", 1.0, 0.1)
         );
 
         // then
@@ -464,7 +464,7 @@ public class BigOAssertTest {
 
         // when
         IllegalStateException exception = assertThrows(IllegalStateException.class, () ->
-               assertQuadratic(boa, "runQuadratic")
+                assertQuadratic(boa, "runQuadratic")
         );
 
         // then
@@ -484,7 +484,7 @@ public class BigOAssertTest {
 
         // then
         assertDoesNotThrow(() ->
-               assertQuadratic(boa, "runQuadratic")
+                assertQuadratic(boa, "runQuadratic")
         );
     }
 
@@ -502,7 +502,7 @@ public class BigOAssertTest {
 
         // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
-               assertQuadratic(boa, "runLinear")
+                assertQuadratic(boa, "runLinear")
         );
 
         // then
@@ -525,7 +525,7 @@ public class BigOAssertTest {
         sut.runPowerLaw(100);
 
         // when
-       assertPolynomialDegree(boa, "runPowerLaw", 1.7, 0.2);
+        assertPolynomialDegree(boa, "runPowerLaw", 1.7, 0.2);
     }
 
     @Test
@@ -542,7 +542,7 @@ public class BigOAssertTest {
 
         // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
-               assertQuadratic(boa, "runConstant")
+                assertQuadratic(boa, "runConstant")
         );
 
         // then
@@ -567,7 +567,7 @@ public class BigOAssertTest {
 
         // when
         BigOAssertWarningError exception = assertThrows(BigOAssertWarningError.class, () ->
-               assertQuadratic(boa, "runNLogN")
+                assertQuadratic(boa, "runNLogN")
         );
 
         // then

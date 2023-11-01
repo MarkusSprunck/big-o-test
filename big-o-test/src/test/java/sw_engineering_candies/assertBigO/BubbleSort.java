@@ -4,6 +4,7 @@ import sw_engineering_candies.assertBigO.interfaces.BigOParameter;
 
 import java.util.List;
 
+@SuppressWarnings("UnusedReturnValue")
 public class BubbleSort {
 
     public Long[] sort(@BigOParameter List<Long> unsorted) {

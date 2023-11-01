@@ -31,10 +31,10 @@
 
 package sw_engineering_candies.assertBigO;
 
-import sw_engineering_candies.assertBigO.math.FitterExponential;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import org.junit.jupiter.api.Test;
+import sw_engineering_candies.assertBigO.math.FitterExponential;
 
 import java.util.Locale;
 
@@ -44,21 +44,21 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class FitterExponentialTest {
 
     @Test
-    public void getRSquareAdjusted_TenDataPoints_GetCorrectCoefficiantOfDetermination() {
+    public void getRSquareAdjusted_TenDataPoints_GetCorrectCoefficientOfDetermination() {
         // given
         final Table<Integer, String, Double> input = createTenPoints();
-        final FitterExponential polynom = new FitterExponential();
-        polynom.init(input.column("N1"), input.column("TIME"));
+        final FitterExponential sut = new FitterExponential();
+        sut.init(input.column("N1"), input.column("TIME"));
 
         // when
-        final double result = polynom.getRSquareAdjusted();
+        final double result = sut.getRSquareAdjusted();
 
         // then
         assertEquals(1.0, result, 0.000000000000001);
     }
 
     @Test
-    public void init_ExponentalFunctionWithoutNoise_CorrectFunction() {
+    public void init_ExponentialFunctionWithoutNoise_CorrectFunction() {
         // given
         final Table<Integer, String, Double> input = createTenPoints();
         final FitterExponential exponentialFunction = new FitterExponential();
@@ -68,10 +68,8 @@ public class FitterExponentialTest {
 
         // then
         String expected = String.format(Locale.US, "Exponential\t%.4f  \ty = ", 1.0) +
-                String.format(Locale.US, "%.2E", 100.0) +
-                " * exp ( " +
-                String.format(Locale.US, "%.2E", 0.5) +
-                " * x )";
+                String.format(Locale.US, "%.2E", 100.0) + " * exp ( " +
+                String.format(Locale.US, "%.2E", 0.5) + " * x )";
         assertEquals(expected, exponentialFunction.toString());
     }
 

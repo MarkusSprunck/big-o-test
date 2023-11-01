@@ -112,7 +112,7 @@ public class FitterLogLinear extends FitterBase {
 
     @Override
     public String toString() {
-        return  String.format(Locale.US, "LogLinear\t%.4f  \ty = ", getRSquareAdjusted()) +
+        return String.format(Locale.US, "LogLinear\t%.4f  \ty = ", getRSquareAdjusted()) +
                 String.format(Locale.US, "%.2E", coefficients.get(0)) + " * x * log( " +
                 String.format(Locale.US, "%.2E", coefficients.get(1)) + " * x )";
     }

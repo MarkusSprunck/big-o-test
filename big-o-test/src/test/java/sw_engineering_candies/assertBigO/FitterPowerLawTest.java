@@ -31,10 +31,10 @@
 
 package sw_engineering_candies.assertBigO;
 
-import sw_engineering_candies.assertBigO.math.FitterPowerLaw;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import org.junit.jupiter.api.Test;
+import sw_engineering_candies.assertBigO.math.FitterPowerLaw;
 
 import java.util.Locale;
 
@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class FitterPowerLawTest {
 
     @Test
-    public void getRSquareAdjusted_HunderedDataPoints_GetCorrectCoefficiantOfDetermination() {
+    public void getRSquareAdjusted_HundredDataPoints_GetCorrectCoefficientOfDetermination() {
         // given
         final Table<Integer, String, Double> input = createTenPoints();
         final FitterPowerLaw fitter = new FitterPowerLaw();

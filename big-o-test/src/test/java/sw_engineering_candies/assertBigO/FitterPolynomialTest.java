@@ -31,10 +31,10 @@
 
 package sw_engineering_candies.assertBigO;
 
-import sw_engineering_candies.assertBigO.math.FitterPolynomial;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import org.junit.jupiter.api.Test;
+import sw_engineering_candies.assertBigO.math.FitterPolynomial;
 
 import java.util.Locale;
 
@@ -47,55 +47,55 @@ public class FitterPolynomialTest {
     public void getCoefficient_PolynomialRegressionDataSecondDegree_CorrectCoefficient() {
         // given
         final Table<Integer, String, Double> input = createSevenPoints();
-        final FitterPolynomial polynom = new FitterPolynomial();
-        polynom.init(input.column("N1"), input.column("TIME"), 2);
+        final FitterPolynomial sut = new FitterPolynomial();
+        sut.init(input.column("N1"), input.column("TIME"), 2);
 
         // when
-        final double result = polynom.getCoefficient(1);
+        final double result = sut.getCoefficient(1);
 
         // then
         assertEquals(2.0000000000002167, result, 1E-12);
     }
 
     @Test
-    public void init_PolynomialRegressionDataSecondDegree_CorrectPolynom() {
+    public void init_PolynomialRegressionDataSecondDegree_CorrectPolynomial() {
         // given
         final Table<Integer, String, Double> input = createSevenPoints();
-        final FitterPolynomial polynom = new FitterPolynomial();
+        final FitterPolynomial sut = new FitterPolynomial();
 
         // when
-        polynom.init(input.column("N1"), input.column("TIME"), 2);
+        sut.init(input.column("N1"), input.column("TIME"), 2);
 
         // then
         final String expected = "Quadratic ".concat(String.format(Locale.US, "\t%.4f        \ty = ", 1.0)
                 + "3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00");
-        assertEquals(expected, polynom.toString());
+        assertEquals(expected, sut.toString());
     }
 
     @Test
-    public void init_PolynomialRegressionDataThirdDegree_CorrectPolynom() {
+    public void init_PolynomialRegressionDataThirdDegree_CorrectPolynomial() {
         // given
         final Table<Integer, String, Double> input = createSevenPoints();
-        final FitterPolynomial polynom = new FitterPolynomial();
+        final FitterPolynomial sut = new FitterPolynomial();
 
         // when
-        polynom.init(input.column("N1"), input.column("TIME"), 3);
+        sut.init(input.column("N1"), input.column("TIME"), 3);
 
         // then
         final String expected = "Polynomial".concat(String.format(Locale.US, "\t%.4f        \ty = ", 1.0)
                 + "1.08E-14 * x^3 + 3.00E+00 * x^2 + 2.00E+00 * x^1 + 1.00E+00");
-        assertEquals(expected, polynom.toString());
+        assertEquals(expected, sut.toString());
     }
 
     @Test
-    public void getRSquareAdjusted_SevenDataPoints_GetCorrectCoefficiantOfDetermination() {
+    public void getRSquareAdjusted_SevenDataPoints_GetCorrectCoefficientOfDetermination() {
         // given
         final Table<Integer, String, Double> input = createSevenPoints();
-        final FitterPolynomial polynom = new FitterPolynomial();
-        polynom.init(input.column("N1"), input.column("TIME"), 2);
+        final FitterPolynomial sut = new FitterPolynomial();
+        sut.init(input.column("N1"), input.column("TIME"), 2);
 
         // when
-        final double result = polynom.getRSquareAdjusted();
+        final double result = sut.getRSquareAdjusted();
 
         // then
         assertEquals(1.0, result, 0.000000000000001);
@@ -129,12 +129,12 @@ public class FitterPolynomialTest {
         input.put(1, "TIME", 10.0);
         input.put(2, "N1", 10.0);
         input.put(2, "TIME", 12.0);
-        final FitterPolynomial function = new FitterPolynomial();
+        final FitterPolynomial fitter = new FitterPolynomial();
 
         // when
         final String expected = "number of data points to do the fit is dependent from degree";
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                function.init(input.column("N1"), input.column("TIME"), 2)
+                fitter.init(input.column("N1"), input.column("TIME"), 2)
         );
 
         // then

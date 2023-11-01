@@ -86,7 +86,7 @@ public class BigOAnalyser {
      * </code>
      * </pre>
      */
-    public static <P> BigOResult classUnderTest(Class<?> clazzUnderTest) {
+    public static BigOResult classUnderTest(Class<?> clazzUnderTest) {
         return new BigOResult(clazzUnderTest, new BigOAnalyser());
     }
 
@@ -100,15 +100,15 @@ public class BigOAnalyser {
         }
 
         // fit polynomial of first degree (a0 + a1 * x)
-        final FitterPolynomial polynomial = new FitterPolynomial();
-        polynomial.init(xValues, yValues, 1);
+        final FitterPolynomial fitter = new FitterPolynomial();
+        fitter.init(xValues, yValues, 1);
 
         // coefficient of the linear term a1 it what we need
-        final double result = polynomial.getCoefficient(1);
+        final double result = fitter.getCoefficient(1);
 
         // check the quality of the fit in cases the function is not constant
         if (result > 0.8) {
-            final double coefficientOfDetermination = polynomial.getRSquareAdjusted();
+            final double coefficientOfDetermination = fitter.getRSquareAdjusted();
             Preconditions.checkState(coefficientOfDetermination > 0.8, "R^2=" + coefficientOfDetermination);
         }
         return result;
