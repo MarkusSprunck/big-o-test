@@ -45,7 +45,7 @@ public abstract class FitterBase {
      * Coefficients of the fitted Polynomial starting with a0=coefficients[0], a1=coefficients[1],
      * ...
      */
-    protected final List<Double> coefficients = new ArrayList<Double>();
+    protected final List<Double> coefficients = new ArrayList<>();
     /**
      * Number of parameters of fit
      */
@@ -85,11 +85,11 @@ public abstract class FitterBase {
     /**
      * Calculates the Adjusted Coefficient of Determination
      * <p>
-     * see http://en.wikipedia.org/wiki/Coefficient_of_determination
+     * see <a href="http://en.wikipedia.org/wiki/Coefficient_of_determination">...</a>
      * <p>
      * "The adjusted R2 accounts for the number of parameters fit by the regression, and so can be
      * compared between models with different numbers of parameters."
-     * http://www.graphpad.com/guides/prism/6/curve-fitting/index.htm?reg_diagnostics_tab_7_2.htm
+     * <a href="http://www.graphpad.com/guides/prism/6/curve-fitting/index.htm?reg_diagnostics_tab_7_2.htm">...</a>
      */
     protected void calculateCoefficientOfDeterminationLogarithmicData() {
 

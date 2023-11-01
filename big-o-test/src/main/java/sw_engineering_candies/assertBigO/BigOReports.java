@@ -54,9 +54,8 @@ public class BigOReports {
         final Double degree = BigOAnalyser.estimatePolynomialDegree(input);
 
         // print result
-        String result = "ESTIMATED-POLYNOMIAL-DEGREE" + NL +
+        return "ESTIMATED-POLYNOMIAL-DEGREE" + NL +
                 String.format(Locale.US, "%.4f", degree) + NL;
-        return result;
     }
 
     public static String getBestFunction(final Table<Integer, String, Double> input) {
@@ -90,13 +89,12 @@ public class BigOReports {
         final StringBuilder result = new StringBuilder(1000);
         final Set<String> cols = input.columnKeySet();
         for (int i = 1; i < cols.size(); i++) {
-            result.append("N" + i + "\t");
+            result.append("N").append(i).append("\t");
         }
         result.append("TIME").append(NL);
 
         // values of the table
-        final SortedSet<Double> rows = new TreeSet<Double>();
-        rows.addAll(input.column("N1").values());
+        final SortedSet<Double> rows = new TreeSet<>(input.column("N1").values());
         for (final Double value : rows) {
             // find row for the value (sorted by the value of N1)
             Integer row = 0;
@@ -108,7 +106,7 @@ public class BigOReports {
             }
             // add values to result
             for (int col = 1; col < cols.size(); col++) {
-                result.append(String.format(Locale.US, "%.0f", input.get(row, "N" + col)) + "\t");
+                result.append(String.format(Locale.US, "%.0f", input.get(row, "N" + col))).append("\t");
             }
             result.append(String.format(Locale.US, "%.0f", input.get(row, "TIME"))).append(NL);
         }

@@ -60,7 +60,7 @@ public class BigOAnalyser {
      * Stores all measured results in <b>Item</b> objects. The <b>keys</b> of the hash map follow the
      * convention: <i>[method name]#[first size]#[second size]...#[last size]</i>
      */
-    private final Map<String, BigODataPoint> values = new HashMap<String, BigODataPoint>(1000);
+    private final Map<String, BigODataPoint> values = new HashMap<>(1000);
 
     /**
      * This flag is used to deactivate measurement during execution. This is needed, because the
@@ -87,31 +87,28 @@ public class BigOAnalyser {
      * </pre>
      */
     public static <P> BigOResult classUnderTest(Class<?> clazzUnderTest) {
-        BigOAnalyser analyser = new BigOAnalyser();
-        BigOResult bigOAnalyserHandler = new BigOResult(clazzUnderTest, analyser);
-
-        return bigOAnalyserHandler;
+        return new BigOResult(clazzUnderTest, new BigOAnalyser());
     }
 
     public static Double estimatePolynomialDegree(Table<Integer, String, Double> data) {
         // calculate logarithms of both axis
-        final Map<Integer, Double> xValues = new TreeMap<Integer, Double>();
-        final Map<Integer, Double> yValues = new TreeMap<Integer, Double>();
+        final Map<Integer, Double> xValues = new TreeMap<>();
+        final Map<Integer, Double> yValues = new TreeMap<>();
         for (int index = 1; index <= data.column("N1").size(); index++) {
             xValues.put(index, Math.log10(data.column("N1").get(index)));
             yValues.put(index, Math.log10(data.column("TIME").get(index)));
         }
 
         // fit polynomial of first degree (a0 + a1 * x)
-        final FitterPolynomial polynom = new FitterPolynomial();
-        polynom.init(xValues, yValues, 1);
+        final FitterPolynomial polynomial = new FitterPolynomial();
+        polynomial.init(xValues, yValues, 1);
 
         // coefficient of the linear term a1 it what we need
-        final double result = polynom.getCoefficient(1);
+        final double result = polynomial.getCoefficient(1);
 
         // check the quality of the fit in cases the function is not constant
         if (result > 0.8) {
-            final double coefficientOfDetermination = polynom.getRSquareAdjusted();
+            final double coefficientOfDetermination = polynomial.getRSquareAdjusted();
             Preconditions.checkState(coefficientOfDetermination > 0.8, "R^2=" + coefficientOfDetermination);
         }
         return result;
@@ -192,7 +189,7 @@ public class BigOAnalyser {
      * investigated.
      */
     public Object createProxy(Class<?> type) {
-        Object proxy = null;
+        Object proxy;
         try {
             final javassist.util.proxy.ProxyFactory pf = new javassist.util.proxy.ProxyFactory();
             pf.setSuperclass(type);
@@ -204,7 +201,7 @@ public class BigOAnalyser {
                        | RuntimeException
                        | InvocationTargetException e) {
 
-            Preconditions.checkState(false, "ERROR in create proxy -> " + e.getMessage());
+            throw new IllegalStateException("ERROR in create proxy -> " + e.getMessage());
         }
         return proxy;
     }
@@ -269,7 +266,7 @@ public class BigOAnalyser {
     }
 
     public Set<String> getAnalysedMethodNames() {
-        Set<String> names = new TreeSet<String>();
+        Set<String> names = new TreeSet<>();
         for (final String key : getKeys()) {
             final String[] splitKey = key.split("#");
             names.add(splitKey[0]);
@@ -279,13 +276,13 @@ public class BigOAnalyser {
 
     private MethodHandler createMethodHandler() {
 
-        final MethodHandler handler = new MethodHandler() {
+        return new MethodHandler() {
 
             public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) {
                 final String Key = getCurrentKey(thisMethod, args);
-                long endTime = 0;
+                long endTime;
                 long calls = 0;
-                Object result = null;
+                Object result;
                 final long startTime = System.nanoTime();
                 try {
                     do {
@@ -294,7 +291,7 @@ public class BigOAnalyser {
                         endTime = System.nanoTime();
                     } while ((endTime - startTime) < MINIMAL_MEASUREMENT_INTERVAL);
                 } catch (final IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-                    Preconditions.checkState(false, "ERROR in invoke -> " + e.getCause());
+                    throw new IllegalStateException("ERROR in invoke -> " + e.getCause());
                 }
                 if (active) {
                     storeTimeMeasurement(Key, endTime - startTime, calls);
@@ -344,9 +341,8 @@ public class BigOAnalyser {
                     case "class [J" -> result.append('#').append(((long[]) parameterArgument).length);
                     case "class [D" -> result.append('#').append(((double[]) parameterArgument).length);
                     case "class [B" -> result.append('#').append(((byte[]) parameterArgument).length);
-                    case "int" -> result.append('#').append(parameterArgument);
+                    case "int", "long" -> result.append('#').append(parameterArgument);
                     case "class java.lang.String" -> result.append('#').append(((String) parameterArgument).length());
-                    case "long" -> result.append('#').append(parameterArgument);
                     default -> {
                         if (parameterType.toString().startsWith("java.util.List")) {
                             result.append('#').append(((List) parameterArgument).size());
@@ -355,19 +351,14 @@ public class BigOAnalyser {
                         } else if (parameterType.toString().startsWith("java.util.Map")) {
                             result.append('#').append(((Map) parameterArgument).values().size());
                         } else {
-                            final StringBuilder message = new StringBuilder(100);
-                            message.append("Not supported data type '");
-                            message.append(parameterType);
-                            message.append("' for method ");
-                            message.append((result.toString().split("#"))[0]);
-                            Preconditions.checkState(false, message);
+                            throw new IllegalStateException("Not supported data type '" + parameterType +
+                                    "' for method " + (result.toString().split("#"))[0]);
                         }
                     }
                 }
             }
 
         };
-        return handler;
     }
 
     public BigODataPoint getValue(String key) {

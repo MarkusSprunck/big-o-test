@@ -40,7 +40,7 @@ import java.util.Map;
 /**
  * This class fits exponential function: Y = a0 * exp ( a1 * x ).
  * <p>
- * See http://mathworld.wolfram.com/LeastSquaresFittingExponential.html
+ * See <a href="http://mathworld.wolfram.com/LeastSquaresFittingExponential.html">...</a>
  */
 public class FitterExponential extends FitterBase {
 
@@ -90,12 +90,9 @@ public class FitterExponential extends FitterBase {
 
     @Override
     public String toString() {
-        String result = String.format(Locale.US, "Exponential\t%.4f  \ty = ", getRSquareAdjusted()) +
-                String.format(Locale.US, "%.2E", coefficients.get(0)) +
-                " * exp ( " +
-                String.format(Locale.US, "%.2E", coefficients.get(1)) +
-                " * x )";
-        return result;
+        return String.format(Locale.US, "Exponential\t%.4f  \ty = ", getRSquareAdjusted()) +
+                String.format(Locale.US, "%.2E", coefficients.get(0)) + " * exp ( " +
+                String.format(Locale.US, "%.2E", coefficients.get(1)) + " * x )";
     }
 
 }

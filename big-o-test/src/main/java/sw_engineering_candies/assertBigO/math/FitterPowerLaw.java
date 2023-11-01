@@ -39,7 +39,7 @@ import java.util.Map;
 /**
  * Fit power-law function: Y = a0 * x ^ a1
  * <p>
- * See http://mathworld.wolfram.com/LeastSquaresFittingPowerLaw.html
+ * See <a href="http://mathworld.wolfram.com/LeastSquaresFittingPowerLaw.html">...</a>
  */
 public class FitterPowerLaw extends FitterBase {
 
@@ -89,11 +89,9 @@ public class FitterPowerLaw extends FitterBase {
 
     @Override
     public String toString() {
-        String result = String.format(Locale.US, "PowerLaw\t%.4f  \ty = ", getRSquareAdjusted()) +
-                String.format(Locale.US, "%.2E", coefficients.get(0)) +
-                " * x^" +
+        return  String.format(Locale.US, "PowerLaw\t%.4f  \ty = ", getRSquareAdjusted()) +
+                String.format(Locale.US, "%.2E", coefficients.get(0)) + " * x^" +
                 String.format(Locale.US, "%.2E", coefficients.get(1));
-        return result;
     }
 
 }

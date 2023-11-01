@@ -70,8 +70,7 @@ public class FitterLogLinear extends FitterBase {
 
     private void calculateCoefficients() {
         final LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-        final CurveFitter<ParametricUnivariateFunction> curveFitter = new CurveFitter<ParametricUnivariateFunction>(
-                optimizer);
+        final CurveFitter<ParametricUnivariateFunction> curveFitter = new CurveFitter<>(optimizer);
 
         for (int pointIndex = 1; pointIndex <= super.xValues.size(); pointIndex++) {
             final double x = super.xValues.get(pointIndex);
@@ -113,12 +112,9 @@ public class FitterLogLinear extends FitterBase {
 
     @Override
     public String toString() {
-        String result = String.format(Locale.US, "LogLinear\t%.4f  \ty = ", getRSquareAdjusted()) +
-                String.format(Locale.US, "%.2E", coefficients.get(0)) +
-                " * x * log( " +
-                String.format(Locale.US, "%.2E", coefficients.get(1)) +
-                " * x )";
-        return result;
+        return  String.format(Locale.US, "LogLinear\t%.4f  \ty = ", getRSquareAdjusted()) +
+                String.format(Locale.US, "%.2E", coefficients.get(0)) + " * x * log( " +
+                String.format(Locale.US, "%.2E", coefficients.get(1)) + " * x )";
     }
 
 }

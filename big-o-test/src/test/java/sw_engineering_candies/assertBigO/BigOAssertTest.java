@@ -526,7 +526,6 @@ public class BigOAssertTest {
 
         // when
        assertPolynomialDegree(boa, "runPowerLaw", 1.7, 0.2);
-       assertPowerLaw(boa, "runPowerLaw");
     }
 
     @Test

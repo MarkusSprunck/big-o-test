@@ -31,6 +31,7 @@
 
 package sw_engineering_candies.assertBigO;
 
+import java.io.Serial;
 import java.util.TreeMap;
 
 /**
@@ -38,7 +39,8 @@ import java.util.TreeMap;
  */
 public class BigOFittingResults extends TreeMap<Double, String> {
 
-    private static final long serialVersionUID = -801766552112481514L;
+    @Serial
+    private static final long serialVersionUID = 1;
 
     public BigOFittingResults() {
         super();

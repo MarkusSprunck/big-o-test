@@ -39,7 +39,7 @@ import java.util.Map;
 /**
  * This class fits logarithmic function: Y = a0 + a1 * log ( x )
  * <p>
- * See: http://mathworld.wolfram.com/LeastSquaresFittingLogarithmic.html
+ * See: <a href="http://mathworld.wolfram.com/LeastSquaresFittingLogarithmic.html">...</a>
  */
 public class FitterLogarithmic extends FitterBase {
 
@@ -89,12 +89,9 @@ public class FitterLogarithmic extends FitterBase {
 
     @Override
     public String toString() {
-        String result = String.format(Locale.US, "Logarithmic\t%.4f  \ty = ", getRSquareAdjusted()) +
-                String.format(Locale.US, "%.2E", coefficients.get(0)) +
-                " + " +
-                String.format(Locale.US, "%.2E", coefficients.get(1)) +
-                " * log ( x )";
-        return result;
+        return String.format(Locale.US, "Logarithmic\t%.4f  \ty = ", getRSquareAdjusted()) +
+                String.format(Locale.US, "%.2E", coefficients.get(0)) + " + " +
+                String.format(Locale.US, "%.2E", coefficients.get(1)) + " * log ( x )";
     }
 
 }

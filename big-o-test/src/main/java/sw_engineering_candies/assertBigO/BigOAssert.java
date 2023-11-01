@@ -82,9 +82,6 @@ public class BigOAssert {
         Preconditions.checkNotNull(method);
         Preconditions.checkArgument(boa.isAnalysed(method), "here we need an analysed method name");
 
-        // fetch measured data
-        final Table<Integer, String, Double> data = boa.getDataChecked(method);
-
         // constant functions should have a polynomial degree of DEGREE_EXPECTED_CONSTANT
         assertPolynomialDegree(boa, method, DEGREE_EXPECTED_CONSTANT, DEGREE_EXPECTED_DELTA);
     }
@@ -94,9 +91,6 @@ public class BigOAssert {
         Preconditions.checkNotNull(boa);
         Preconditions.checkNotNull(method);
         Preconditions.checkArgument(boa.isAnalysed(method), "here we need an analysed method name");
-
-        // fetch measured data
-        final Table<Integer, String, Double> data = boa.getDataChecked(method);
 
         // linear functions should have a polynomial degree of DEGREE_EXPECTED_LINEAR
         assertPolynomialDegree(boa, method, DEGREE_EXPECTED_LINEAR, DEGREE_EXPECTED_DELTA);
@@ -108,9 +102,6 @@ public class BigOAssert {
         Preconditions.checkNotNull(method);
         Preconditions.checkArgument(boa.isAnalysed(method), "here we need an analysed method name");
 
-        // fetch measured data
-        final Table<Integer, String, Double> data = boa.getDataChecked(method);
-
         // log-linear functions should have a polynomial degree of DEGREE_EXPECTED_LOG_LINEAR
         assertPolynomialDegree(boa, method, DEGREE_EXPECTED_LOG_LINEAR, DEGREE_EXPECTED_DELTA);
     }
@@ -121,21 +112,8 @@ public class BigOAssert {
         Preconditions.checkNotNull(method);
         Preconditions.checkArgument(boa.isAnalysed(method), "here we need an analysed method name");
 
-        // fetch measured data
-        final Table<Integer, String, Double> data = boa.getDataChecked(method);
-
         // quadratic functions should have a polynomial degree of DEGREE_EXPECTED_QUADRATIC
         assertPolynomialDegree(boa, method, DEGREE_EXPECTED_QUADRATIC, DEGREE_EXPECTED_DELTA);
-    }
-
-    public static void assertPowerLaw(BigOAnalyser boa, String method) {
-        // check preconditions
-        Preconditions.checkNotNull(boa);
-        Preconditions.checkNotNull(method);
-        Preconditions.checkArgument(boa.isAnalysed(method), "here we need an analysed method name");
-
-        // fetch measured data
-        final Table<Integer, String, Double> data = boa.getDataChecked(method);
     }
 
     public static void assertLogLinear(BigOAnalyser boa, String method) {

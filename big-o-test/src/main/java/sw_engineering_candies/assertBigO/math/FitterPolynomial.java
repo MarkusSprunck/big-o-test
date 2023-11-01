@@ -75,7 +75,7 @@ public class FitterPolynomial extends FitterBase {
     /**
      * Calculates the Polynomial Regression
      * <p>
-     * see http://www.arachnoid.com/sage/polynomial.html
+     * see <a href="http://www.arachnoid.com/sage/polynomial.html">...</a>
      *
      * @param degree Is the degree of the polynomial
      */
@@ -116,26 +116,16 @@ public class FitterPolynomial extends FitterBase {
                 equation.append(" * x^").append(index).append(" + ");
             }
         }
-        String result = getPolynomialType() +
-                String.format(Locale.US, "\t%.4f        \ty = ", getRSquareAdjusted()) +
-                equation;
-        return result;
+        return getPolynomialType() +
+                String.format(Locale.US, "\t%.4f        \ty = ", getRSquareAdjusted()) + equation;
     }
 
     private String getPolynomialType() {
         String type;
         switch (coefficients.size()) {
-            case 2: {
-                type = "Linear    ";
-                break;
-            }
-            case 3: {
-                type = "Quadratic ";
-                break;
-            }
-            default: {
-                type = "Polynomial";
-            }
+            case 2 -> type = "Linear    ";
+            case 3 -> type = "Quadratic ";
+            default -> type = "Polynomial";
         }
         return type;
     }

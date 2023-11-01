@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 
 public class BigOResult {
 
-    private BigOAnalyser boa = null;
+    private final BigOAnalyser boa;
 
-    private Class<?> clazzUnderTest = null;
+    private final Class<?> clazzUnderTest;
 
     BigOResult(Class<?> clazzUnderTest, BigOAnalyser boa) {
         Preconditions.checkNotNull(boa);
@@ -23,10 +23,6 @@ public class BigOResult {
 
     public BigOAnalyser getBigOAnalyser() {
         return boa;
-    }
-
-    public Class<?> getClassUnderTest() {
-        return clazzUnderTest;
     }
 
     public <P> BigOResult execute(BigOTestAction<P> action) {
@@ -53,7 +49,7 @@ public class BigOResult {
 
         StringBuilder message = new StringBuilder();
         for (String method : methodNames) {
-            message.append("BigOAnalyser for method '" + method + "'\n\n");
+            message.append("BigOAnalyser for method '").append(method).append("'\n\n");
             final Table<Integer, String, Double> data = this.boa.getDataChecked(method);
             message.append(BigOReports.getPolynomialDegree(data)).append('\n');
             message.append(BigOReports.getBestFunctionsReport(data)).append('\n');
