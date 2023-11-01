@@ -33,11 +33,13 @@ package sw_engineering_candies.assertBigO.math;
 
 import com.google.common.base.Preconditions;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math3.fitting.CurveFitter;
-import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
+import org.apache.commons.math3.fitting.AbstractCurveFitter;
+import org.apache.commons.math3.fitting.WeightedObservedPoint;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
+import org.apache.commons.math3.linear.DiagonalMatrix;
 
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class fits log-linear function: Y = a0 *x * log ( a1 * x )
@@ -69,45 +71,48 @@ public class FitterLogLinear extends FitterBase {
     }
 
     private void calculateCoefficients() {
-        final LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-        final CurveFitter<ParametricUnivariateFunction> curveFitter = new CurveFitter<>(optimizer);
+        final AbstractCurveFitter fitter = new AbstractCurveFitter() {
+            @Override
+            protected LeastSquaresProblem getProblem(Collection<WeightedObservedPoint> points) {
 
-        for (int pointIndex = 1; pointIndex <= super.xValues.size(); pointIndex++) {
-            final double x = super.xValues.get(pointIndex);
-            final double y = super.yValues.get(pointIndex);
-            curveFitter.addObservedPoint(x, y);
-        }
+                final double[] target  = new double[points.size()];
+                final double[] weights = new double[points.size()];
+                final double[] initialGuess = new double[]{2.0, 0.5};
 
-        final ParametricUnivariateFunction f = new ParametricUnivariateFunction() {
+                int i = 0;
+                for(WeightedObservedPoint point : points) {
+                    target[i]  = point.getY();
+                    weights[i] = point.getWeight();
+                    i += 1;
+                }
 
-            public double value(double x, double... parameters) {
-                final double a = parameters[0];
-                final double b = parameters[1];
-                return a * x * Math.log(b * x);
-            }
+                final AbstractCurveFitter.TheoreticalValuesFunction model =
+                        new AbstractCurveFitter.TheoreticalValuesFunction(new LogLinearFunc(), points);
 
-            public double[] gradient(double x, double... parameters) {
-
-                final double a = parameters[0];
-                final double b = parameters[1];
-                final double[] gradients = new double[2];
-
-                // derivative with respect to a
-                gradients[0] = x * Math.log(b * x);
-
-                // derivative with respect to b
-                gradients[1] = a * x / b;
-
-                return gradients;
+                return new LeastSquaresBuilder().
+                        maxEvaluations(Integer.MAX_VALUE).
+                        maxIterations(Integer.MAX_VALUE).
+                        start(initialGuess).
+                        target(target).
+                        weight(new DiagonalMatrix(weights)).
+                        model(model.getModelFunction(), model.getModelFunctionJacobian()).
+                        build();
 
             }
         };
 
-        final double[] initialGuess = new double[]{2.0, 0.5};
-        final double[] estimatedParameters = curveFitter.fit(f, initialGuess);
+        // Collect
+        Collection<WeightedObservedPoint> collection = new ArrayList<>();
+        for (int pointIndex = 1; pointIndex <= super.xValues.size(); pointIndex++) {
+            final double x = super.xValues.get(pointIndex);
+            final double y = super.yValues.get(pointIndex);
+            collection.add( new WeightedObservedPoint(1, x, y));
+        }
 
-        super.coefficients.add(0, estimatedParameters[0]);
-        super.coefficients.add(1, estimatedParameters[1]);
+        final double[] estimatedCoefficients = fitter.fit(collection);
+
+        super.coefficients.add(0, estimatedCoefficients[0]);
+        super.coefficients.add(1, estimatedCoefficients[1]);
     }
 
     @Override
@@ -115,6 +120,32 @@ public class FitterLogLinear extends FitterBase {
         return String.format(Locale.US, "LogLinear\t%.4f  \ty = ", getRSquareAdjusted()) +
                 String.format(Locale.US, "%.2E", coefficients.get(0)) + " * x * log( " +
                 String.format(Locale.US, "%.2E", coefficients.get(1)) + " * x )";
+    }
+
+
+    private static class LogLinearFunc implements ParametricUnivariateFunction {
+
+        public double value(double x, double... parameters) {
+            final double a = parameters[0];
+            final double b = parameters[1];
+            return a * x * Math.log(b * x);
+        }
+
+        public double[] gradient(double x, double... parameters) {
+
+            final double a = parameters[0];
+            final double b = parameters[1];
+            final double[] gradients = new double[2];
+
+            // derivative with respect to a
+            gradients[0] = x * Math.log(b * x);
+
+            // derivative with respect to b
+            gradients[1] = a * x / b;
+
+            return gradients;
+
+        }
     }
 
 }
