@@ -44,23 +44,33 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class FitterPowerLawTest {
 
     @Test
-    public void getRSquareAdjusted_HundredDataPoints_GetCorrectCoefficientOfDetermination() {
+    public void getRSquareAdjusted_GetCorrectFit() {
         // given
-        final Table<Integer, String, Double> input = createTenPoints();
+        final Table<Integer, String, Double> input = createPoints();
         final FitterPowerLaw fitter = new FitterPowerLaw();
-        fitter.init(input.column("N1"), input.column("TIME"));
 
         // when
-        final double result = fitter.getRSquareAdjusted();
+        fitter.init(input.column("N1"), input.column("TIME"));
 
-        // then
-        assertEquals(1.0, result, 0.000000000000001);
+        // then - good correlation
+        assertEquals(1.0, fitter.getRSquareAdjusted(), 0.000000000000001);
+
+        // then - expected function
+        assertEquals(10.0, fitter.getCoefficient(0), 0.001);
+        assertEquals(1.1, fitter.getCoefficient(1), 0.001);
+
+        // then - correct calculation
+        assertEquals(21.43546925, fitter.calculate(2.000), 0.00000001);
+        assertEquals(421.53474794, fitter.calculate(30.00), 0.00000001);
+        assertEquals(626.34743194, fitter.calculate(43.00), 0.00000001);
+        assertEquals(970.05860256, fitter.calculate(64.00), 0.00000001);
+        assertEquals(1584.89319246, fitter.calculate(100.0), 0.00000001);
     }
 
     @Test
     public void init_PowerLawWithoutNoise_CorrectFunction() {
         // given
-        final Table<Integer, String, Double> input = createTenPoints();
+        final Table<Integer, String, Double> input = createPoints();
         final FitterPowerLaw fitter = new FitterPowerLaw();
 
         // when
@@ -74,7 +84,7 @@ public class FitterPowerLawTest {
         assertEquals(expected, fitter.toString());
     }
 
-    private Table<Integer, String, Double> createTenPoints() {
+    private Table<Integer, String, Double> createPoints() {
         final Table<Integer, String, Double> input;
         input = TreeBasedTable.create();
         for (int i = 1; i <= 100; i++) {

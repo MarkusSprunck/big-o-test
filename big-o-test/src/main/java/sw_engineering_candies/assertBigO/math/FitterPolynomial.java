@@ -106,6 +106,24 @@ public class FitterPolynomial extends FitterBase {
     /**
      * Creates the equation of the fitted polynomial
      */
+
+    private String getPolynomialType() {
+        switch (coefficients.size()) {
+            case 2 -> {
+                return "Linear    ";
+            }
+            case 3 -> {
+                return "Quadratic ";
+            }
+            case 4 -> {
+                return "Cubic     ";
+            }
+            default -> {
+                return "Polynomial";
+            }
+        }
+    }
+
     @Override
     public String toString() {
         final StringBuilder equation = new StringBuilder(100);
@@ -116,18 +134,18 @@ public class FitterPolynomial extends FitterBase {
                 equation.append(" * x^").append(index).append(" + ");
             }
         }
-        return getPolynomialType() +
-                String.format(Locale.US, "\t%.4f        \ty = ", getRSquareAdjusted()) + equation;
+        String prefix = String.format(Locale.US, "\t%.4f        \t", getRSquareAdjusted());
+        return getPolynomialType() + prefix + "y = " + equation;
     }
 
-    private String getPolynomialType() {
-        String type;
-        switch (coefficients.size()) {
-            case 2 -> type = "Linear    ";
-            case 3 -> type = "Quadratic ";
-            default -> type = "Polynomial";
+    @Override
+    public double calculate(double x) {
+        double result = 0;
+        final int maxIndex = coefficients.size() - 1;
+        for (int index = maxIndex; index >= 0; index--) {
+            result += coefficients.get(index) * Math.pow(x, index);
         }
-        return type;
+        return result;
     }
 
 }

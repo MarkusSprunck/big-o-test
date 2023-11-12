@@ -89,9 +89,15 @@ public class FitterLogarithmic extends FitterBase {
 
     @Override
     public String toString() {
-        return String.format(Locale.US, "Logarithmic\t%.4f  \ty = ", getRSquareAdjusted()) +
-                String.format(Locale.US, "%.2E", coefficients.get(0)) + " + " +
-                String.format(Locale.US, "%.2E", coefficients.get(1)) + " * log ( x )";
+        String a0 = String.format(Locale.US, "%.2E", coefficients.get(0));
+        String a1 = String.format(Locale.US, "%.2E", coefficients.get(1));
+        String prefix = String.format(Locale.US, "Logarithmic\t%.4f  \t", getRSquareAdjusted());
+        return prefix + "y = " + a0 + " + " + a1 + " * log ( x )";
+    }
+
+    @Override
+    public double calculate(double x) {
+        return coefficients.get(0) + coefficients.get(1) * Math.log(x);
     }
 
 }

@@ -90,9 +90,15 @@ public class FitterExponential extends FitterBase {
 
     @Override
     public String toString() {
-        return String.format(Locale.US, "Exponential\t%.4f  \ty = ", getRSquareAdjusted()) +
-                String.format(Locale.US, "%.2E", coefficients.get(0)) + " * exp ( " +
-                String.format(Locale.US, "%.2E", coefficients.get(1)) + " * x )";
+        String a0 = String.format(Locale.US, "%.2E", coefficients.get(0));
+        String a1 = String.format(Locale.US, "%.2E", coefficients.get(1));
+        String prefix = String.format(Locale.US, "Exponential\t%.4f  \t", getRSquareAdjusted());
+        return prefix + "y = " + a0 + " * exp ( " + a1 + " * x )";
+    }
+
+    @Override
+    public double calculate(double x) {
+        return coefficients.get(0) * Math.exp(coefficients.get(1) * x);
     }
 
 }

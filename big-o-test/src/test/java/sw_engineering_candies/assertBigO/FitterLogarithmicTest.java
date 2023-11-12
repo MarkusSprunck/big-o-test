@@ -44,23 +44,33 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class FitterLogarithmicTest {
 
     @Test
-    public void getRSquareAdjusted_HundredDataPoints_GetCorrectCoefficientOfDetermination() {
+    public void getRSquareAdjusted_getCorrectFit() {
         // given
-        final Table<Integer, String, Double> input = createTenPoints();
+        final Table<Integer, String, Double> input = createPoints();
         final FitterLogarithmic fitter = new FitterLogarithmic();
-        fitter.init(input.column("N1"), input.column("TIME"));
 
         // when
-        final double result = fitter.getRSquareAdjusted();
+        fitter.init(input.column("N1"), input.column("TIME"));
 
-        // then
-        assertEquals(1.0, result, 0.000000000000001);
+        // then - good correlation
+        assertEquals(1.0, fitter.getRSquareAdjusted(), 0.000000000000001);
+
+        // then - expected function
+        assertEquals(100.0, fitter.getCoefficient(0), 0.001);
+        assertEquals(10.5, fitter.getCoefficient(1), 0.001);
+
+        // then - correct calculation
+        assertEquals(100.00000000, fitter.calculate(1.000), 0.00000001);
+        assertEquals(124.17714347, fitter.calculate(10.00), 0.00000001);
+        assertEquals(131.45518887, fitter.calculate(20.00), 0.00000001);
+        assertEquals(136.39022697, fitter.calculate(32.0), 0.00000001);
+        assertEquals(148.35428695, fitter.calculate(100), 0.00000001);
     }
 
     @Test
     public void init_LogarithmicFunctionWithoutNoise_CorrectFunction() {
         // given
-        final Table<Integer, String, Double> input = createTenPoints();
+        final Table<Integer, String, Double> input = createPoints();
         final FitterLogarithmic fitter = new FitterLogarithmic();
 
         // when
@@ -92,7 +102,7 @@ public class FitterLogarithmicTest {
         assertEquals("need minimum 2 data points to do the fit", exception.getMessage());
     }
 
-    private Table<Integer, String, Double> createTenPoints() {
+    private Table<Integer, String, Double> createPoints() {
         final Table<Integer, String, Double> input;
         input = TreeBasedTable.create();
         for (int i = 1; i <= 100; i++) {

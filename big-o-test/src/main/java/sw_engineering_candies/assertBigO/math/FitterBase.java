@@ -146,4 +146,6 @@ public abstract class FitterBase {
         coefficientOfDetermination = 1.0 - (SS_res / (number - numberOfParameters)) / (SS_tot / (number - 1));
     }
 
+    public abstract double calculate(double x);
+
 }

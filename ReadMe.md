@@ -94,7 +94,7 @@ The expected output looks like:
 	TYPE      	R^2 (adjusted)	FUNCTION
 	LogLinear	0.9984  		y = 1.43E+02 * x * log( 1.12E+00 * x )
 	Logarithmic	0.7853  		y = -5.44E+07 + 7.54E+06 * log ( x )
-	Exponential	0.7359  		y = 2.60E+06 * exp ( 1.37E-04 * x )
+	Exponential	0.7359  		y = 2.60E+06 * exp( 1.37E-04 * x )
 	
 	
 	N1		TIME

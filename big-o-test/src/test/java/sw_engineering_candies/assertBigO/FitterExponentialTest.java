@@ -44,18 +44,29 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class FitterExponentialTest {
 
     @Test
-    public void getRSquareAdjusted_TenDataPoints_GetCorrectCoefficientOfDetermination() {
+    public void getRSquareAdjusted_getCorrectFit() {
         // given
         final Table<Integer, String, Double> input = createTenPoints();
-        final FitterExponential sut = new FitterExponential();
-        sut.init(input.column("N1"), input.column("TIME"));
+        final FitterExponential fitter = new FitterExponential();
 
         // when
-        final double result = sut.getRSquareAdjusted();
+        fitter.init(input.column("N1"), input.column("TIME"));
 
-        // then
-        assertEquals(1.0, result, 0.000000000000001);
+        // then - good correlation
+        assertEquals(1.0, fitter.getRSquareAdjusted(), 0.000000000000001);
+
+        // then - expected function
+        assertEquals(100.0, fitter.getCoefficient(0), 0.001);
+        assertEquals(0.5, fitter.getCoefficient(1), 0.001);
+
+        // then - correct calculation
+        assertEquals(164.8, fitter.calculate(1.000), 0.1);
+        assertEquals(448.1, fitter.calculate(3.00), 0.1);
+        assertEquals(2008.5, fitter.calculate(6.00), 0.1);
+        assertEquals(5459.8, fitter.calculate(8.0), 0.1);
+        assertEquals(14841.3, fitter.calculate(10), 0.1);
     }
+
 
     @Test
     public void init_ExponentialFunctionWithoutNoise_CorrectFunction() {

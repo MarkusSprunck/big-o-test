@@ -39,7 +39,10 @@ import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * This class fits log-linear function: Y = a0 *x * log ( a1 * x )
@@ -75,13 +78,13 @@ public class FitterLogLinear extends FitterBase {
             @Override
             protected LeastSquaresProblem getProblem(Collection<WeightedObservedPoint> points) {
 
-                final double[] target  = new double[points.size()];
+                final double[] target = new double[points.size()];
                 final double[] weights = new double[points.size()];
                 final double[] initialGuess = new double[]{2.0, 0.5};
 
                 int i = 0;
-                for(WeightedObservedPoint point : points) {
-                    target[i]  = point.getY();
+                for (WeightedObservedPoint point : points) {
+                    target[i] = point.getY();
                     weights[i] = point.getWeight();
                     i += 1;
                 }
@@ -106,7 +109,7 @@ public class FitterLogLinear extends FitterBase {
         for (int pointIndex = 1; pointIndex <= super.xValues.size(); pointIndex++) {
             final double x = super.xValues.get(pointIndex);
             final double y = super.yValues.get(pointIndex);
-            collection.add( new WeightedObservedPoint(1, x, y));
+            collection.add(new WeightedObservedPoint(1, x, y));
         }
 
         final double[] estimatedCoefficients = fitter.fit(collection);
@@ -117,11 +120,16 @@ public class FitterLogLinear extends FitterBase {
 
     @Override
     public String toString() {
-        return String.format(Locale.US, "LogLinear\t%.4f  \ty = ", getRSquareAdjusted()) +
-                String.format(Locale.US, "%.2E", coefficients.get(0)) + " * x * log( " +
-                String.format(Locale.US, "%.2E", coefficients.get(1)) + " * x )";
+        String a0 = String.format(Locale.US, "%.2E", coefficients.get(0));
+        String a1 = String.format(Locale.US, "%.2E", coefficients.get(1));
+        String prefix = String.format(Locale.US, "LogLinear\t%.4f  \t", getRSquareAdjusted());
+        return prefix + "y = " + a0 + " * x * log( " + a1 + " * x )";
     }
 
+    @Override
+    public double calculate(double x) {
+        return coefficients.get(0) * x * Math.log(coefficients.get(1) * x);
+    }
 
     private static class LogLinearFunc implements ParametricUnivariateFunction {
 

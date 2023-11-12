@@ -89,9 +89,15 @@ public class FitterPowerLaw extends FitterBase {
 
     @Override
     public String toString() {
-        return String.format(Locale.US, "PowerLaw\t%.4f  \ty = ", getRSquareAdjusted()) +
-                String.format(Locale.US, "%.2E", coefficients.get(0)) + " * x^" +
-                String.format(Locale.US, "%.2E", coefficients.get(1));
+        String a0 = String.format(Locale.US, "%.2E", coefficients.get(0));
+        String a1 = String.format(Locale.US, "%.2E", coefficients.get(1));
+        String prefix = String.format(Locale.US, "PowerLaw\t%.4f  \t", getRSquareAdjusted());
+        return prefix + "y = " + a0 + " * x^" + a1;
+    }
+
+    @Override
+    public double calculate(double x) {
+        return coefficients.get(0) * Math.pow(x, coefficients.get(1));
     }
 
 }
